@@ -1,0 +1,67 @@
+html, body {
+	height: 100%;
+}
+body {
+	background: none;
+}
+html {
+	background: url(../img/bg.jpg);
+	background-size: auto;
+	-webkit-background-size: auto;
+	-moz-background-size: auto;
+	-o-background-size: auto;
+	background-attachment: fixed;
+    background-position: center center;
+
+    @media (max-width: @iphone-screen) {
+        background-attachment: scroll;
+    }
+}
+.app-info {
+	white-space: pre-line;
+	color: #fff;
+	text-shadow: 1px 1px rgba(0,0,0,.5);
+}
+.app-info h1,
+.app-info h2 {
+	margin: 0;
+}
+#container {
+	padding: 40px;
+}
+/* login form css (s) */
+.login-box {
+	margin-top: 100px;
+}
+.login-wrap {
+	padding: 25px;
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	border-radius: 10px;
+}
+.form-group input[type=text],
+.form-group input[type=password] {
+	padding: 20px;
+	height: 60px;
+	border-radius: 60px;
+}
+.form-group label {
+	font-size: 20px;
+	font-weight: bold;
+	color: #7d7d7d;
+}
+.login-help p {
+	margin: 0;
+}
+.login-btn {
+	margin-top: 20px;
+}
+.login-btn button {
+	height: 80px;
+	border-radius: 80px;
+}
+.login-btn button:focus,
+.login-btn button:active:focus {
+	outline: 0;
+}
+/* login form css (e) */
