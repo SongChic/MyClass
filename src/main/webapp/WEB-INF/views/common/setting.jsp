@@ -43,10 +43,10 @@
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
-								<li><i class="fa fa-plus"></i> 부모님 등록</li>	
+								<li><i class="fa fa-plus"></i> 자녀 등록</li>	
 							</c:when>
 							<c:when test="${member.userType == 3 }">
-								<li><i class="fa fa-plus"></i> 자녀 등록</li>	
+								<li><i class="fa fa-plus"></i> 부모님 등록</li>	
 							</c:when>
 						</c:choose>
 						

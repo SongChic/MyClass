@@ -95,4 +95,8 @@ public class UserDao {
 		}
 		return 0;
 	}
+	
+	public int signUp () {
+		return 0;
+	}
 }

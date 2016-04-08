@@ -6,11 +6,15 @@
 .form-group {
 	margin: 0;
 }
-.modal-content .modal-header {
-	padding-bottom: 24px;
+/* .modal-content .modal-header { */
+/* 	padding-bottom: 24px; */
+/* } */
+.info-text {
+	font-size: 12px;
+	font-family: dotum, "돋움", sans-serif;
 }
 .error-msg {
-	color: #ff5b5b
+	color: #f00
 }
 li {
 	list-style: none;

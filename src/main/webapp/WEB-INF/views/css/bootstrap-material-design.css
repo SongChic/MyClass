@@ -823,12 +823,12 @@ output {
   font-size: 16px;
   line-height: 1.42857143;
 }
-.form-control {
-  height: 38px;
-  padding: 7px 0;
-  font-size: 16px;
-  line-height: 1.42857143;
-}
+/* .form-control { */
+/*   height: 38px; */
+/*   padding: 7px 0; */
+/*   font-size: 16px; */
+/*   line-height: 1.42857143; */
+/* } */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   input[type="date"].form-control,
   input[type="time"].form-control,
@@ -1413,9 +1413,6 @@ select.form-control[multiple],
 }
 .form-group.form-group-lg .input-group-btn .btn {
   margin: 0 0 9px 0;
-}
-.input-group .input-group-btn {
-  padding: 0 12px;
 }
 .input-group .input-group-addon {
   border: 0;
@@ -2215,50 +2212,6 @@ fieldset[disabled] .navbar .btn-link:focus {
 .card .card-footer button:first-child,
 .card .card-footer a:first-child {
   left: -15px;
-}
-.modal-content {
-  -webkit-box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
-          box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
-  border-radius: 2px;
-  border: none;
-}
-.modal-content .modal-header {
-  border-bottom: none;
-  padding-top: 24px;
-  padding-right: 24px;
-  padding-bottom: 0;
-  padding-left: 24px;
-}
-.modal-content .modal-body {
-  padding-top: 24px;
-  padding-right: 24px;
-  padding-bottom: 16px;
-  padding-left: 24px;
-}
-.modal-content .modal-footer {
-  border-top: none;
-  padding: 7px;
-}
-.modal-content .modal-footer button {
-  margin: 0;
-  padding-left: 16px;
-  padding-right: 16px;
-  width: auto;
-}
-.modal-content .modal-footer button.pull-left {
-  padding-left: 5px;
-  padding-right: 5px;
-  position: relative;
-  left: -5px;
-}
-.modal-content .modal-footer button + button {
-  margin-bottom: 16px;
-}
-.modal-content .modal-body + .modal-footer {
-  padding-top: 0;
-}
-.modal-backdrop {
-  background: rgba(0, 0, 0, 0.3);
 }
 .panel {
   border-radius: 2px;

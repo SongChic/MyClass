@@ -13,11 +13,8 @@ public class Member implements UserDetails {
 	private String memId;
 	private String memPw;
 	private String name;
-	private String firstEmail;
-	private String secondEmail;
-	private int firstPhone;
-	private int secondPhone;
-	private int lastPhone;
+	private String email;
+	private String phone;
 	private int userType;
 	private int gender;
 	private int subject;
@@ -28,8 +25,28 @@ public class Member implements UserDetails {
 	private int birthdayDay;
 	private String slogan;
 	private int mainColor;
+	private String school;
 	
 	
+	
+	public String getSchool() {
+		return school;
+	}
+	public void setSchool(String school) {
+		this.school = school;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getName() {
 		return name;
 	}
@@ -59,36 +76,6 @@ public class Member implements UserDetails {
 	}
 	public void setMemPw(String memPw) {
 		this.memPw = memPw;
-	}
-	public String getFirstEmail() {
-		return firstEmail;
-	}
-	public void setFirstEmail(String firstEmail) {
-		this.firstEmail = firstEmail;
-	}
-	public String getSecondEmail() {
-		return secondEmail;
-	}
-	public void setSecondEmail(String secondEmail) {
-		this.secondEmail = secondEmail;
-	}
-	public int getFirstPhone() {
-		return firstPhone;
-	}
-	public void setFirstPhone(int firstPhone) {
-		this.firstPhone = firstPhone;
-	}
-	public int getSecondPhone() {
-		return secondPhone;
-	}
-	public void setSecondPhone(int secondPhone) {
-		this.secondPhone = secondPhone;
-	}
-	public int getLastPhone() {
-		return lastPhone;
-	}
-	public void setLastPhone(int lastPhone) {
-		this.lastPhone = lastPhone;
 	}
 	public int getUserType() {
 		return userType;
@@ -158,7 +145,6 @@ public class Member implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		System.out.println("MODEL Attack");
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		return authorities;
 	}

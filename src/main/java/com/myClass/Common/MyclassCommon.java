@@ -9,10 +9,10 @@ public class MyclassCommon {
 	public static int studentType = 3;
 	
 	public static String[] memberType = {
-		"관리자",
-		"선생님",
-		"부모님",
-		"학생"
+		"관리자", //0
+		"선생님", //1
+		"부모님", //2
+		"학생"   //3
 	};
 	
 	public static String[] mainColor = {

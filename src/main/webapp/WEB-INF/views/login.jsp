@@ -21,22 +21,207 @@
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/login.css">
-<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 </head>
 <body>
 
 <div id="wrap">	
 	<div id="container" class="row">
-		<div class="login-box row">
+		
+	</div>
+	<!-- container (e) -->
+	
+	<%-- modal zone (s) --%>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="findStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">학생 찾기</h4>
+	      </div>
+	      <div class="modal-body">
+	      <form onsubmit="findStudent(this); return false;">
+	      
+			<div class="input-group">
+		      <input type="text" class="form-control student-name" name="studentName" placeholder="학생의 이름을 입력해주세요.">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default find-student-btn" type="submit">검색</button>
+		      </span>
+		    </div><!-- /input-group -->
+		    
+		    <p class="info-text error-msg hide">※학생이름을 입력해주세요.</p>
+		    
+		    </form>
+			
+			<div class="find-student-content">
+			
+			</div>
+			
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary save-student">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<%-- modal zone (e) --%>
+	<div id="footer">
+	
+	</div>
+</div>
+
+
+<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
+<script type="text/javascript" src="${ctx }/js/common/jquery.tmpl.js" ></script>
+
+<script id="signUp" type="text/html" language="java">
+
+<div class="sign-up-box row tmpl-type">
+	<div class="app-info col-md-5">
+		<h1><strong>선생님한테 질문부터<br>
+		우리반 채팅까지</strong></h1>
+				
+		<p>MY CLASS로 학습 지도부터 친구들과의 대화, 과제 하기,<br>
+		시험 미리 보기 등 여러 가지 기능을 한곳에!<br>
+		이제 MY CLASS로 재밌게 공부하세요.</p>
+				
+		<h2>2016년 12월 안드로이드<br>
+		COMMING SOON</h2>
+	</div>
+
+	<div class="signup-wrap col-md-7">
+		<form id="signUpProcess" onsubmit="onSignUp(this); return false;">
+			<h2 class="title">회원가입</h2>
+
+			<div class="btn-group user-type" role="group">
+  				<button type="button" class="btn btn-default active" data-item="3">학생</button>
+				<button type="button" class="btn btn-default" data-item="2">부모님</button>
+				<button type="button" class="btn btn-default" data-item="1">선생님</button>
+			</div>
+
+			<div class="form-group">
+				<label for="id">아이디</label>
+				<input type="text" id="id" name="id" class="form-control">
+				<p class="info-text hide">※아이디를 입력해주세요.</p>
+			</div>
+
+			<div class="form-group">
+				<label for="pw1">비밀번호</label>
+				<input type="password" id="pw1" class="form-control">
+				<p class="info-text hide">※필수 정보입니다.</p>
+			</div>
+
+			<div class="form-group">
+				<label for="pw2">비밀번호 확인</label>
+				<input type="password" id="pw2" class="form-control">
+				<p class="info-text hide">※필수 정보입니다.</p>
+			</div>
+
+			<div class="form-group">
+				<label for="name">이름</label>
+				<input type="text" id="name" class="form-control">
+				<p class="info-text hide">※필수 정보입니다.</p>
+			</div>
+
+			<div class="form-group">
+				<label for="email">이메일</label>
+				<input type="text" id="email" class="form-control">
+				<p class="info-text hide">※필수 정보입니다.</p>	
+			</div>
+
+			<div class="form-group">
+				<label for="phone">전화번호</label>
+				
+				<input type="text" id="phone" class="form-control">
+				<p class="info-text hide">※필수 정보입니다.</p>	
+			</div>
+
+			<div class="form-group">
+				<label>성별</label>
+				<div class="gender-select">
+					<span class="radio radio-inline">
+						<label>
+							<input type="radio" name="main-set" checked />
+							남
+						</label>
+					</span>
+					<span class="radio radio-inline">
+						<label>
+							<input type="radio" name="main-set" />
+							여
+						</label>
+					</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label>생년월일</label>
+				<div class="row birthday-wrap">
+					<div class="col-md-6">
+						<input type="text" id="year" class="form-control" maxlength="4"/>
+					</div>
+					<div class="col-md-3 month-wrap">
+						<select id="month" class="form-control">
+							<option selected>월</option>
+							<option value="11">11</option>
+						</select>
+					</div>
+					<div class="col-md-3 day-wrap">
+						<input type="text" id="day" class="form-control" maxlength="2"/>
+					</div>
+					<p class="info-text hide">※태어난 년도 4자리를 정확하게 입력하세요.</p>
+				</div>
+
+			</div>
+
+			<div class="form-group slogan hide">
+				<label>슬로건</label>
+				<input type="text" class="form-control">
+			</div>
+
+			<div class="form-group school hide">
+				<label for="school">슬로건</label>
+				<input type="text" id="school" class="form-control">
+			</div>
+
+			<div class="form-group find-student hide">
+				<label>학생찾기</label>
+				<div class="input-group">
+					<input type="text" class="form-control student-name-text"/>
+					<span class="input-group-btn">
+     				   <button class="btn btn-default find-student-btn" type="button">찾기</button>
+     				</span>
+				</div>
+			</div>
+
+			
+
+			<div class="signup-btn">
+				<button type="submit" id="signupBtn" class="btn btn-primary btn-lg btn-block">회원가입하기</button>
+					<hr>
+				<button type="button" class="btn btn-success btn-lg btn-block tmpl-btn">로그인 하러가기</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+</script>
+
+<script id="login" type="text/html" language="java">
+
+	<div class="login-box row tmpl-type">
 			<div class="app-info col-md-7">
-				<h1><strong>선생님한테 질문부터
+				<h1><strong>선생님한테 질문부터<br>
 				우리반 채팅까지</strong></h1>
 				
-				<p>MY CLASS로 학습 지도부터 친구들과의 대화, 과제 하기,
-				시험 미리 보기 등 여러 가지 기능을 한곳에!
+				<p>MY CLASS로 학습 지도부터 친구들과의 대화, 과제 하기,<br>
+				시험 미리 보기 등 여러 가지 기능을 한곳에!<br>
 				이제 MY CLASS로 재밌게 공부하세요.</p>
 				
-				<h2>2016년 12월 안드로이드
+				<h2>2016년 12월 안드로이드<br>
 				COMMING SOON</h2>
 			</div>
 			<div class="login-wrap col-md-5">
@@ -68,28 +253,15 @@
 					<div class="login-btn">
 						<button type="submit" id="loginBtn" class="btn btn-primary btn-lg btn-block">로그인하기</button>
 						<hr>
-						<button type="button" class="btn btn-success btn-lg btn-block">회원가입 하러가기</button>
+						<button type="button" class="btn btn-success btn-lg btn-block tmpl-btn">회원가입 하러가기</button>
 					</div>
 				</div>
 			</form>
 			</div>
 		</div>
-		
-	</div>
-	<!-- container (e) -->
-	
-	<%-- modal zone (s) --%>
-	
-	
-	
-	<%-- modal zone (e) --%>
-	<div id="footer">
-	
-	</div>
-</div>
 
 
-<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
+</script>
 <script type="text/javascript">
 	var loginReportArr = [
 			"입력하신 아이디가 존재하지 않습니다.",
@@ -99,9 +271,12 @@
 	        "아이디를 입력해주세요.",
 	        "비밀번호를 입력해주세요."
 	                     ];
-
-	$.material.init();
 	
+	var $container = $("#container"),
+		userType = 3,
+		signUpState = 0,
+		studentArr = [];
+
 	function onSubmit (form) {
 		
 		var ajaxData = {
@@ -119,11 +294,287 @@
 				
 				form.action = "${ctx }/loginProcess";
 				form.submit();
+			} else {
+				form.pw.value = "";
+				$(".login-wrap").effect("shake");
 			}
 		});
 		return false;
 	}
+	function onSignUp ( form ) {
+		
+	}
+	$container.on("click", ".tmpl-btn", function ( event ) {
+		
+		if ( $(this).closest(".tmpl-type").hasClass("login-box") ) {
+			$container.clearQueue();
+			$(".login-wrap").animate ({
+				left : $(".login-wrap").outerWidth()
+			},500);
+			
+			$container.delay(500).queue(function (){
+				$(this).empty();
+			});
+			$("#signUp").tmpl().delay(500).queue(function (){
+				$(this).appendTo($container);
+				$.material.init();
+				$(".signup-wrap").animate ({
+					left : 0
+				},500);
+			});
+		} else {
+			$container.clearQueue();
+			
+			$(".signup-wrap").animate ({
+				left : $(".signup-wrap").outerWidth()
+			},500);
+			
+			$container.delay(500).queue(function (){
+				$(this).empty();
+			});
+			$("#login").tmpl().delay(500).queue(function (){
+				$(this).appendTo($container);
+				$(".login-wrap").animate ({
+					left : 0
+				},500);
+			});
+		}
+	});
 	
+	$container.on("click", ".user-type", function ( event ) {
+		userType = $(event.target).attr("data-item");
+		
+		$(event.currentTarget).children().removeClass("active");
+		$(event.target).addClass("active");
+		
+		/* slogan show hide event */
+		if ( userType == 1 ) {
+			if ( $container.find(".slogan").hasClass("hide") ) $container.find(".slogan").removeClass("hide").addClass("show");
+		} else {
+			if ( $container.find(".slogan").hasClass("show") ) $container.find(".slogan").removeClass("show").addClass("hide");
+		}
+		
+		/* find student show hide event */
+		if ( userType == 2 ) {
+			if ( $container.find(".find-student").hasClass("hide") ) $container.find(".find-student").removeClass("hide").addClass("show");
+		} else {
+			if ( $container.find(".find-student").hasClass("show") ) $container.find(".find-student").removeClass("show").addClass("hide");
+		}
+		
+		/* school show hide event */
+		if ( userType == 3 ) {
+			if ( $container.find(".school").hasClass("hide") ) $container.find(".school").removeClass("hide").addClass("show");
+		} else {
+			if ( $container.find(".school").hasClass("show") ) $container.find(".school").removeClass("show").addClass("hide");
+		}
+		
+	});
+	
+	$container.on("blur", ".signup-wrap input, .signup-wrap select", function ( event ) {
+		var $this = $(event.target);
+		
+		if ( $(event.target).attr("id") === "id" ) {
+			if ( $(this).val() === "" ) {
+				$(this).parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$(this).parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+			
+			if ( $(this).val().length < 5 ) {
+				$(this).parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$(this).parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+			
+			var ajaxData = {
+				memId : $(this).val()
+			};
+			
+			publicAjax("post", "${ctx }/rest/idCheck", ajaxData, function ( response ) {
+				if ( response > 0) {
+					signUpState = 1;
+					$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show").text("※이미 사용중이거나 탈퇴한 아이디입니다.");
+					return false;
+				} else {
+					signUpState = 0;
+					$this.parent().find("p").removeClass("show").addClass("hide").text("");
+				}
+			});
+		}
+		
+		if ( $(event.target).attr("id") === "pw1" ) {
+			if ( $this.val() == "" ) {
+				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.closest(".form-group")
+					 .next()
+					 .find("p")
+					 .removeClass("error-msg hide")
+					 .addClass("error-msg show")
+					 .text("※필수 정보입니다.");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		if ( $(event.target).attr("id") === "pw2" ) {
+			if ( $this.val() == "" ) {
+				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		if ( $(event.target).attr("id") === "name" ) {
+			if ( $this.val() == "" ) {
+				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		if ( $(event.target).attr("id") === "email" ) {
+			if ( $this.val() == "" ) {
+				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		if ( $(event.target).attr("id") === "phone" ) {
+			if ( $this.val() == "" ) {
+				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		if ( $(event.target).attr("id") === "year") {
+			if ( $this.val() == "" || $this.val().length < 4 ) {
+				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show");
+			} else {
+				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 월을 선택하세요.");
+			}
+			return false;
+		}
+		if ( $(event.target).attr("id") === "month") {
+			if ( isNaN($this.val()) ) {
+				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 월을 선택하세요.");
+			}
+			return false;
+		}
+		
+		if ( $(event.target).attr("id") === "day" ) {
+			if ( $this.val() == "" || $this.val().length < 2 ) {
+				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+				return false;
+			} else {
+				$this.closest(".row").find("p").removeClass("show").addClass("hide").text("");
+			}
+		}
+		
+	});
+	$container.on("change", "#month", function ( event ) {
+		var $this = $(event.target);
+		$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+	});
+	
+	$container.on("click", ".find-student-btn", function ( event ) {
+		$("#findStudentModal").modal("show");
+	});
+	
+	$("#login").tmpl().appendTo($container);
+	$(".login-wrap").css("left",0);
+	
+	function findStudent (form) {
+		if ( form.studentName.value == "" ) {
+			$(form).find(".info-text").removeClass("hide").addClass("show");
+			return false;
+		} else {
+			$(form).find(".info-text").removeClass("show").addClass("hide");
+		}
+		
+		var ajaxData = {
+			name : 	form.studentName.value
+		};
+		
+		publicAjax ( "post", "${ctx }/rest/findStudent", ajaxData, function ( response ) {
+			var appendHtml = "";
+			
+			if ( response.length > 0 ) {
+				appendHtml = "<table class='table table-hover table-responsive'>";
+				
+				for (var i = 0; i < response.length; i++) {
+					appendHtml += "<tr class='student-info-wrap'>";
+					
+					appendHtml += "<td>";
+					appendHtml += "<div class='form-group'>";
+					appendHtml += "<div class='checkbox'>";
+					
+					appendHtml += "<label>";
+					appendHtml += "<input type='checkbox' class='student-select' data-item='" + response[i].id + "'>";
+					appendHtml += "</label>";
+					
+					appendHtml += "</div>";
+					appendHtml += "</div>";
+					appendHtml += "</td>";
+					
+					appendHtml += "<td class='student-name-info'>";
+					appendHtml += response[i].name;
+					appendHtml += "</td>";
+					
+					appendHtml += "<td>";
+					appendHtml += response[i].school;
+					appendHtml += "</td>";
+					
+					appendHtml += "</tr>";
+				}
+				
+				appendHtml += "</table>";
+			} else {
+				appendHtml = "<table class='table table-responsive'>";
+				appendHtml += "<tr>";
+				appendHtml += "<td class='text-center'>";
+				appendHtml += "등록된 학생이 없습니다.";
+				appendHtml += "</td>";
+				appendHtml += "</tr>";
+				appendHtml += "</table>";
+			}
+			$(".find-student-content").empty().append(appendHtml);
+			
+			if ( $(".find-student-content").outerHeight() > 610 ) {
+				$(".find-student-content").mCustomScrollbar({
+					axis : "y",
+					theme : "minimal-dark",
+					autoExpandScrollbar : true,
+					mouseWheelPixels: 100,
+					setHeight : 610,
+					advanced : {
+						updateOnContentResize: true,
+						autoScrollOnFocus : "textarea"
+					}
+				});
+			}
+			
+			$.material.init();
+			
+		});
+	}
+	
+	$(".save-student").on("click", function ( event ){
+		var $checked = $(".find-student-content input:checked"),
+			studentName = [];
+		
+		for ( var i = 0; i < $checked.length; i++ ) {
+			studentArr.push( $($checked[i]).attr("data-item") );
+			studentName.push( $($checked[i]).closest(".student-info-wrap").find(".student-name-info").text() );
+		}
+		
+		$(".student-name-text").val( studentName.toString() );
+		$("#findStudentModal").modal( "hide" );
+		
+	});
 </script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap-material-design.css">
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/library/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/fullcalendar.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/common.css">

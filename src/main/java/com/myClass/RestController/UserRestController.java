@@ -44,4 +44,30 @@ public class UserRestController {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/rest/idCheck", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public ResponseEntity<Integer> idCheck(
+			@RequestParam(value="memId") String memId,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		int req = userService.idCheck(memId);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType( MediaType.APPLICATION_JSON );
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rest/singUp", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public ResponseEntity<Integer> signUp() {
+		
+		int req = 0;
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType( MediaType.APPLICATION_JSON );
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
 }
