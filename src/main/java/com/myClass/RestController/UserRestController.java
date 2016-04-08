@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,26 +16,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.myClass.Model.Member;
 import com.myClass.Service.UserService;
 
 @Controller
+@SessionAttributes("session")
 public class UserRestController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value="/rest/login", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value="/rest/loginCheck", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public ResponseEntity<Member> galleryView(
+	public ResponseEntity<Integer> loginCheck(
 			@RequestParam(value="memId") String memId,
-			HttpServletRequest request, HttpServletResponse response){
+			@RequestParam(value="memPw") String memPw,
+			HttpServletRequest request, HttpServletResponse response) {
 		
-		Member member = userService.login(memId);
+		int req = userService.idCheck(memId);
+		
+		if (req > 0) {
+			req = userService.pwCheck(memId, memPw) == 1? 2 : 1;
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType( MediaType.APPLICATION_JSON );
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        
-        return new ResponseEntity<Member>(member, headers, HttpStatus.OK);
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
 }

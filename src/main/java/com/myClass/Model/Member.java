@@ -1,9 +1,18 @@
 package com.myClass.Model;
 
-public class Member {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+public class Member implements UserDetails {
 	private int id;
 	private String memId;
 	private String memPw;
+	private String name;
 	private String firstEmail;
 	private String secondEmail;
 	private int firstPhone;
@@ -18,6 +27,21 @@ public class Member {
 	private int birthdayMonth;
 	private int birthdayDay;
 	private String slogan;
+	private int mainColor;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getMainColor() {
+		return mainColor;
+	}
+	public void setMainColor(int mainColor) {
+		this.mainColor = mainColor;
+	}
 	public int getId() {
 		return id;
 	}
@@ -120,4 +144,53 @@ public class Member {
 	public void setSlogan(String slogan) {
 		this.slogan = slogan;
 	}
+	
+	public Member (String memId, String memPw) {
+		this.memId = memId;
+		this.memPw = memPw;
+	}
+	
+	public Member () {
+		
+	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		System.out.println("MODEL Attack");
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		return authorities;
+	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return memPw;
+	}
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return memId;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
 }

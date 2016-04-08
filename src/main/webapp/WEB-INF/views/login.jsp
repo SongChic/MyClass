@@ -10,13 +10,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%
 	String appName = MyclassCommon.appName;
+
+	String userId = "";
+	if (request.getRemoteUser() != null) {
+		userId = request.getRemoteUser();
+	}
 %>
 
 <title><%= appName %> - 로그인</title>
-<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
-<link rel="stylesheet" type="text/css" href="${ctx }/css/login.css">
 
+<link rel="stylesheet" type="text/css" href="${ctx }/css/login.css">
+<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 </head>
 <body>
 
@@ -35,37 +40,49 @@
 				COMMING SOON</h2>
 			</div>
 			<div class="login-wrap col-md-5">
-				<div class="form-group">
-					<label for="id">아이디</label>
-					<input type="text" class="form-control" id="id">
-				</div>
-				<div class="form-group">
-					<label for="pw">비밀번호</label>
-					<input type="password" class="form-control" id="pw">
-				</div>
-				<div class="form-group">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox">
-							자동 로그인
-						</label>
+			<form id="loginProcess" method="post" onsubmit="onSubmit(this); return false;">
+				<div class="login-box-wrap">
+					<div class="form-group">
+					<p>${sessionScope.userLoginInfo.username}</p>
+						<label for="id">아이디</label>
+						<input type="text" class="form-control" id="id" name="id">
+					</div>
+					<div class="form-group">
+						<label for="pw">비밀번호</label>
+						<input type="password" class="form-control" id="pw" name="pw">
+					</div>
+<!-- 					<div class="form-group"> -->
+<!-- 						<div class="checkbox"> -->
+<!-- 							<label> -->
+<!-- 								<input type="checkbox" class="auto-login"> -->
+<!-- 								자동 로그인 -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					
+					<div class="login-help">
+						<p>아이디 또는 비밀번호를 잊어 버리셧나요?</p>
+						<a>아이디</a> / <a>비밀번호</a> 찾기
+					</div>
+					
+					<div class="login-btn">
+						<button type="submit" id="loginBtn" class="btn btn-primary btn-lg btn-block">로그인하기</button>
+						<hr>
+						<button type="button" class="btn btn-success btn-lg btn-block">회원가입 하러가기</button>
 					</div>
 				</div>
-				
-				<div class="login-help">
-					<p>아이디 또는 비밀번호를 잊어 버리셧나요?</p>
-					<a>아이디</a> / <a>비밀번호</a> 찾기
-				</div>
-				
-				<div class="login-btn">
-					<button type="button" id="loginBtn" class="btn btn-primary btn-lg btn-block">로그인하기</button>
-					<hr>
-					<button type="button" class="btn btn-success btn-lg btn-block">회원가입 하러가기</button>
-				</div>
+			</form>
 			</div>
 		</div>
 		
 	</div>
+	<!-- container (e) -->
+	
+	<%-- modal zone (s) --%>
+	
+	
+	
+	<%-- modal zone (e) --%>
 	<div id="footer">
 	
 	</div>
@@ -74,15 +91,39 @@
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
+	var loginReportArr = [
+			"입력하신 아이디가 존재하지 않습니다.",
+			"입력하신 아이디와 비밀번호가 일치하지 않습니다."
+	                      ],
+	    loginCheckArr = [
+	        "아이디를 입력해주세요.",
+	        "비밀번호를 입력해주세요."
+	                     ];
+
 	$.material.init();
-	$("#loginBtn").on("click", function(event){
+	
+	function onSubmit (form) {
+		
 		var ajaxData = {
-			memId : "song_chic"	
+			memId : form.id.value,	
+			memPw : form.pw.value	
 		};
-		publicAjax("POST", "${ctx }/rest/login", ajaxData, function(response){
+		
+		publicAjax("post", "${ctx }/rest/loginCheck", ajaxData, function(response){
 			console.log(response);
+			if (response == 2) {
+				
+				if ($(".auto-login").prop("checked")) {
+					setMember(form.id.value)
+				}
+				
+				form.action = "${ctx }/loginProcess";
+				form.submit();
+			}
 		});
-	});
+		return false;
+	}
+	
 </script>
 </body>
 </html>

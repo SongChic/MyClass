@@ -1,0 +1,40 @@
+/* 슬라이드메뉴를 위한 style sheet (s) */
+
+/* 슬라이드메뉴를 위한 style sheet (e) */
+
+.s-menu > ul {
+	position: relative;
+	padding: 0;
+	text-align: center;
+	font-size: 12px;
+	font-family: dotum, "돋움";
+}
+.s-menu > ul > li {
+	float: left;
+}
+.box-layout {
+	overflow: hidden;
+	margin-bottom: 10px;
+	box-shadow: 0 0 5px rgba(0, 0, 0,.2);
+	border-radius: 5px;
+	background: #fff;
+}
+.box-layout:last-child {
+	margin-bottom: 0;
+}
+.box-layout .box-wrap {
+	padding: 10px;
+}
+.box-layout h4 {
+	margin: 0 0 10px;
+	padding: 10px 0;
+	border-bottom: 1px solid #afafaf;
+}
+.box-layout ul {
+	margin: 0;
+	padding: 0;
+}
+.box-layout p {
+	margin-bottom: 0;
+	padding: 5px 10px;
+}
