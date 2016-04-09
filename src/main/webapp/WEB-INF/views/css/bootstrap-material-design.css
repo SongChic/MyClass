@@ -1059,10 +1059,10 @@ fieldset[disabled] .form-group .form-control {
 .form-group.label-placeholder:not(.is-empty) label.control-label {
   display: none;
 }
-.form-group .help-block {
-  position: absolute;
-  display: none;
-}
+/* .form-group .help-block { */
+/*   position: absolute; */
+/*   display: none; */
+/* } */
 .form-group.is-focused .form-control {
   outline: none;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#009688), to(#009688)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
@@ -1238,10 +1238,10 @@ label.control-label {
   font-weight: 400;
   margin: 16px 0 0 0;
 }
-.form-group .help-block {
-  margin-top: 0;
-  font-size: 12px;
-}
+/* .form-group .help-block { */
+/*   margin-top: 0; */
+/*   font-size: 12px; */
+/* } */
 .form-group.label-floating label.control-label,
 .form-group.label-placeholder label.control-label {
   top: -7px;

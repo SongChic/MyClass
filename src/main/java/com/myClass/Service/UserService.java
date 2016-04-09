@@ -30,5 +30,9 @@ public class UserService {
 	public int setSetting (int id, int mainColor) {
 		return userDao.setSetting(id, mainColor);
 	}
+	
+	public int setMember (Member member) {
+		return userDao.setMember(member);
+	}
 
 }

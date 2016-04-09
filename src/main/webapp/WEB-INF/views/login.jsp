@@ -105,38 +105,41 @@
 			<div class="form-group">
 				<label for="id">아이디</label>
 				<input type="text" id="id" name="id" class="form-control">
-				<p class="info-text hide">※아이디를 입력해주세요.</p>
+				<p class="info-text error-msg hide">※아이디를 입력해주세요.</p>
 			</div>
 
 			<div class="form-group">
 				<label for="pw1">비밀번호</label>
 				<input type="password" id="pw1" class="form-control">
-				<p class="info-text hide">※필수 정보입니다.</p>
+				<p class="info-text error-msg hide">※필수 정보입니다.</p>
 			</div>
 
 			<div class="form-group">
 				<label for="pw2">비밀번호 확인</label>
 				<input type="password" id="pw2" class="form-control">
-				<p class="info-text hide">※필수 정보입니다.</p>
+				<p class="info-text error-msg hide">※필수 정보입니다.</p>
 			</div>
 
 			<div class="form-group">
 				<label for="name">이름</label>
 				<input type="text" id="name" class="form-control">
-				<p class="info-text hide">※필수 정보입니다.</p>
+				<p class="info-text error-msg hide">※필수 정보입니다.</p>
 			</div>
 
 			<div class="form-group">
 				<label for="email">이메일</label>
 				<input type="text" id="email" class="form-control">
-				<p class="info-text hide">※필수 정보입니다.</p>	
+				<span id="helpBlock" class="help-block">
+					※아이디 / 비밀번호 찾기시 이메일로 발송됩니다. 사용하는 이메일을 입력해주세요.
+				</span>
+				<p class="info-text error-msg hide">※필수 정보입니다.</p>	
 			</div>
 
 			<div class="form-group">
 				<label for="phone">전화번호</label>
 				
 				<input type="text" id="phone" class="form-control">
-				<p class="info-text hide">※필수 정보입니다.</p>	
+				<p class="info-text error-msg hide">※필수 정보입니다.</p>	
 			</div>
 
 			<div class="form-group">
@@ -144,13 +147,13 @@
 				<div class="gender-select">
 					<span class="radio radio-inline">
 						<label>
-							<input type="radio" name="main-set" checked />
+							<input type="radio" name="gender" value="1" checked />
 							남
 						</label>
 					</span>
 					<span class="radio radio-inline">
 						<label>
-							<input type="radio" name="main-set" />
+							<input type="radio" name="gender" value="2" />
 							여
 						</label>
 					</span>
@@ -172,7 +175,7 @@
 					<div class="col-md-3 day-wrap">
 						<input type="text" id="day" class="form-control" maxlength="2"/>
 					</div>
-					<p class="info-text hide">※태어난 년도 4자리를 정확하게 입력하세요.</p>
+					<p class="info-text error-msg hide">※태어난 년도 4자리를 정확하게 입력하세요.</p>
 				</div>
 
 			</div>
@@ -190,7 +193,7 @@
 			<div class="form-group find-student hide">
 				<label>학생찾기</label>
 				<div class="input-group">
-					<input type="text" class="form-control student-name-text"/>
+					<input type="text" class="form-control student-name-text" readonly/>
 					<span class="input-group-btn">
      				   <button class="btn btn-default find-student-btn" type="button">찾기</button>
      				</span>
@@ -274,7 +277,7 @@
 	
 	var $container = $("#container"),
 		userType = 3,
-		signUpState = 0,
+		signUpState = 1,
 		studentArr = [];
 
 	function onSubmit (form) {
@@ -302,6 +305,150 @@
 		return false;
 	}
 	function onSignUp ( form ) {
+		
+		$(".signup-wrap").find(".error-msg").removeClass("hide").addClass("show");
+		
+		if ( form.id.value === "" ) {
+			$(form.id).next().text("※아이디를 입력해주세요.");
+			return false;
+		}
+		
+		if ( form.id.value.length < 5 ) {
+			$(form.id).next().text("※아이디는 최소 5자 이상으로 적어주세요.");
+			return false;
+		}
+		
+		var ajaxData = {
+				memId : form.id.value
+			};
+			
+		publicAjax("post", "${ctx }/rest/idCheck", ajaxData, function ( response ) {
+			if ( response > 0) {
+				signUpState = 1;
+				$(form.id).next().text("※이미 사용중이거나 탈퇴한 아이디입니다.");
+				return false;
+			} else {
+				signUpState = 0;
+				$(form.id).next().removeClass("show").addClass("hide");
+			}
+		});
+		
+		if ( form.pw1.value == "" ) {
+			$(form.pw1).next().removeClass("hide").addClass("show").text("※필수 정보입니다.");
+			return false;
+		} else {
+            $(form.pw1).next().removeClass("show").addClass("hide");
+        }
+		
+		if ( form.pw2.value == "" ) {
+			$(form.pw2).next().removeClass("hide").addClass("show").text("※필수 정보입니다.");
+		} else {
+            $(form.id).next().removeClass("show").addClass("hide");
+        }
+		
+		if (form.pw1.value !== form.pw2.value) {
+			$(form.pw1).next().removeClass("hide").addClass("show").text("※비밀번호가 일치하지 않습니다.");
+		} else {
+			$(form.pw1).next().removeClass("show").addClass("hide");
+		}
+		
+		if ( form.name.value == "" ) {
+			$(form.name).next().removeClass("hide").addClass("show");
+		} else {
+            $(form.name).next().removeClass("show").addClass("hide");
+        }
+		
+		if ( form.email.value == "" ) {
+			$(form.email).next().removeClass("hide").addClass("show");
+		} else {
+            $(form.email).next().removeClass("show").addClass("hide");
+        }
+		
+		if ( form.phone.value == "" ) {
+			$(form.phone).next().removeClass("hide").addClass("show");
+		} else {
+            $(form.phone).next().removeClass("show").addClass("hide");
+        }
+		
+		//birthday check
+		if ( form.year.value === "" || form.year.value.length < 4 ) {
+			$(form).find(".birthday-wrap .error-msg")
+			       .text("※태어난 년도 4자리를 정확하게 입력하세요.");
+			return false;
+		} else {
+			$(form).find(".birthday-wrap .error-msg").removeClass("show").addClass("hide");
+		}
+		
+		if ( isNaN(form.month.value) ) {
+			$(form).find(".birthday-wrap .error-msg")
+		       .text("※태어난 월을 선택하세요.");
+			return false;
+		} else {
+			$(form).find(".birthday-wrap .error-msg").removeClass("show").addClass("hide");
+		}
+		
+		if ( form.day.value === "" || form.day.value.length < 2 ) {
+			$(form).find(".birthday-wrap .error-msg")
+		       .text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+			return false;
+		} else {
+			$(form).find(".birthday-wrap .error-msg").removeClass("show").addClass("hide");
+		}
+		
+		var gender = 1;
+		
+		for (var i = 0; i < form.gender.length; i++) {
+			if ( form.gender[i].checked == true ) gender = form.gender[i].value;
+		}
+		
+		// sign up process
+		if ( userType === 3 ){
+			var ajaxData = {
+				memId : form.id.value,
+				memPw : form.pw1.value,
+				name : form.name.value,
+				email : form.email.value,
+				phone : form.phone.value,
+				userType : userType,
+				gender : gender,
+				birthdayYear : form.year.value,
+				birthdayMonth : form.month.value,
+				birthdayDay : form.day.value
+			};
+		} else if ( userType === 2 ) {
+			var ajaxData = {
+					memId : form.id.value,
+					memPw : form.pw1.value,
+					name : form.name.value,
+					email : form.email.value,
+					phone : form.phone.value,
+					userType : userType,
+					gender : gender,
+					birthdayYear : form.year.value,
+					birthdayMonth : form.month.value,
+					birthdayDay : form.day.value
+				};
+		} else if ( userType === 1 ) {
+			var ajaxData = {
+					memId : form.id.value,
+					memPw : form.pw1.value,
+					name : form.name.value,
+					email : form.email.value,
+					phone : form.phone.value,
+					userType : userType,
+					gender : gender,
+					birthdayYear : form.year.value,
+					birthdayMonth : form.month.value,
+					birthdayDay : form.day.value,
+					slogan : form.slogan.value
+				};
+		}
+		
+		publicAjax ( "post", "${ctx }/rest/setMember", ajaxData, function ( response ){
+			alert("회원가입에 성공했습니다.");
+		});
+		
+		console.log(ajaxData);
 		
 	}
 	$container.on("click", ".tmpl-btn", function ( event ) {
@@ -375,17 +522,17 @@
 		
 		if ( $(event.target).attr("id") === "id" ) {
 			if ( $(this).val() === "" ) {
-				$(this).parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$(this).parent().find("p").removeClass("hide").addClass("show").text("※아이디를 입력해주세요.");
 				return false;
 			} else {
-				$(this).parent().find("p").removeClass("show").addClass("hide").text("");
+				$(this).parent().find("p").removeClass("show").addClass("hide");
 			}
 			
 			if ( $(this).val().length < 5 ) {
-				$(this).parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$(this).parent().find("p").removeClass("hide").addClass("show").text("※아이디는 최소 5자 이상으로 적어주세요.");
 				return false;
 			} else {
-				$(this).parent().find("p").removeClass("show").addClass("hide").text("");
+				$(this).parent().find("p").removeClass("show").addClass("hide");
 			}
 			
 			var ajaxData = {
@@ -395,18 +542,18 @@
 			publicAjax("post", "${ctx }/rest/idCheck", ajaxData, function ( response ) {
 				if ( response > 0) {
 					signUpState = 1;
-					$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show").text("※이미 사용중이거나 탈퇴한 아이디입니다.");
+					$this.parent().find("p").removeClass("hide").addClass("show").text("※이미 사용중이거나 탈퇴한 아이디입니다.");
 					return false;
 				} else {
 					signUpState = 0;
-					$this.parent().find("p").removeClass("show").addClass("hide").text("");
+					$this.parent().find("p").removeClass("show").addClass("hide");
 				}
 			});
 		}
 		
 		if ( $(event.target).attr("id") === "pw1" ) {
 			if ( $this.val() == "" ) {
-				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.parent().find("p").removeClass("hide").addClass("show");
 				$this.closest(".form-group")
 					 .next()
 					 .find("p")
@@ -415,28 +562,35 @@
 					 .text("※필수 정보입니다.");
 				return false;
 			} else {
-				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+				$this.parent().find("p").removeClass("show").addClass("hide");
 			}
 		}
 		if ( $(event.target).attr("id") === "pw2" ) {
 			if ( $this.val() == "" ) {
-				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.parent().find("p").removeClass("hide").addClass("show").text("※필수 정보입니다.");
 				return false;
 			} else {
-				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+				$this.parent().find("p").removeClass("show").addClass("hide");
+			}
+			
+			if ( $this.val() != $(event.target).closest(".form-group").prev().find("#pw1").val() ) {
+				$this.parent().find("p").removeClass("hide").addClass("show").text("※비밀번호가 일치하지 않습니다.");
+				return false;
+			} else {
+				$this.parent().find("p").removeClass("show").addClass("hide");
 			}
 		}
 		if ( $(event.target).attr("id") === "name" ) {
 			if ( $this.val() == "" ) {
-				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.parent().find("p").removeClass("hide").addClass("show");
 				return false;
 			} else {
-				$this.parent().find("p").removeClass("show").addClass("hide").text("");
+				$this.parent().find("p").removeClass("show").addClass("hide");
 			}
 		}
 		if ( $(event.target).attr("id") === "email" ) {
 			if ( $this.val() == "" ) {
-				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.parent().find("p").removeClass("hide").addClass("show");
 				return false;
 			} else {
 				$this.parent().find("p").removeClass("show").addClass("hide").text("");
@@ -444,7 +598,7 @@
 		}
 		if ( $(event.target).attr("id") === "phone" ) {
 			if ( $this.val() == "" ) {
-				$this.parent().find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.parent().find("p").removeClass("hide").addClass("show");
 				return false;
 			} else {
 				$this.parent().find("p").removeClass("show").addClass("hide").text("");
@@ -452,22 +606,22 @@
 		}
 		if ( $(event.target).attr("id") === "year") {
 			if ( $this.val() == "" || $this.val().length < 4 ) {
-				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show");
+				$this.closest(".row").find("p").removeClass("hide").addClass("show");
 			} else {
-				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 월을 선택하세요.");
+				$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 월을 선택하세요.");
 			}
 			return false;
 		}
 		if ( $(event.target).attr("id") === "month") {
 			if ( isNaN($this.val()) ) {
-				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 월을 선택하세요.");
+				$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 월을 선택하세요.");
 			}
 			return false;
 		}
 		
 		if ( $(event.target).attr("id") === "day" ) {
 			if ( $this.val() == "" || $this.val().length < 2 ) {
-				$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+				$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
 				return false;
 			} else {
 				$this.closest(".row").find("p").removeClass("show").addClass("hide").text("");
@@ -477,7 +631,7 @@
 	});
 	$container.on("change", "#month", function ( event ) {
 		var $this = $(event.target);
-		$this.closest(".row").find("p").removeClass("error-msg hide").addClass("error-msg show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
+		$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 일(날짜) 2자리를 정확하게 입력하세요.");
 	});
 	
 	$container.on("click", ".find-student-btn", function ( event ) {

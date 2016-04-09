@@ -96,7 +96,69 @@ public class UserDao {
 		return 0;
 	}
 	
-	public int signUp () {
+	public int setMember (Member member) {
+		
+		String sql = "";
+		
+		System.out.println(member.getUserType());
+		
+		try {
+			
+			if ( member.getUserType() == 1 ) {
+				sql = getQuery.get("teacherDao.setMember");
+				Object[] params = {
+					member.getMemId(),
+					member.getMemPw(),
+					member.getName(),
+					member.getEmail(),
+					member.getPhone(),
+					member.getUserType(),
+					member.getGender(),
+					member.getBirthdayYear(),
+					member.getBirthdayMonth(),
+					member.getBirthdayDay(),
+					member.getSlogan()
+				};
+				
+				return jdbcTemplate.update(sql, params);
+			} else if ( member.getUserType() == 2 ) {
+				sql = getQuery.get("parentDao.setMember");
+				Object[] params = {
+					member.getMemId(),
+					member.getMemPw(),
+					member.getName(),
+					member.getEmail(),
+					member.getPhone(),
+					member.getUserType(),
+					member.getGender(),
+					member.getBirthdayYear(),
+					member.getBirthdayMonth(),
+					member.getBirthdayDay(),
+				};
+				
+				return jdbcTemplate.update(sql, params);
+			} else if ( member.getUserType() == 3 ) {
+				sql = getQuery.get("studentDao.setMember");
+				Object[] params = {
+					member.getMemId(),
+					member.getMemPw(),
+					member.getName(),
+					member.getEmail(),
+					member.getPhone(),
+					member.getUserType(),
+					member.getGender(),
+					member.getBirthdayYear(),
+					member.getBirthdayMonth(),
+					member.getBirthdayDay(),
+				};
+				
+				return jdbcTemplate.update(sql, params);
+			}
+			
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
 		return 0;
 	}
 }

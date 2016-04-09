@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.myClass.Dao.UserDao;
+import com.myClass.Model.Member;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -59,11 +61,41 @@ public class UserRestController {
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/rest/singUp", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/rest/setMember", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public ResponseEntity<Integer> signUp() {
+	public ResponseEntity<Integer> setMember(
+			@RequestParam(value="id", defaultValue="0", required=false) int id,
+			@RequestParam(value="memId") String memId,
+			@RequestParam(value="memPw") String memPw,
+			@RequestParam(value="name") String name,
+			@RequestParam(value="email") String email,
+			@RequestParam(value="phone") String phone,
+			@RequestParam(value="userType") int userType,
+			@RequestParam(value="gender") int gender,
+			@RequestParam(value="birthdayYear") int birthdayYear,
+			@RequestParam(value="birthdayMonth") int birthdayMonth,
+			@RequestParam(value="birthdayDay") int birthdayDay,
+			@RequestParam(value="slogan", defaultValue="", required=false) String slogan,
+			HttpServletRequest request, HttpServletResponse response) {
 		
-		int req = 0;
+		System.out.println("sign up");
+		
+		Member member = new Member();
+		
+		member.setId(id);
+		member.setMemId(memId);
+		member.setMemPw(memPw);
+		member.setName(name);
+		member.setEmail(email);
+		member.setPhone(phone);
+		member.setGender(gender);
+		member.setUserType(userType);
+		member.setBirthdayYear(birthdayYear);
+		member.setBirthdayMonth(birthdayMonth);
+		member.setBirthdayDay(birthdayDay);
+		
+		
+		int req = userService.setMember(member);
 		
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType( MediaType.APPLICATION_JSON );

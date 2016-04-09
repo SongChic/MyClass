@@ -171,7 +171,7 @@
 									<div class="form-group">
 										<span class="radio">
 											<label>
-												<input type="radio" name="main-set" />
+												<input type="radio" name="main-set" checked />
 												시험 / 과제
 											</label>
 										</span>
