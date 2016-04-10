@@ -71,9 +71,15 @@ li {
 
 .drop-menu {
 	position: relative;
+	border-left: 1px solid rgba(0,0,0,0);
+	border-right: 1px solid rgba(0,0,0,0);
+}
+.drop-menu.active {
+	background: rgba(0, 0, 0, .15);
 }
 .drop-menu:hover {
-	background: rgba(0, 0, 0, .15)
+	background: rgba(0, 0, 0, .15);
+	border-color: rgba(0, 0, 0, .09);
 }
 .drop-menu > a {
 	text-decoration: none;
@@ -81,6 +87,9 @@ li {
 .drop-menu > a > span {
 	display: block;
 	font-size: 12px
+}
+.s-menu {
+	margin-left: 10px;
 }
 .s-menu > ul {
 	position: relative;
@@ -92,7 +101,7 @@ li {
 }
 .s-menu > ul > li {
 	float: left;
-	margin-left:10px;
+	padding-left:10px;
 	padding: 20px;
 	width: auto;
 	font-family: MalgunGothic;
@@ -118,11 +127,13 @@ li {
 	color: #000;
 }
 .drop-item li {
-	padding: 10px 20px;
-	
 	/* background: rgba(0, 0, 0, .15); */
 	border-top: 1px solid rgba(265, 265, 265, .08);
 	border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.drop-item li a {
+	display: block;
+	padding: 10px 20px;
 }
 .drop-item li:first-child{
 	border-top: 0;
@@ -247,12 +258,40 @@ li {
 	padding: 0;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1290px) {
+	.lnb,
+	.content {
+		width: 1024px;
+	}
 }
 @media (max-width: 992px) {
+	.lnb,
+	.content {
+		width: 768px;
+	}
 }
 @media (max-width: 768px) {
+	.lnb,
+	.content {
+		width: 512px;
+	}
+}
+@media (max-width: 522px) {
+	.content {
+		width: 256px;
+	}
+}
+@media (max-width: 768px) {
+	#header {
+		position: fixed;
+		width: 100%;
+		z-index: 1000;
+		box-shadow: 0 3px 5px rgba(0,0,0,.1);
+	}
 	
+	#container {
+		padding-top: 100px;
+	}
 	body {
 /* 		background: #fff; */
 	}
@@ -304,6 +343,7 @@ li {
 		clear: both;
 		background: #fff;
 		color: #d32121;
+		margin: 0;
 	}
 	.s-menu > ul {
 		float: none !important;

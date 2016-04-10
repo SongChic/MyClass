@@ -2,7 +2,6 @@ function publicAjax(method, url, ajaxData, callback) {
 	$.ajax({
 		cache : false,
 		url : url,
-		async : true,
 		method : method,
 		data : ajaxData
 	}).done (function(response) {
@@ -57,8 +56,18 @@ $(".quick-menu li").mouseenter(function(event){
 });
 
 $(window).resize(function(event) {
+	if ( $(this).width() < 332 ) {
+		$("#container").css("paddingTop", $("#header").outerHeight());
+	} else {
+		$("#container").removeAttr("style");
+	}
 });
 
 $(document).ready(function(event) {
+	if ( $(this).width() < 332 ) {
+		$("#container").css("paddingTop", $("#header").outerHeight());
+	} else {
+		$("#container").removeAttr("style");
+	}
 });
 

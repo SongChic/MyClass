@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.myClass.Dao.UserDao;
 import com.myClass.Model.Member;
+import com.myClass.Service.ParentService;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -27,6 +28,9 @@ import com.myClass.Service.UserService;
 public class UserRestController {
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ParentService parentService;
 	
 	@RequestMapping(value="/rest/loginCheck", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -76,8 +80,10 @@ public class UserRestController {
 			@RequestParam(value="birthdayMonth") int birthdayMonth,
 			@RequestParam(value="birthdayDay") int birthdayDay,
 			@RequestParam(value="slogan", defaultValue="", required=false) String slogan,
+			@RequestParam(value="studentArr", defaultValue="", required=false) String studentArr,
 			HttpServletRequest request, HttpServletResponse response) {
 		
+		int req = 0;
 		System.out.println("sign up");
 		
 		Member member = new Member();
@@ -94,8 +100,18 @@ public class UserRestController {
 		member.setBirthdayMonth(birthdayMonth);
 		member.setBirthdayDay(birthdayDay);
 		
+		if ( member.getUserType() == 2 ) {
+			int parentId = userService.setMember(member);
+			if ( parentId > 0 ) {
+				System.out.println(studentArr);
+				req = parentService.setStudentMapper(parentId, studentArr);
+			}
+		} else {
+			req = userService.setMember(member);
+		}
 		
-		int req = userService.setMember(member);
+		System.out.println(req);
+		
 		
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType( MediaType.APPLICATION_JSON );

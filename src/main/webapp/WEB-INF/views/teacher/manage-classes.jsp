@@ -13,10 +13,9 @@
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
-<link rel="stylesheet" type="text/css" href="${ctx }/css/setting.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/classes.css">
 
 <c:set value="${member.mainColor }" var="mainColor"/>
-
 <style type="text/css">
 	#header {
 		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
@@ -24,13 +23,6 @@
 	.drop-item {
 		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
 	}
-	
-	<% for (int i = 0; i < MyclassCommon.mainColorClass.length; i++) { %>
-		#header.<%= MyclassCommon.mainColorClass[i] %> {
-			background-color : <%= MyclassCommon.mainColor[i] %>;
-		} 
-	<% } %>
-	
 </style>
 
 </head>
@@ -98,7 +90,7 @@
 								<li><a href="${ctx }/teacher/members/manageMembers?type=3">퇴원</a></li>							
 							</ul>
 						</li>
-						<li class="drop-menu">
+						<li class="drop-menu active">
 							<a>
 								수업
 								<span>Class</span>
@@ -151,90 +143,43 @@
 		</div>
 		
 		<div id="container">
-			<div class="row setting-wrap content">
-				<div class="row col-xs-12">
-					<c:set value="${member.userType }" var="userType"/>
-					<p><b>${member.name }님</b>은  <%= MyclassCommon.memberType[(Integer)pageContext.getAttribute("userType")] %>으로 로그인 하셧습니다.</p>
-				</div>
+			<div class="content classes-btn-wrap row">
+				<button type="button" class="btn btn-primary gradient pull-left">반만들기</button>
 				
-				<div class="col-sm-8 col-sm-push-4 col-xs-12">
-					<div class="box-layout">
-						<div class="box-wrap">
-							<p class="title"><b>설정</b></p>
-							
-							
-							<form class="setting-form" onsubmit="saveSetting(this); return false;">
-								<div class="form-group">
-									<label>메인화면 설정</label>
-									<div class="main-set">
-									
-									<div class="form-group">
-										<span class="radio">
-											<label>
-												<input type="radio" name="main-set" checked />
-												시험 / 과제
-											</label>
-										</span>
-										
-										<span class="radio">
-											<label>
-												<input type="radio" name="main-set" />
-												채팅
-											</label>
-										</span>
-									</div>
-										
-									</div>
-								</div>
-								
-								<div class="form-group main-color-wrap">
-									<label>테마컬러 설정</label>
-									
-									<div class="main-color row">
-									<% for (int i = 0; i < MyclassCommon.mainColor.length; i++) { %>
-										<label class="mouse-pointer" data-item="<%= MyclassCommon.mainColorClass[i] %>" style="background:<%= MyclassCommon.mainColor[i] %>">
-											<span class="hide"><i class="fa fa-check"></i></span>
-										</label>
-									<% } %>
-									</div>
-								</div>
-								
-								<button type="submit" class="btn btn-primary btn-lg btn-block">저장</button>
-							</form>
-							
-						</div>
-					</div>
+				<div class="btn-group pull-right">
+					<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
+					<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">요일순</a></li>
+						<li><a href="#">시간순</a></li>
+						<li><a href="#">제목순</a></li>
+						<li><a href="#">개강순</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="content classes-content">
+			
+				<div class="classes-item" style="height:500px">
+				</div>
+				<div class="classes-item" style="height:200px">
+				</div>
+				<div class="classes-item" style="height:300px">
+				</div>
+				<div class="classes-item" style="height:400px">
+				</div>
+				<div class="classes-item" style="height:600px">
+				</div>
+				<div class="classes-item" style="height:700px">
+				</div>
+				<div class="classes-item" style="height:800px">
+				</div>
+				<div class="classes-item" style="height:300px">
 				</div>
 			
-				<div class="col-sm-4 col-sm-pull-8 col-xs-12">
-					<div class="box-layout">
-						<div class="box-wrap member-setting">
-							<p class="title"><b>회원정보</b></p>
-							<ul>
-								<li>회원정보수정</li>
-								<li>로그아웃</li>
-								<li>회원탈퇴</li>
-							</ul>
-						</div>
-					</div>
-					
-					<div class="box-layout">
-							<ul class="member-setting">
-								<li>공지사항</li>
-								<li>이벤트</li>
-							</ul>
-					</div>
-					
-					<div class="box-layout">
-							<ul class="member-setting">
-								<li class="row">
-									<p class="pull-left">버전</p>
-									<p class="pull-right">1.0</p>
-								</li>
-							</ul>
-					</div>
-				</div>
-				
 			</div>
 		</div>
 		
@@ -243,51 +188,13 @@
 </div>
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
+<script type="text/javascript" src="${ctx }/js/library/masonry.js"></script>
 <script type="text/javascript">
-	
-	$.material.init();
-	var colorIndex = ${member.mainColor };
-	
-	$(".main-color label")
-		.on({ mouseenter : function ( event ) {
-			$("#header").css("backgroundColor", $(this).css("backgroundColor"));
-		}, mouseleave : function ( event ) {
-			$("#header").removeAttr("style", "background-color");
-		} 
-	})
-	$(".main-color").on("click", "label", function(event){
-		
-		var $target = $(this).find("span"),
-			$parent = $(this).parent();
-		
-		colorIndex = $(this).index();
-		
-		$("#header").removeClass().addClass($(this).attr("data-item"))
-		
-		for (var i = 0; i < $parent.find("label").length; i++) {
-			if ($($parent.find("span")[i]).hasClass("show")) {
-				$($parent.find("span")[i]).removeClass("show").addClass("hide");
-			}
-		}
-		
-		$target.removeClass("hide").addClass("show");
-	});
-	
-	$($(".main-color span")[parseInt("${member.mainColor}")]).click();
-	
-	function saveSetting(form) {
-		var ajaxData = {
-			id : "${member.id}",
-			mainColor : colorIndex
-		};
-		
-		publicAjax ("post", "${ctx }/rest/setSetting", ajaxData, function (respose){
-			if (respose > 0) {
-				location.reload();
-			}
-		});
-	}
-
+$('.classes-content').masonry({
+	// options
+	itemSelector: '.classes-item',
+	columnWidth: 256
+});
 </script>
 </body>
 </html>

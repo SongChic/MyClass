@@ -75,7 +75,7 @@
 
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
-<script type="text/javascript" src="${ctx }/js/common/jquery.tmpl.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/jquery.tmpl.js" ></script>
 
 <script id="signUp" type="text/html" language="java">
 
@@ -182,7 +182,7 @@
 
 			<div class="form-group slogan hide">
 				<label>슬로건</label>
-				<input type="text" class="form-control">
+				<input type="text" id="slogan" class="form-control">
 			</div>
 
 			<div class="form-group school hide">
@@ -304,6 +304,7 @@
 		});
 		return false;
 	}
+	
 	function onSignUp ( form ) {
 		
 		$(".signup-wrap").find(".error-msg").removeClass("hide").addClass("show");
@@ -318,21 +319,6 @@
 			return false;
 		}
 		
-		var ajaxData = {
-				memId : form.id.value
-			};
-			
-		publicAjax("post", "${ctx }/rest/idCheck", ajaxData, function ( response ) {
-			if ( response > 0) {
-				signUpState = 1;
-				$(form.id).next().text("※이미 사용중이거나 탈퇴한 아이디입니다.");
-				return false;
-			} else {
-				signUpState = 0;
-				$(form.id).next().removeClass("show").addClass("hide");
-			}
-		});
-		
 		if ( form.pw1.value == "" ) {
 			$(form.pw1).next().removeClass("hide").addClass("show").text("※필수 정보입니다.");
 			return false;
@@ -343,7 +329,7 @@
 		if ( form.pw2.value == "" ) {
 			$(form.pw2).next().removeClass("hide").addClass("show").text("※필수 정보입니다.");
 		} else {
-            $(form.id).next().removeClass("show").addClass("hide");
+            $(form.pw2).next().removeClass("show").addClass("hide");
         }
 		
 		if (form.pw1.value !== form.pw2.value) {
@@ -401,8 +387,20 @@
 			if ( form.gender[i].checked == true ) gender = form.gender[i].value;
 		}
 		
+		var ajaxData = {
+				memId : form.id.value
+			};
+		
+		
+		if ( signUpState > 0 ) {
+			$(form.id).next().text("※이미 사용중이거나 탈퇴한 아이디입니다.");
+			return false;
+		} else {
+			$(form.id).next().removeClass("show").addClass("hide");
+		}
+		
 		// sign up process
-		if ( userType === 3 ){
+		if ( userType == 3 ){
 			var ajaxData = {
 				memId : form.id.value,
 				memPw : form.pw1.value,
@@ -415,7 +413,7 @@
 				birthdayMonth : form.month.value,
 				birthdayDay : form.day.value
 			};
-		} else if ( userType === 2 ) {
+		} else if ( userType == 2 ) {
 			var ajaxData = {
 					memId : form.id.value,
 					memPw : form.pw1.value,
@@ -426,9 +424,10 @@
 					gender : gender,
 					birthdayYear : form.year.value,
 					birthdayMonth : form.month.value,
-					birthdayDay : form.day.value
+					birthdayDay : form.day.value,
+					studentArr : studentArr.toString()
 				};
-		} else if ( userType === 1 ) {
+		} else if ( userType == 1 ) {
 			var ajaxData = {
 					memId : form.id.value,
 					memPw : form.pw1.value,
@@ -445,7 +444,12 @@
 		}
 		
 		publicAjax ( "post", "${ctx }/rest/setMember", ajaxData, function ( response ){
-			alert("회원가입에 성공했습니다.");
+			if ( response == 1) {
+				alert("회원가입에 성공했습니다.");
+				location.reload();
+			} else {
+				return alert("서버에 문제가 있습니다.\n 개발자에게 문의해주세요.");
+			}
 		});
 		
 		console.log(ajaxData);
@@ -608,7 +612,10 @@
 			if ( $this.val() == "" || $this.val().length < 4 ) {
 				$this.closest(".row").find("p").removeClass("hide").addClass("show");
 			} else {
-				$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 월을 선택하세요.");
+				if ( isNaN( $this.closest(".row").find("#month").val() ) ) {
+					$this.closest(".row").find("p").removeClass("hide").addClass("show").text("※태어난 월을 선택하세요.");
+				}
+				
 			}
 			return false;
 		}
@@ -719,7 +726,7 @@
 	$(".save-student").on("click", function ( event ){
 		var $checked = $(".find-student-content input:checked"),
 			studentName = [];
-		
+		studentArr = [];
 		for ( var i = 0; i < $checked.length; i++ ) {
 			studentArr.push( $($checked[i]).attr("data-item") );
 			studentName.push( $($checked[i]).closest(".student-info-wrap").find(".student-name-info").text() );

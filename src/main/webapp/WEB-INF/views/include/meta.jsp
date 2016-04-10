@@ -7,6 +7,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap-theme.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap-material-design.css">
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/jquery-ui.css">

@@ -1,0 +1,16 @@
+.classes-btn-wrap {
+	padding: 10px 0;
+}
+.classes-item {
+	margin-bottom: 10px;
+	width: 246px;
+	border-radius: 3px;
+	background: #fff;
+	z-index: 900;
+}
+.classes-btn-wrap {
+	padding-right: 10px;
+}
+.classes-btn-wrap button {
+	height: 34px;
+}

@@ -3,13 +3,13 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
 
-<script type="text/javascript" src="${ctx }/js/common/jquery.js" ></script>
-<script type="text/javascript" src="${ctx }/js/common/jquery-ui.js" ></script>
-<script type="text/javascript" src="${ctx }/js/common/bootstrap.js" ></script>
-<script type="text/javascript" src="${ctx }/js/common/material.js" ></script>
-<script type="text/javascript" src="${ctx }/js/common/jquery.mCustomScrollbar.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/jquery.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/jquery-ui.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/bootstrap.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/material.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/jquery.mCustomScrollbar.js" ></script>
 
-<script type="text/javascript" src="${ctx }/js/common/moment.js" ></script>
-<script type="text/javascript" src="${ctx }/js/common/fullcalendar.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/moment.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/fullcalendar.js" ></script>
 
 <script type="text/javascript" src="${ctx }/js/myclass-common.js" ></script>

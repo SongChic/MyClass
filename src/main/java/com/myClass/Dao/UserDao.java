@@ -1,15 +1,21 @@
 package com.myClass.Dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.myClass.Model.Member;
+import com.mysql.jdbc.Statement;
 
 @Repository("userDAO")
 public class UserDao {
@@ -96,7 +102,7 @@ public class UserDao {
 		return 0;
 	}
 	
-	public int setMember (Member member) {
+	public int setMember (final Member member) {
 		
 		String sql = "";
 		
@@ -136,7 +142,32 @@ public class UserDao {
 					member.getBirthdayDay(),
 				};
 				
-				return jdbcTemplate.update(sql, params);
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				jdbcTemplate.update(new PreparedStatementCreator() {
+					String parentSql = getQuery.get("parentDao.setMember");
+					
+					@Override
+					public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+						// TODO Auto-generated method stub
+						
+						PreparedStatement pstm = con.prepareStatement(parentSql, Statement.RETURN_GENERATED_KEYS);
+						pstm.setString (1, member.getMemId() );
+						pstm.setString (2, member.getMemPw() );
+						pstm.setString (3, member.getName() );
+						pstm.setString (4, member.getEmail() );
+						pstm.setString (5, member.getPhone() );
+						pstm.setInt (6, member.getUserType() );
+						pstm.setInt (7, member.getGender() );
+						pstm.setInt (8, member.getBirthdayYear() );
+						pstm.setInt (9, member.getBirthdayMonth() );
+						pstm.setInt (10, member.getBirthdayDay() );
+						return pstm;
+					}
+				},keyHolder);
+				
+				return keyHolder.getKey().intValue();
+				
+//				return jdbcTemplate.update(sql, params);
 			} else if ( member.getUserType() == 3 ) {
 				sql = getQuery.get("studentDao.setMember");
 				Object[] params = {

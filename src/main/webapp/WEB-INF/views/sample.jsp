@@ -33,10 +33,10 @@
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
-								<li><i class="fa fa-plus"></i> 부모님 등록</li>	
+								<li><i class="fa fa-plus"></i> 자녀 등록</li>	
 							</c:when>
 							<c:when test="${member.userType == 3 }">
-								<li><i class="fa fa-plus"></i> 자녀 등록</li>	
+								<li><i class="fa fa-plus"></i> 부모님 등록</li>	
 							</c:when>
 						</c:choose>
 						
@@ -51,7 +51,7 @@
 			</div>
 			
 			<div class="lnb row">
-				<h3 class="logo hidden-xs pull-left">My Class</h3>
+				<h3 class="logo hidden-xs pull-left"><a href="${ctx }/">My Class</a></h3>
 				<h3 class="visible-xs mobile-title mouse-pointer pull-left"><i class="fa fa-bars"></i> ${member.memId }</h3>
 				
 				<div class="quick-menu pull-right">
@@ -83,9 +83,9 @@
 								<span>Member</span>
 							</a>
 							<ul class="drop-item">
-								<li>대기회원</li>							
-								<li>회원</li>							
-								<li>퇴원</li>							
+								<li><a href="${ctx }/teacher/members/manageMembers?type=1">대기회원</a></li>							
+								<li><a href="${ctx }/teacher/members/manageMembers?type=2">회원</a></li>							
+								<li><a href="${ctx }/teacher/members/manageMembers?type=3">퇴원</a></li>							
 							</ul>
 						</li>
 						<li class="drop-menu">
@@ -94,9 +94,9 @@
 								<span>Class</span>
 							</a>
 							<ul class="drop-item">
-								<li>예정반</li>							
-								<li>우리반</li>							
-								<li>예정반</li>							
+								<li><a href="${ctx }/teacher/classes/manageClasses?type=1">예정반</a></li>							
+								<li><a href="${ctx }/teacher/classes/manageClasses?type=2">우리반</a></li>							
+								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">예정반</a></li>							
 							</ul>
 						
 						</li>
@@ -106,10 +106,10 @@
 								<span>Textbook</span>
 							</a>
 							<ul class="drop-item">
-								<li>전체교재</li>							
-								<li>내 교재</li>							
-								<li>사용 교재</li>							
-								<li>시험지</li>							
+								<li><a href="${ctx }/teacher/mac/textbook?type=1">전체교재</a></li>							
+								<li><a href="${ctx }/teacher/mac/textbook?type=2">내 교재</a></li>							
+								<li><a href="${ctx }/teacher/mac/textbook?type=3">사용 교재</a></li>							
+								<li><a href="${ctx }/teacher/mac/textbook?type=4">시험지</a></li>							
 							</ul>
 						</li>
 						<li class="drop-menu">
@@ -118,9 +118,9 @@
 								<span>Meeting</span>
 							</a>
 							<ul class="drop-item">
-								<li>만든 모임</li>							
-								<li>가입한 모임</li>							
-								<li>전체 모임</li>							
+								<li><a href="${ctx }/common/club/themeClubs?type=1">만든 모임</a></li>							
+								<li><a href="${ctx }/common/club/themeClubs?type=2">가입한 모임</a></li>							
+								<li><a href="${ctx }/common/club/themeClubs?type=3">전체 모임</a></li>							
 							</ul>
 						</li>
 						<li class="drop-menu">
@@ -129,9 +129,9 @@
 								<span>Chatting</span>
 							</a>
 							<ul class="drop-item">
-								<li>개인 채팅</li>							
-								<li>우리반 채팅</li>							
-								<li>모임 채팅</li>							
+								<li><a href="${ctx }/common/chat/chatList?type=1">개인 채팅</a></li>							
+								<li><a href="${ctx }/common/chat/chatList?type=1">우리반 채팅</a></li>							
+								<li><a href="${ctx }/common/chat/chatList?type=1">모임 채팅</a></li>							
 							</ul>
 						</li>
 					</ul>
