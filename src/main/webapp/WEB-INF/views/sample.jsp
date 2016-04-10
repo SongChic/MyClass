@@ -1,3 +1,4 @@
+<%@page import="com.myClass.Common.MyclassCommon"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -14,12 +15,13 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
 
+<c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
 	#header {
-		background-color : ${member.mainColor }
+		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
 	}
 	.drop-item {
-		background-color : ${member.mainColor }
+		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
 	}
 </style>
 
@@ -40,7 +42,7 @@
 							</c:when>
 						</c:choose>
 						
-						<li><i class="fa fa-cog"></i> 설정</li>
+						<li><a href="${ctx }/setting"><i class="fa fa-cog"></i> 설정</a></li>
 						<li><i class="fa fa-university"></i> 학교별정보</li>
 						<li><i class="fa fa-bullhorn"></i> 공지사항</li>
 						<li><i class="fa fa-television"></i> 강좌</li>

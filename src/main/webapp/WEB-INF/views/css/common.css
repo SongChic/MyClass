@@ -28,6 +28,7 @@ li {
 }
 
 .gnb {
+	margin: 0;
 	background: #38383c;
 	border-bottom: 1px solid #8f0100;
 	font-size: 12px;
@@ -195,8 +196,6 @@ li {
 	color: #fff;
 }
 
-#container {
-}
 .content,
 .calendar {
 	margin: 0 auto;
@@ -246,7 +245,11 @@ li {
 .box-layout:last-child {
 	margin-bottom: 0;
 }
-.box-layout .box-wrap {
+.box-layout .title {
+    margin: 0;
+    padding: 15px 10px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
 }
 .box-layout h4 {
 	margin: 0 0 10px;
@@ -257,28 +260,35 @@ li {
 	margin: 0;
 	padding: 0;
 }
+.box-padding {
+	padding: 0 15px;
+}
+
+#footer {
+	padding: 0 0 40px;
+}
 
 @media (max-width: 1290px) {
 	.lnb,
 	.content {
-		width: 1024px;
+		width: 1026px;
 	}
 }
 @media (max-width: 992px) {
 	.lnb,
 	.content {
-		width: 768px;
+		width: 772px;
 	}
 }
 @media (max-width: 768px) {
 	.lnb,
 	.content {
-		width: 512px;
+		width: 518px;
 	}
 }
 @media (max-width: 522px) {
 	.content {
-		width: 256px;
+		width: 264px;
 	}
 }
 @media (max-width: 768px) {

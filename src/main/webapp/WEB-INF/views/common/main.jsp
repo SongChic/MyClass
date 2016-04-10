@@ -99,7 +99,7 @@
 							<ul class="drop-item">
 								<li><a href="${ctx }/teacher/classes/manageClasses?type=1">예정반</a></li>							
 								<li><a href="${ctx }/teacher/classes/manageClasses?type=2">우리반</a></li>							
-								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">예정반</a></li>							
+								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">종강반</a></li>							
 							</ul>
 						
 						</li>

@@ -953,12 +953,12 @@ output {
     padding-top: 8px;
   }
 }
-@media (min-width: 768px) {
-  .form-horizontal .form-group-lg .control-label {
-    padding-top: 12.9999997px;
-    font-size: 18px;
-  }
-}
+/* @media (min-width: 768px) { */
+/*   .form-horizontal .form-group-lg .control-label { */
+/*     padding-top: 12.9999997px; */
+/*     font-size: 18px; */
+/*   } */
+/* } */
 @media (min-width: 768px) {
   .form-horizontal .form-group-sm .control-label {
     padding-top: 4px;
@@ -1153,11 +1153,11 @@ fieldset[disabled] .form-group .form-control {
 .form-group textarea ~ .form-control-highlight {
   margin-top: -11px;
 }
-.form-group select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-}
+/* .form-group select { */
+/*   -webkit-appearance: none; */
+/*      -moz-appearance: none; */
+/*           appearance: none; */
+/* } */
 .form-group select ~ .material-input:after {
   display: none;
 }
@@ -1202,9 +1202,6 @@ label.control-label {
   padding-bottom: 7px;
   margin: 28px 0 0 0;
 }
-.form-group .form-control {
-  margin-bottom: 7px;
-}
 .form-group .form-control::-moz-placeholder {
   font-size: 16px;
   line-height: 1.42857143;
@@ -1231,13 +1228,13 @@ label.control-label {
   color: #BDBDBD;
   font-weight: 400;
 }
-.form-group label.control-label {
-  font-size: 12px;
-  line-height: 1.07142857;
-  color: #BDBDBD;
-  font-weight: 400;
-  margin: 16px 0 0 0;
-}
+/* .form-group label.control-label { */
+/*   font-size: 12px; */
+/*   line-height: 1.07142857; */
+/*   color: #BDBDBD; */
+/*   font-weight: 400; */
+/*   margin: 16px 0 0 0; */
+/* } */
 /* .form-group .help-block { */
 /*   margin-top: 0; */
 /*   font-size: 12px; */
@@ -1390,12 +1387,12 @@ label.control-label {
   font-size: 14px;
   line-height: 0.99999998;
 }
-select.form-control {
-  border: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  border-radius: 0;
-}
+/* select.form-control { */
+/*   border: 0; */
+/*   -webkit-box-shadow: none; */
+/*           box-shadow: none; */
+/*   border-radius: 0; */
+/* } */
 .form-group.is-focused select.form-control {
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -2108,26 +2105,6 @@ fieldset[disabled] .navbar .btn-link:focus {
 }
 .text-info {
   color: #03a9f4;
-}
-.nav-tabs {
-  background: #009688;
-}
-.nav-tabs > li > a {
-  color: #FFFFFF;
-  border: 0;
-  margin: 0;
-}
-.nav-tabs > li > a:hover {
-  background-color: transparent;
-  border: 0;
-}
-.nav-tabs > li > a,
-.nav-tabs > li > a:hover,
-.nav-tabs > li > a:focus {
-  background-color: transparent !important;
-  border: 0 !important;
-  color: #FFFFFF !important;
-  font-weight: 500;
 }
 .nav-tabs > li.disabled > a,
 .nav-tabs > li.disabled > a:hover {

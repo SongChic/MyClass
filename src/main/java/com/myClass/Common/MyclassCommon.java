@@ -31,5 +31,27 @@ public class MyclassCommon {
 			"sky", //sky
 			"yellow" //yellow
 	};
+	public static String[] classColor = {
+			"#e66659", //red
+			"#e81d62", //pink
+			"#9b26af", //pubple
+			"#3e50b4", //indigo
+			"#6639b6", //deep purple
+			"#2095f2", //blue
+			"#02a8f3", //light blue
+			"#00bbd3", //cyan
+			"#009587", //teal
+			"#4bae4f", //green
+			"#8ac249", //light green
+			"#ccdb38", //lime
+			"#feea3a", //yellow
+			"#fec006", //amber
+			"#fe9700", //orange
+			"#fe5621", //deep orange
+			"#785447", //brown
+			"#9d9d9d", //gray
+			"#5f7c8a", //blue gray
+			"#333333" //black
+	};
 
 }

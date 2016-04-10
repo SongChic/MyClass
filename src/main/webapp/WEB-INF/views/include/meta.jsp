@@ -7,6 +7,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/library/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap-theme.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/bootstrap-material-design.css">
 
@@ -14,4 +15,5 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/jquery.mCustomScrollbar.min.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/fullcalendar.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/library/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/common.css">

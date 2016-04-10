@@ -1,16 +1,82 @@
+.classes-content {
+	padding: 10px 0 10px 10px;
+}
 .classes-btn-wrap {
-	padding: 10px 0;
+	padding: 10px;
+}
+.tab-menu-wrap {
+	padding-top: 10px; 
 }
 .classes-item {
+	overflow: hidden;
 	margin-bottom: 10px;
-	width: 246px;
-	border-radius: 3px;
+	width: 244px;
+	border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0,.2);
 	background: #fff;
 	z-index: 900;
-}
-.classes-btn-wrap {
-	padding-right: 10px;
 }
 .classes-btn-wrap button {
 	height: 34px;
 }
+.classes-item.color-type .view {
+	
+}
+.classes-item .view {
+	margin-bottom: 10px;
+	height: 200px;
+}
+.classes-info {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: dotum, "돋움";
+}
+.classes-info li {
+	padding: 0 10px;
+}
+.classes-info li.divider {
+	padding: 0;
+	margin: 10px 0;
+	border-bottom: 1px solid #e0e0e0;
+}
+.classes-info li.creator {
+	padding: 0 10px 10px;
+}
+
+.tab-menu {
+	border-bottom: 1px solid #c7c7c7;
+}
+.tab-menu.row {
+	margin: 0;
+	padding: 0;
+}
+.tab-menu > li {
+	float: left;
+	margin-left: -1px;
+	margin-bottom: -1px;
+	background: rgba(0,0,0,.05);
+}
+.tab-menu > li:first-child {
+	margin-left: 0;
+}
+.tab-menu > li > a {
+	display: block;
+	padding: 10px 15px;
+	border: 1px solid #c7c7c7;
+	border-bottom: 1px solid transparent;
+	font-weight: bold;
+}
+.tab-menu > li.active {
+	background: none;
+}
+.tab-menu > li.active a {
+	border-bottom: 1px solid #eee;
+}
+@media (max-width: 522px){
+	.tab-menu > li {
+		width: 33.33333333333333%;
+		text-align: center;
+	}
+}
+

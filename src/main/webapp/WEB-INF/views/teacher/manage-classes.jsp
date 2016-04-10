@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -98,7 +99,7 @@
 							<ul class="drop-item">
 								<li><a href="${ctx }/teacher/classes/manageClasses?type=1">예정반</a></li>							
 								<li><a href="${ctx }/teacher/classes/manageClasses?type=2">우리반</a></li>							
-								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">예정반</a></li>							
+								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">종강반</a></li>							
 							</ul>
 						
 						</li>
@@ -143,8 +144,28 @@
 		</div>
 		
 		<div id="container">
+			
+			<div class="content tab-menu-wrap" role="tabpanel">
+
+			  <!-- Nav tabs -->
+			  <ul class="tab-menu row" role="tablist">
+				<li class="active" role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">예정반</a></li>			  
+				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">우리반</a></li>			  
+				<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">종강반</a></li>			  
+			  </ul>
+			  
+			  <!-- Tab panes -->
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="home">...</div>
+			    <div role="tabpanel" class="tab-pane" id="profile">...</div>
+			    <div role="tabpanel" class="tab-pane" id="messages">...</div>
+			    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+			  </div>
+			
+			</div>
+			
 			<div class="content classes-btn-wrap row">
-				<button type="button" class="btn btn-primary gradient pull-left">반만들기</button>
+				<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
 				
 				<div class="btn-group pull-right">
 					<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
@@ -163,22 +184,30 @@
 			
 			<div class="content classes-content">
 			
-				<div class="classes-item" style="height:500px">
-				</div>
-				<div class="classes-item" style="height:200px">
-				</div>
-				<div class="classes-item" style="height:300px">
-				</div>
-				<div class="classes-item" style="height:400px">
-				</div>
-				<div class="classes-item" style="height:600px">
-				</div>
-				<div class="classes-item" style="height:700px">
-				</div>
-				<div class="classes-item" style="height:800px">
-				</div>
-				<div class="classes-item" style="height:300px">
-				</div>
+				<c:forEach items="${classes }" var="classes">
+					
+					<div class="classes-item">
+						<c:set value="${classes.color }" var="color"/>
+						<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+						
+						</div>
+						<ul class="classes-info">
+							<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+							<c:choose>
+								<c:when test="${classes.days == 0}">
+								</c:when>
+								<c:otherwise>
+									<li>요일 : </li>
+								</c:otherwise>
+							</c:choose>
+							
+							<li>시간 : <fmt:formatDate value="${classes.start_time }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_time }" pattern="HH:mm"/></li>
+							<li>인원 : ${classes.number }</li>
+							<li class="divider"></li>
+							<li class="creator">${classes.teacher_name }</li>
+						</ul>
+					</div>
+				</c:forEach>
 			
 			</div>
 		</div>
@@ -193,7 +222,7 @@
 $('.classes-content').masonry({
 	// options
 	itemSelector: '.classes-item',
-	columnWidth: 256
+	columnWidth: 254
 });
 </script>
 </body>
