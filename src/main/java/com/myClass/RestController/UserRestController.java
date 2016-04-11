@@ -6,6 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -117,5 +125,35 @@ public class UserRestController {
         headers.setContentType( MediaType.APPLICATION_JSON );
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rest/test", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public ResponseEntity<JSONArray> test(
+			@RequestParam(value="url", required=false) String url,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		JSONArray req = new JSONArray();
+		try {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			
+			HttpGet get = new HttpGet(url);
+			
+			CloseableHttpResponse httpResponse = httpClient.execute(get);
+			
+			try {
+				req.add(EntityUtils.toString(httpResponse.getEntity()));
+			} finally {
+				httpResponse.close();
+			}
+			
+		} catch ( Exception e) {
+			e.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType( MediaType.APPLICATION_JSON );
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<JSONArray>(req, headers, HttpStatus.OK);
 	}
 }

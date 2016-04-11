@@ -156,60 +156,62 @@
 			  
 			  <!-- Tab panes -->
 			  <div class="tab-content">
-			    <div role="tabpanel" class="tab-pane active" id="home">...</div>
-			    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-			    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-			    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+			    <div role="tabpanel" class="tab-pane fade in active" id="home">
+					<div class="content classes-btn-wrap row">
+					<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
+					
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
+						<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">요일순</a></li>
+							<li><a href="#">시간순</a></li>
+							<li><a href="#">제목순</a></li>
+							<li><a href="#">개강순</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="content classes-content">
+				
+					<c:forEach items="${classes }" var="classes">
+						
+						<div class="classes-item">
+							<c:set value="${classes.color }" var="color"/>
+							<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+							
+							</div>
+							<ul class="classes-info">
+								<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+								<c:choose>
+									<c:when test="${classes.days == 0}">
+									</c:when>
+									<c:otherwise>
+										<li>요일 : </li>
+									</c:otherwise>
+								</c:choose>
+								
+								<li>시간 : <fmt:formatDate value="${classes.start_time }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_time }" pattern="HH:mm"/></li>
+								<li>인원 : ${classes.number }</li>
+								<li class="divider"></li>
+								<li class="creator">${classes.teacher_name }</li>
+							</ul>
+						</div>
+					</c:forEach>
+				
+				</div>
+
+				</div>
+			    <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
+			    <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
+			    <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
 			  </div>
 			
 			</div>
 			
-			<div class="content classes-btn-wrap row">
-				<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
-				
-				<div class="btn-group pull-right">
-					<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
-					<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-						<span class="sr-only">Toggle Dropdown</span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">요일순</a></li>
-						<li><a href="#">시간순</a></li>
-						<li><a href="#">제목순</a></li>
-						<li><a href="#">개강순</a></li>
-					</ul>
-				</div>
-			</div>
-			
-			<div class="content classes-content">
-			
-				<c:forEach items="${classes }" var="classes">
-					
-					<div class="classes-item">
-						<c:set value="${classes.color }" var="color"/>
-						<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-						
-						</div>
-						<ul class="classes-info">
-							<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
-							<c:choose>
-								<c:when test="${classes.days == 0}">
-								</c:when>
-								<c:otherwise>
-									<li>요일 : </li>
-								</c:otherwise>
-							</c:choose>
-							
-							<li>시간 : <fmt:formatDate value="${classes.start_time }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_time }" pattern="HH:mm"/></li>
-							<li>인원 : ${classes.number }</li>
-							<li class="divider"></li>
-							<li class="creator">${classes.teacher_name }</li>
-						</ul>
-					</div>
-				</c:forEach>
-			
-			</div>
 		</div>
 		
 		<div id="footer">

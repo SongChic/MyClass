@@ -68,6 +68,43 @@
 	</div>
 	
 	<%-- modal zone (e) --%>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="findSchoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">학생 찾기</h4>
+	      </div>
+	      <div class="modal-body">
+	      <form onsubmit="findStudent(this); return false;">
+	      
+			<div class="input-group">
+		      <input type="text" class="form-control school-name" name="studentName" placeholder="학교 이름을 입력해주세요.">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default find-student-btn" type="submit">검색</button>
+		      </span>
+		    </div><!-- /input-group -->
+		    
+		    <p class="info-text error-msg hide">※학생이름을 입력해주세요.</p>
+		    
+		    </form>
+			
+			<div class="find-student-content">
+			
+			</div>
+			
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary save-student">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<%-- modal zone (e) --%>
 	<div id="footer">
 	
 	</div>
@@ -199,7 +236,43 @@
      				</span>
 				</div>
 			</div>
+			
+			<div class="student-info show">
+				<div class="form-group">
+					<label>학교분류</label>
+					<div class="gender-select">
+						<span class="radio radio-inline">
+							<label>
+								<input type="radio" name="schoolLevel" value="1" checked />
+								초등학교
+							</label>
+						</span>
+						<span class="radio radio-inline">
+							<label>
+								<input type="radio" name="schoolLevel" value="2" />
+								중학교
+							</label>
+						</span>
+						<span class="radio radio-inline">
+							<label>
+								<input type="radio" name="schoolLevel" value="3" />
+								 고등학교
+							</label>
+						</span>
+					</div>
+				</div>
+				<div class="form-group school-wrap">
+					<label for="school">학교이름</label>
 
+					<div class="input-group">
+						<input type="text" id="schoolName" class="form-control">
+						<span class="input-group-btn">
+     				 	  <button class="btn btn-default find-school-btn" type="button">검색</button>
+     					</span>
+					</div>
+					<p class="info-text error-msg hide">※필수 정보입니다.</p>	
+				</div>
+			</div>
 			
 
 			<div class="signup-btn">
@@ -514,12 +587,23 @@
 		
 		/* school show hide event */
 		if ( userType == 3 ) {
-			if ( $container.find(".school").hasClass("hide") ) $container.find(".school").removeClass("hide").addClass("show");
+			if ( $container.find(".student-info").hasClass("hide") ) $container.find(".student-info").removeClass("hide").addClass("show");
 		} else {
-			if ( $container.find(".school").hasClass("show") ) $container.find(".school").removeClass("show").addClass("hide");
+			if ( $container.find(".student-info").hasClass("show") ) $container.find(".student-info").removeClass("show").addClass("hide");
 		}
 		
 	});
+	
+// 	$container.on("keyup", "#school", function ( event ) {
+		
+// 		if ( $(window).height() > $(document).scrollTop() ) {
+// 			console.log("up");
+// 			$container.find(".real-time-input").text($(this).val());	
+// 		} else {
+// 			console.log("down");
+// 		}		
+		
+// 	});
 	
 	$container.on("blur", ".signup-wrap input, .signup-wrap select", function ( event ) {
 		var $this = $(event.target);
@@ -645,6 +729,12 @@
 		$("#findStudentModal").modal("show");
 	});
 	
+	$container.on("click", ".find-school-btn", function ( event ) {
+		$(".school-name").val( $container.find("#schoolName").val() );
+		
+		$("#findSchoolModal").modal("show");
+	});
+	
 	$("#login").tmpl().appendTo($container);
 	$(".login-wrap").css("left",0);
 	
@@ -722,6 +812,29 @@
 			
 		});
 	}
+	
+	$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+        return 'jsonp';
+    });
+	
+	$.ajax ({
+		url : "${ctx }/rest/test",
+		data:{
+			url : "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=af16ae577e3165afd7a430929691f573&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list",
+// 			apiKey:"af16ae577e3165afd7a430929691f573",
+// 			svcType:"api",
+// 			svcCode:"SCHOOL",
+// 			contentType:"json",
+// 			perPage:"10000",
+// 			region:"100271"
+		}
+	}).done (function (response){
+		
+		console.log( response );
+		
+	}).fail(function (response){
+		console.log("error");
+	});
 	
 	$(".save-student").on("click", function ( event ){
 		var $checked = $(".find-student-content input:checked"),

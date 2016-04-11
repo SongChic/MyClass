@@ -53,5 +53,10 @@ public class MyclassCommon {
 			"#5f7c8a", //blue gray
 			"#333333" //black
 	};
+	public static String[] schoolGubun = {
+			"elem_list", //초등학교
+			"midd_list", //중학교
+			"high_list" //고등학교
+	};
 
 }
