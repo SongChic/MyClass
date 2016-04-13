@@ -7,9 +7,6 @@ public class Classes {
 	private long startDate;
 	private long endDate;
 	
-	private long startTime;
-	private long endTime;
-	
 	private int target;
 	
 	private String subject;
@@ -50,18 +47,6 @@ public class Classes {
 	}
 	public void setEndDate(long endDate) {
 		this.endDate = endDate;
-	}
-	public long getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-	public long getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
 	}
 	public int getTarget() {
 		return target;

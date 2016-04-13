@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="com.myClass.Common.MyclassCommon"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,6 +18,15 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/classes.css">
 
+<%	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	long date = new Date().getTime();
+	ServletContext context = request.getSession().getServletContext();
+	String prefixUrl = context.getRealPath("/WEB-INF/views/img/data/").replace("\\", "/");
+	
+%>
+<c:set value="<%= date %>" var="date" />
+<c:set value="<%= prefixUrl %>" var="prefixUrl" />
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
 	#header {
@@ -156,57 +167,214 @@
 			  
 			  <!-- Tab panes -->
 			  <div class="tab-content">
-			    <div role="tabpanel" class="tab-pane fade in active" id="home">
-					<div class="content classes-btn-wrap row">
-					<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
+			  
+			  	<div class="content classes-btn-wrap row">
+						<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
+						
+						<div class="btn-group pull-right">
+							<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
+							<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">요일순</a></li>
+								<li><a href="#">시간순</a></li>
+								<li><a href="#">제목순</a></li>
+								<li><a href="#">개강순</a></li>
+							</ul>
+						</div>
+					</div>
 					
-					<div class="btn-group pull-right">
-						<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
-						<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<span class="caret"></span>
-							<span class="sr-only">Toggle Dropdown</span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">요일순</a></li>
-							<li><a href="#">시간순</a></li>
-							<li><a href="#">제목순</a></li>
-							<li><a href="#">개강순</a></li>
-						</ul>
+			    <div role="tabpanel" class="tab-pane fade in active" id="home">
+					
+					<div class="content classes-content">
+				
+						<c:forEach items="${classes }" var="classes">
+						
+							<fmt:formatDate value="${classes.end_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+							<c:set value="${format_date }" var="end_date" />
+							<%
+								Date dateParse = sdf.parse((String) pageContext.getAttribute("end_date"));
+								long parseDate = dateParse.getTime();
+							%>
+							<c:set value="<%= parseDate %>" var="parseDate"/>
+							
+							<c:if test="${classes.finished == 0 and parseDate < date  }">
+							<div class="classes-item">
+								<c:set value="${classes.color }" var="color"/>
+								<c:choose>
+									<c:when test="${not empty classes.picture }">
+										<div class="view img" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+									</c:when>
+									<c:otherwise>
+										<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+									</c:otherwise>
+								</c:choose>
+									
+									<c:if test="${not empty classes.picture }">
+										<img src="${ctx }/img/data/${classes.picture }">
+									</c:if>
+									
+									<div class="title-wrap">
+										<h4 class="title">${classes.name }</h4>
+									</div>
+									
+									<div class="item mouse-pointer">
+										<div class="left-btn-wrap">
+											<button type="button" class="btn btn-danger btn-sm">
+												<i class="fa fa-pencil"></i> 수정
+											</button>	
+										</div>
+										<div class="right-btn-wrap">
+										</div>
+									</div>
+									
+								</div>
+								<ul class="classes-info">
+									<li>기간 : </li>
+									<c:choose>
+										<c:when test="${classes.days == 0}">
+										</c:when>
+										<c:otherwise>
+											<li>요일 : </li>
+										</c:otherwise>
+									</c:choose>
+									
+									<li>시간 : </li>
+									<li>인원 : ${classes.number }</li>
+									<li class="divider"></li>
+									<li class="creator">${classes.teacher_name }</li>
+								</ul>
+							</div>
+							</c:if>
+						</c:forEach>
+					
+					</div>
+
+				</div>
+			    <div role="tabpanel" class="tab-pane fade" id="profile">
+			    	<div class="content classes-content">
+				
+						<c:forEach items="${classes }" var="classes">
+							
+							<fmt:formatDate value="${classes.end_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+							<c:set value="${format_date }" var="end_date" />
+							<%
+								Date dateParse = sdf.parse((String) pageContext.getAttribute("end_date"));
+								long parseDate = dateParse.getTime();
+							%>
+							<c:set value="<%= parseDate %>" var="parseDate"/>
+							
+							<c:if test="${classes.finished == 0 and parseDate > date  }">
+							<div class="classes-item">
+								<c:set value="${classes.color }" var="color"/>
+								<c:choose>
+									<c:when test="${not empty classes.picture }">
+										<div class="view img" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+									</c:when>
+									<c:otherwise>
+										<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+									</c:otherwise>
+								</c:choose>
+									
+									<c:if test="${not empty classes.picture }">
+										<img src="${ctx }/img/data/${classes.picture }">
+									</c:if>
+									
+									<div class="title-wrap">
+										<h4 class="title">${classes.name }</h4>
+									</div>
+									
+									<div class="item mouse-pointer">
+										<div class="left-btn-wrap">
+											<button type="button" class="btn btn-danger btn-sm">
+												<i class="fa fa-pencil"></i> 수정
+											</button>	
+										</div>
+										<div class="right-btn-wrap">
+										</div>
+									</div>
+									
+								</div>
+								<ul class="classes-info">
+									<li>기간 : </li>
+									<c:choose>
+										<c:when test="${classes.days == 0}">
+										</c:when>
+										<c:otherwise>
+											<li>요일 : </li>
+										</c:otherwise>
+									</c:choose>
+									
+									<li>시간 : </li>
+									<li>인원 : ${classes.number }</li>
+									<li class="divider"></li>
+									<li class="creator">${classes.teacher_name }</li>
+								</ul>
+							</div>
+							</c:if>
+						</c:forEach>
+					
 					</div>
 				</div>
 				
-				<div class="content classes-content">
-				
-					<c:forEach items="${classes }" var="classes">
-						
-						<div class="classes-item">
-							<c:set value="${classes.color }" var="color"/>
-							<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-							
-							</div>
-							<ul class="classes-info">
-								<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+			    <div role="tabpanel" class="tab-pane fade" id="messages">
+			    
+				    <div class="content classes-content">
+				    	<c:forEach items="${classes }" var="classes">
+							<c:if test="${classes.finished == 1 }">
+							<div class="classes-item">
+								<c:set value="${classes.color }" var="color"/>
 								<c:choose>
-									<c:when test="${classes.days == 0}">
+									<c:when test="${not empty classes.picture }">
+										<div class="view img" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
 									</c:when>
 									<c:otherwise>
-										<li>요일 : </li>
+										<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
 									</c:otherwise>
 								</c:choose>
 								
-								<li>시간 : <fmt:formatDate value="${classes.start_time }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_time }" pattern="HH:mm"/></li>
-								<li>인원 : ${classes.number }</li>
-								<li class="divider"></li>
-								<li class="creator">${classes.teacher_name }</li>
-							</ul>
-						</div>
-					</c:forEach>
+									<c:if test="${not empty classes.picture }">
+										<img src="${ctx }/img/data/${classes.picture }">
+									</c:if>
+									
+									<div class="title-wrap">
+										<h4 class="title">${classes.name }</h4>
+									</div>
+									
+									<div class="item mouse-pointer">
+										<div class="left-btn-wrap">
+											<button type="button" class="btn btn-danger btn-sm">
+												<i class="fa fa-pencil"></i> 수정
+											</button>	
+										</div>
+										<div class="right-btn-wrap">
+										</div>
+									</div>
+									
+								</div>
+								<ul class="classes-info">
+									<li>기간 : </li>
+									<c:choose>
+										<c:when test="${classes.days == 0}">
+										</c:when>
+										<c:otherwise>
+											<li>요일 : </li>
+										</c:otherwise>
+									</c:choose>
+									
+									<li>시간 : </li>
+									<li>인원 : ${classes.number }</li>
+									<li class="divider"></li>
+									<li class="creator">${classes.teacher_name }</li>
+								</ul>
+							</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
 				
-				</div>
-
-				</div>
-			    <div role="tabpanel" class="tab-pane fade" id="profile">...</div>
-			    <div role="tabpanel" class="tab-pane fade" id="messages">...</div>
 			    <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
 			  </div>
 			
@@ -221,11 +389,31 @@
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript" src="${ctx }/js/library/masonry.js"></script>
 <script type="text/javascript">
-$('.classes-content').masonry({
-	// options
-	itemSelector: '.classes-item',
-	columnWidth: 254
-});
+	
+	var $container = $('.classes-content');
+	$container.masonry({
+		// options
+		itemSelector: '.classes-item',
+		columnWidth: 254,
+		originLeft: true
+	});
+	
+	$(".tab-menu").on("click", "li" , function ( event) {
+		$(window).resize();
+	});
+	
+	$('a[data-toggle=tab]').each(function () {
+	  var $this = $(this);
+
+	  $this.on('shown.bs.tab', function () {
+	      $container.masonry({
+    	 	itemSelector: '.classes-item',
+  		  	columnWidth: 254,
+  		  	originLeft: true
+	      });   
+	  });
+	});
+	
 </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,8 @@ public class ClassesDao {
 			KeyHolder holder = new GeneratedKeyHolder();
 			int mapperId = 0;
 			
+			System.out.println(new Date(new java.util.Date(classes.getStartDate()).getTime()));
+			
 			try {
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					String sql = getQuery.get("classesDao.setClasses");
@@ -59,24 +62,21 @@ public class ClassesDao {
 						PreparedStatement pstm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 						
 						pstm.setString(1, classes.getName());
-						pstm.setDate(2, new Date(classes.getStartDate()));
-						pstm.setDate(3, new Date(classes.getEndDate()));
-						pstm.setDate(4, new Date(classes.getStartTime()));
-						pstm.setDate(5, new Date(classes.getEndTime()));
-						pstm.setInt(6, classes.getTarget());
-						pstm.setString(7, classes.getSubject());
-						pstm.setString(8, classes.getSummary());
-						pstm.setInt(9, classes.getDays());
-						pstm.setInt(10, classes.getClassesViewType());
-						pstm.setInt(11, classes.getColor());
-						
+						pstm.setTimestamp(2, new Timestamp(classes.getStartDate()));
+						pstm.setTimestamp(3, new Timestamp(classes.getEndDate()));
+						pstm.setInt(4, classes.getTarget());
+						pstm.setString(5, classes.getSubject());
+						pstm.setString(6, classes.getSummary());
+						pstm.setInt(7, classes.getDays());
+						pstm.setInt(8, classes.getClassesViewType());
+						pstm.setInt(9, classes.getColor());
 						
 						//현재 사진기능은 구현 안됨
-						pstm.setString(12, classes.getPicture());
-						pstm.setString(13, classes.getThumbnail());
+						pstm.setString(10, classes.getPicture());
+						pstm.setString(11, classes.getThumbnail());
 						
-						pstm.setInt(14, classes.getFinished());
-						pstm.setInt(15, classes.getMaxNum());
+						pstm.setInt(12, classes.getFinished());
+						pstm.setInt(13, classes.getMaxNum());
 						return pstm;
 					}
 				},holder);
@@ -100,14 +100,16 @@ public class ClassesDao {
 	}
 	
 	public List<Map<String, Object>> get ( int id ) {
-		String sql = getQuery.get("classesDao.get");
-		
-		Object[] params = {
-			id,
-			id
-		};
 		
 		try {
+			String sql = getQuery.get("classesDao.finished");
+			jdbcTemplate.update(sql);
+			
+			sql = getQuery.get("classesDao.get");
+			
+			Object[] params = {
+				id
+			};
 			return jdbcTemplate.queryForList(sql, params);
 		} catch (DataAccessException e) {
 			e.printStackTrace();

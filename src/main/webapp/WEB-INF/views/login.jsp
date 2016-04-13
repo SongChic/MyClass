@@ -54,8 +54,9 @@
 		    
 		    </form>
 			
-			<div class="find-student-content">
-			
+			<div class="find-student-wrap">
+				<div class="find-student-content">
+				</div>
 			</div>
 			
 	      </div>
@@ -69,42 +70,6 @@
 	
 	<%-- modal zone (e) --%>
 	
-	<!-- Modal -->
-	<div class="modal fade" id="findSchoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">학생 찾기</h4>
-	      </div>
-	      <div class="modal-body">
-	      <form onsubmit="findStudent(this); return false;">
-	      
-			<div class="input-group">
-		      <input type="text" class="form-control school-name" name="studentName" placeholder="학교 이름을 입력해주세요.">
-		      <span class="input-group-btn">
-		        <button class="btn btn-default find-student-btn" type="submit">검색</button>
-		      </span>
-		    </div><!-- /input-group -->
-		    
-		    <p class="info-text error-msg hide">※학생이름을 입력해주세요.</p>
-		    
-		    </form>
-			
-			<div class="find-student-content">
-			
-			</div>
-			
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary save-student">확인</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
-	<%-- modal zone (e) --%>
 	<div id="footer">
 	
 	</div>
@@ -130,7 +95,7 @@
 	</div>
 
 	<div class="signup-wrap col-md-7">
-		<form id="signUpProcess" onsubmit="onSignUp(this); return false;">
+		<form id="signUpProcess" onsubmit="onSignUp(this); return false;" autocomplete="off">
 			<h2 class="title">회원가입</h2>
 
 			<div class="btn-group user-type" role="group">
@@ -263,12 +228,10 @@
 				</div>
 				<div class="form-group school-wrap">
 					<label for="school">학교이름</label>
-
-					<div class="input-group">
-						<input type="text" id="schoolName" class="form-control">
-						<span class="input-group-btn">
-     				 	  <button class="btn btn-default find-school-btn" type="button">검색</button>
-     					</span>
+					<input type="text" id="schoolName" name="schoolName" class="form-control">
+					<div class="school-name-wrap hide">
+						<div class="school-name">
+						</div>
 					</div>
 					<p class="info-text error-msg hide">※필수 정보입니다.</p>	
 				</div>
@@ -454,6 +417,13 @@
 			$(form).find(".birthday-wrap .error-msg").removeClass("show").addClass("hide");
 		}
 		
+		if ( form.schoolName.value === "") {
+			$(form.schoolName).parent().find("p").removeClass("hide").addClass("show");
+			return false;
+		} else {
+			$(form.schoolName).parent().find("p").removeClass("show").addClass("hide");
+		}
+		
 		var gender = 1;
 		
 		for (var i = 0; i < form.gender.length; i++) {
@@ -484,7 +454,8 @@
 				gender : gender,
 				birthdayYear : form.year.value,
 				birthdayMonth : form.month.value,
-				birthdayDay : form.day.value
+				birthdayDay : form.day.value,
+				schoolName : form.schoolName.value
 			};
 		} else if ( userType == 2 ) {
 			var ajaxData = {
@@ -524,8 +495,6 @@
 				return alert("서버에 문제가 있습니다.\n 개발자에게 문의해주세요.");
 			}
 		});
-		
-		console.log(ajaxData);
 		
 	}
 	$container.on("click", ".tmpl-btn", function ( event ) {
@@ -593,17 +562,6 @@
 		}
 		
 	});
-	
-// 	$container.on("keyup", "#school", function ( event ) {
-		
-// 		if ( $(window).height() > $(document).scrollTop() ) {
-// 			console.log("up");
-// 			$container.find(".real-time-input").text($(this).val());	
-// 		} else {
-// 			console.log("down");
-// 		}		
-		
-// 	});
 	
 	$container.on("blur", ".signup-wrap input, .signup-wrap select", function ( event ) {
 		var $this = $(event.target);
@@ -718,6 +676,14 @@
 				$this.closest(".row").find("p").removeClass("show").addClass("hide").text("");
 			}
 		}
+		if ( $(event.target).attr("id") === "schoolName") {
+			if ( $this.val() == "" ) {
+				$this.closest(".school-wrap").find("p").removeClass("hide").addClass("show");
+				return false;
+			} else {
+				$this.closest(".school-wrap").find("p").removeClass("hide").addClass("hide");
+			}
+		}
 		
 	});
 	$container.on("change", "#month", function ( event ) {
@@ -795,7 +761,7 @@
 			$(".find-student-content").empty().append(appendHtml);
 			
 			if ( $(".find-student-content").outerHeight() > 610 ) {
-				$(".find-student-content").mCustomScrollbar({
+				$(".find-student-wrap").mCustomScrollbar({
 					axis : "y",
 					theme : "minimal-dark",
 					autoExpandScrollbar : true,
@@ -806,6 +772,8 @@
 						autoScrollOnFocus : "textarea"
 					}
 				});
+			} else {
+				$(".find-student-wrap").mCustomScrollbar("destroy").removeAttr("style");
 			}
 			
 			$.material.init();
@@ -813,27 +781,118 @@
 		});
 	}
 	
-	$.ajaxPrefilter('json', function(options, orig, jqXHR) {
-        return 'jsonp';
-    });
+// 	$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+//         return 'jsonp';
+//     });
 	
-	$.ajax ({
-		url : "${ctx }/rest/test",
-		data:{
-			url : "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=af16ae577e3165afd7a430929691f573&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list",
-// 			apiKey:"af16ae577e3165afd7a430929691f573",
-// 			svcType:"api",
-// 			svcCode:"SCHOOL",
-// 			contentType:"json",
-// 			perPage:"10000",
-// 			region:"100271"
+	var focusNum = -1;
+	
+	$container.on("keyup", "#schoolName", function( event ) {
+		var searchSchulNm = $(this).val(),
+			$target = $(this).next();
+		
+		searchSchulNm = searchSchulNm.trim();
+		
+		var schoolData = {
+				url : "http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=af16ae577e3165afd7a430929691f573&svcType=api&svcCode=SCHOOL&contentType=json&gubun=high_list&region=100271&perPage=10000",
+						//http://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=af16ae577e3165afd7a430929691f573&svcType=api&svcCode=SCHOOL&contentType=json&gubun=high_list&region=100271&perPage=10000&searchSchulNm=
+				searchSchulNm : searchSchulNm
+			};
+		
+		if ( event.keyCode == 40 ) {
+			event.preventDefault();
+			
+			if ( $container.find(".school-name td").length - 1 <= focusNum ) focusNum = -1;
+			focusNum++;
+			console.log(focusNum);
+			$container.find(".school-name td").removeClass("active");
+			$($container.find(".school-name td")[focusNum]).addClass("active");
+			
+			
+			console.log(focusNum);
+			
+		} else if ( event.keyCode == 38 ) {
+			event.preventDefault();
+			
+			focusNum--;
+			if ( focusNum < 0 ) focusNum = $container.find(".school-name td").length - 1;
+			$container.find(".school-name td").removeClass("active");
+			$($container.find(".school-name td")[focusNum]).addClass("active");
+			console.log(focusNum);
+			
+		} else if ( event.keyCode == 13 ) {
+			event.preventDefault();
+			
+			$container.find("#schoolName").val( $container.find(".school-name td.active").text() );
+			$container.find("#schoolName").blur();
+			return false;
+			
+		} else {
+			if ( searchSchulNm !== "" ) {
+				
+				focusNum = -1;
+				
+				$.ajax({
+					method : "post",
+					url : "${ctx }/rest/getSchool",
+					data : schoolData,
+					async : false
+				}).done (function ( response ) {
+					if ( JSON.parse(response[0]).dataSearch.content.length > 0 ) {
+						var insertHtml = "",
+							schoolInfo = JSON.parse(response[0]).dataSearch.content;
+						insertHtml = "<table class='table table-hover table-responsive'>";
+						
+						for (var i = 0; i < schoolInfo.length; i++) {
+							insertHtml += "<tr class='school-info-wrap'>";
+							insertHtml += "<td>";
+							insertHtml += schoolInfo[i].schoolName;
+							insertHtml += "</td>";
+							insertHtml += "</tr>";
+						}
+						insertHtml += "</table>";
+						
+						$target.removeClass("hide").addClass("show");
+						$target.find(".school-name").html(insertHtml);
+						
+						if ( $target.find(".school-name").outerHeight() > 200 ) {
+							$target.mCustomScrollbar({
+								axis : "y",
+								theme : "minimal-dark",
+								autoExpandScrollbar : true,
+								mouseWheelPixels: 100,
+								setHeight : 200,
+								advanced : {
+									updateOnContentResize: true,
+									autoScrollOnFocus : "textarea"
+								}
+							});
+						} else {
+							$target.mCustomScrollbar("destroy").removeAttr("style");
+						}
+						
+					}
+				});
+			}
 		}
-	}).done (function (response){
 		
-		console.log( response );
+	});
+	
+	$container.on("mousedown", ".school-name-wrap td", function ( event ) {
+		$container.find("#schoolName").val($(this).text());
+	});
+	
+	$container.on("blur", "#schoolName", function ( event ) {
+		$(this).next().removeClass("show").addClass("hide");
+		$container.find(".school-name td").removeClass("active");
+		focusNum = 0;
 		
-	}).fail(function (response){
-		console.log("error");
+	});
+	$container.on("focus", "#schoolName", function ( event ) {
+		if ( $(this).val().trim() != "" ) {
+			$(this).next().removeClass("hide").addClass("show");	
+		}
+		
 	});
 	
 	$(".save-student").on("click", function ( event ){

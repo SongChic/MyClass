@@ -71,3 +71,8 @@ $(document).ready(function(event) {
 	}
 });
 
+$(document).on("keypress", "form", function(event) {
+	if ( $(event.target).attr("id") == "schoolName" ) {
+		return event.keyCode != 13;
+	}
+});

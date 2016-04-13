@@ -87,6 +87,7 @@ public class UserRestController {
 			@RequestParam(value="birthdayYear") int birthdayYear,
 			@RequestParam(value="birthdayMonth") int birthdayMonth,
 			@RequestParam(value="birthdayDay") int birthdayDay,
+			@RequestParam(value="schoolName", defaultValue="", required=false) String school,
 			@RequestParam(value="slogan", defaultValue="", required=false) String slogan,
 			@RequestParam(value="studentArr", defaultValue="", required=false) String studentArr,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -107,6 +108,7 @@ public class UserRestController {
 		member.setBirthdayYear(birthdayYear);
 		member.setBirthdayMonth(birthdayMonth);
 		member.setBirthdayDay(birthdayDay);
+		member.setSchool(school);
 		
 		if ( member.getUserType() == 2 ) {
 			int parentId = userService.setMember(member);
@@ -127,30 +129,34 @@ public class UserRestController {
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/rest/test", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/rest/getSchool", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ResponseEntity<JSONArray> test(
 			@RequestParam(value="url", required=false) String url,
+			@RequestParam(value="searchSchulNm", required=false) String searchSchulNm,
 			HttpServletRequest request, HttpServletResponse response) {
 		
+		String editUrl = "";
 		JSONArray req = new JSONArray();
-		try {
-			CloseableHttpClient httpClient = HttpClients.createDefault();
-			
-			HttpGet get = new HttpGet(url);
-			
-			CloseableHttpResponse httpResponse = httpClient.execute(get);
-			
+		if ( searchSchulNm != "" ) {
+			editUrl = url + "&searchSchulNm=" + searchSchulNm;
 			try {
-				req.add(EntityUtils.toString(httpResponse.getEntity()));
-			} finally {
-				httpResponse.close();
+				CloseableHttpClient httpClient = HttpClients.createDefault();
+				
+				HttpGet get = new HttpGet(editUrl);
+				
+				CloseableHttpResponse httpResponse = httpClient.execute(get);
+				
+				try {
+					req.add(EntityUtils.toString(httpResponse.getEntity()));
+				} finally {
+					httpResponse.close();
+				}
+				
+			} catch ( Exception e) {
+				e.printStackTrace();
 			}
-			
-		} catch ( Exception e) {
-			e.printStackTrace();
 		}
-		
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType( MediaType.APPLICATION_JSON );
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

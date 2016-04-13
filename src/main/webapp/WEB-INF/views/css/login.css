@@ -115,7 +115,25 @@ html {
 .school-wrap {
 	position: relative;
 }
-.real-time-input {
+.school-name-wrap {
+	display: block;
 	position: absolute;
 	width: 100%;
+	background: #fff;
+	border: 1px solid #ccc;
+}
+.school-name-wrap .table {
+	overflow: hidden;
+	margin-bottom: 0;
+}
+.school-name-wrap .table td.active {
+	background: #F5F5DC
+}
+.school-name-wrap .table td {
+	border-top: 0;
+	border-bottom: 1px solid #ddd;
+}
+.school-name-wrap .table tr:last-child td {
+	border-bottom: 0;
+	
 }

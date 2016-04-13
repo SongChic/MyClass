@@ -315,6 +315,50 @@
 								</div>
 							</div>
 							
+							<div class="form-group file-wrap row hide">
+								<div class="color-picker-wrap col-sm-8 col-xs-12 row">
+									<p><b>이미지 첨부</b></p>
+									
+									<div class="input-group">
+										<input type="file" id="classesImg" name="classesImg" style="display: none;">
+										<input type="text" class="form-control" placeholder="파일을 선택해주세요.">
+										
+								        <span class="input-group-btn">
+								       		<button class="btn btn-info file-btn" type="button" onclick="document.all.classesImg.click();"><i class="fa fa-folder-open" aria-hidden="true"></i> 파일 첨부</button>
+								        </span>
+							        </div>
+							        
+									<div class="clearfix"></div>
+									<p class="info-text error-msg hide">※색상을 선택해주세요.</p>
+								</div>
+								
+								<div class="form-group col-sm-4 col-xs-12">
+									<p><b>이미지 미리보기</b></p>
+									
+									<div class="box-layout preview">
+										<div class="classes-wrap img-type">
+											<ul>
+												<li>교과 : 샘플</li>
+												<li>특성 : 샘플</li>
+											</ul>
+											
+											<div class="image-zone">
+												<i class="fa fa-camera img-preview-icon" aria-hidden="true"></i>
+											</div>
+											
+										</div>
+										
+										<ul class="classes-info">
+											<li>기간 : 샘플</li>
+											<li>요일 : 샘플</li>
+											<li>시간 : 샘플</li>
+											<li>인원 : 샘플</li>
+											<li class="divider"></li>
+											<li class="creator">선생님</li>
+										</ul>
+									</div>
+								</div>
+							</div>
 							
 							
 							
@@ -322,7 +366,7 @@
 						</div>
 						
 						<div class="box-padding btn-wrap">
-							<button type="submit" class="btn btn-primary btn-lg btn-block">만들기</button>
+							<button type="submit" class="btn btn-primary btn-lg btn-block create-btn">만들기</button>
 						</div>
 						
 					</div>
@@ -338,6 +382,7 @@
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
 	$.material.init();
+	var picture = new FormData();
 	
 	$('#start-date, #end-date').datetimepicker({
 		locale : 'ko',
@@ -355,6 +400,23 @@
 		else $(".summative-wrap").removeClass("show").addClass("hide");
 	});
 	
+	var classesType = 1;
+	$(".class-date-type").on("change", "input[name=imageAndColor]", function( event ) {
+		
+		classesType = $(this).val();
+		
+		if ( classesType == 1 ) {
+			$(".color-picker").removeClass("hide").addClass("show");
+			$(".file-wrap").removeClass("show").addClass("hide");
+		} else {
+			$(".file-wrap").removeClass("hide").addClass("show");
+			$(".color-picker").removeClass("show").addClass("hide");
+		}
+		
+		console.log("change");
+		console.log($(this).val())
+	})
+	
 	$(".picker-wrap").on("click", function ( event ){
 		
 		for ( var i = 0; i < $(".picker-wrap").length; i++ ) {
@@ -365,7 +427,7 @@
 			}
 		}
 		
-		$(".classes-wrap").css({
+		$(this).closest(".color-picker").find(".classes-wrap").css({
 			background : $(this).css("background"),
 			color : $(this).css("backgroundColor") == "rgb(254, 234, 58)"? "#000" : "#fff"
 		})
@@ -408,49 +470,85 @@
 		}
 		
 		var color = -1;
-		for ( var i = 0; i < form.colorPicker.length; i++ ) {
-			if ( form.colorPicker[i].checked == true ) {
-				color = form.colorPicker[i].value;
-				$(".color-picker-wrap .info-text").removeClass("show").addClass("hide");
-				break;
+		if ( classesType == 1 ) {
+		
+			for ( var i = 0; i < form.colorPicker.length; i++ ) {
+				if ( form.colorPicker[i].checked == true ) {
+					color = form.colorPicker[i].value;
+					$(".color-picker-wrap .info-text").removeClass("show").addClass("hide");
+					break;
+				}
+			}
+			
+			if ( color < 0 ) {
+				$(".color-picker-wrap .info-text").removeClass("hide").addClass("show");
+				return false;
 			}
 		}
 		
-		if ( color < 0 ) {
-			$(".color-picker-wrap .info-text").removeClass("hide").addClass("show");
-			return false;
-		}
 		
 		var startTime = form.startTime.value.split(":"),
 			endTime = form.endTime.value.split(":"),
 			date = new Date();
 		
+		var colorLength = <%= MyclassCommon.classColor.length %>;
 		
-		var ajaxData = {
-			name : form.name.value,
-			startDate : Date.parse(form.startDate.value),
-			endDate : Date.parse(form.endDate.value),
-			startTime : Date.parse(new Date( date.getFullYear(), date.getMonth()+1, date.getDate(), startTime[0], startTime[1] )),
-			endTime : Date.parse(new Date( date.getFullYear(), date.getMonth()+1, date.getDate(), endTime[0], endTime[1] )),
-			target : form.target.value,
-			subject : form.subject.value,
-			summary : form.summary.value,
-			days : 0,
-			classesViewType : 1,
-			color : color,
-			picture : "",
-			thumbnail : "",
-			finished : 0,
-			maxNum : 30,
-			teacherId : "${member.id }"
-		};
+		console.log (new Date(Date.parse(form.startDate.value) + startTime[0] * 60 * 60 * 1000 + startTime[1] * 60 * 1000));
 		
-		publicAjax("post", "${ctx }/rest/teacher/setClass", ajaxData, function ( response ){
-			if ( response > 0 ) {
-				location.href = "${ctx }/teacher/classes/manageClasses?type=1";
-			}
-		});
+		picture.append("id", 0);
+		picture.append("name", form.name.value);
+		picture.append("startDate", Date.parse(form.startDate.value) + startTime[0] * 60 * 60 * 1000 + startTime[1] * 60 * 1000);
+		picture.append("endDate", Date.parse(form.endDate.value) + endTime[0] * 60 * 60 * 1000 + endTime[1] * 60 * 1000);
+		picture.append("target", form.target.value);
+		picture.append("subject", form.subject.value);
+		picture.append("summary", form.summary.value);
+		picture.append("days", 0);
+		picture.append("classesViewType", 1);
+		picture.append("color", classesType == 1 ? color : Math.floor(Math.random() * colorLength));
+		picture.append("picture", classesType != 1 ? $("#classesImg")[0].files[0] : "");
+		picture.append("thumbnail", "");
+		picture.append("finished", 0);
+		picture.append("maxNum", 30);
+		picture.append("teacherId", "${member.id }");
+		
+		$.ajax({
+			dataType : 'json',
+            url : "${ctx }/rest/teacher/setClass",
+            data : picture,
+            type : "POST",
+            enctype: 'multipart/form-data',
+            processData: false, 
+            contentType:false
+            }).done( function( response ) {
+            	
+            	if ( response > 0 ) {
+    				location.href = "${ctx }/teacher/classes/manageClasses?type=1";
+    			}
+            	
+            }).fail ( function ( response ){
+            	
+            });
 	}
+	
+	$("#classesImg").on("change", function ( event ) {
+		
+		if ( this.files && this.files[0] ) {
+			var reader = new FileReader();
+			reader.onload = function ( e ) {
+				
+				var imgHtml = "<img src='" + e.target.result + "'>";
+				$(".image-zone").html(imgHtml);
+				
+			}
+		}
+		reader.readAsDataURL(this.files[0]);
+		
+		$(this).next().val(event.target.value);
+		
+		console.log("change");
+		console.log(event.target.result);
+	});
+	
 	
 </script>
 </body>

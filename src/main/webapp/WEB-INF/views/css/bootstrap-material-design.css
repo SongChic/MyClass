@@ -1415,7 +1415,7 @@ select.form-control[multiple],
   border: 0;
   background: transparent;
 }
-.form-group input[type=file] {
+/* .form-group input[type=file] {
   opacity: 0;
   position: absolute;
   top: 0;
@@ -1425,7 +1425,7 @@ select.form-control[multiple],
   width: 100%;
   height: 100%;
   z-index: 100;
-}
+} */
 legend {
   border-bottom: 0;
 }

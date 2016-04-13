@@ -181,6 +181,7 @@ public class UserDao {
 					member.getBirthdayYear(),
 					member.getBirthdayMonth(),
 					member.getBirthdayDay(),
+					member.getSchool()
 				};
 				
 				return jdbcTemplate.update(sql, params);

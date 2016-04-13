@@ -2,7 +2,7 @@
 	padding: 0 10px;
 }
 .box-layout {
-	overflow: visible;
+	overflow: hidden;
 }
 .box-layout .title {
 	border-top: 1px solid #e0e0e0;
@@ -70,10 +70,36 @@ label.control-label {
 	padding: 0;
 }
 .classes-wrap {
+	position: relative;
 	margin-bottom: 10px;
-	padding: 10px;
 	height: 100px;
 	border-bottom: 1px solid #e0e0e0;
+}
+.classes-wrap.img-type {
+	height: auto;
+}
+.image-zone {
+	text-align: center;
+}
+.img-preview-icon {
+	padding: 40px 0;
+	font-size: 30px;
+	color: #e0e0e0;
+}
+.image-zone img {
+	width:100%;
+}
+.classes-wrap ul {
+	display: none;
+	position: absolute;
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+	background: url("../img/gradient.png") repeat-x top;
+	color: #fff;
+}
+.classes-wrap:hover ul {
+	display: block;
 }
 
 .btn-wrap {
