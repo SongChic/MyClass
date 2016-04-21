@@ -40,6 +40,12 @@
 	<div id="header">
 			<div class="gnb row">
 				<div class="gnb-wrap row">
+				
+					<div class="visible-xs profile-zone">
+						<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}">
+						<h3>${member.name }</h3>
+					</div>
+					
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
@@ -66,6 +72,12 @@
 				
 				<div class="quick-menu pull-right">
 					<ul class="row">
+						<li class="visible-xs">
+							<a href="${ctx }/">
+								<i class="fa fa-home" aria-hidden="true"></i>
+								<span><i class="fa fa-caret-up"></i>메인으로</span>
+							</a>
+						</li>
 						<li>
 							<i class="fa fa-users"></i>
 							<span><i class="fa fa-caret-up"></i>그룹채팅</span>
@@ -211,7 +223,7 @@
 						<div class="box-wrap member-setting">
 							<p class="title"><b>회원정보</b></p>
 							<ul>
-								<li>회원정보수정</li>
+								<li><a href="${ctx }/editMember?id=${member.id }">회원정보수정</a></li>
 								<li>로그아웃</li>
 								<li>회원탈퇴</li>
 							</ul>
@@ -241,6 +253,10 @@
 		<div id="footer">
 		</div>
 </div>
+
+<script type="text/javascript">
+var ctx = "${ctx }";
+</script>
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">

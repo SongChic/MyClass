@@ -1,0 +1,64 @@
+.search-filter .nav-tabs > li > a {
+	border-top: 3px solid transparent;
+	border-radius: 0;
+	outline: none;
+}
+.search-filter .nav-tabs > li:first-child > a {
+	border-left: 0;
+}
+.search-filter .nav-tabs > li.active > a {
+	border-top: 3px solid #e66659;
+}
+.region-select select {
+	margin-right: 5px;
+}
+.padding-box .checkbox {
+	margin-right: 5px;
+	margin-bottom: 6px;
+	display: inline-block;
+}
+.padding-box .checkbox:first-child {
+	margin-right: 0; 
+}
+.search-info-box {
+	height: 17px;
+}
+
+.teacher_img {
+	margin-right: 10px;	
+}
+.img-zone img {
+	width: 75px;
+	height: 75px;
+	border: 1px solid #ddd;
+}
+.teacher-item {
+	position: relative;
+	padding: 10px 0;
+	border-bottom: 1px solid #eee;
+}
+.teacher-item:last-child {
+	border-bottom: 0;
+}
+.teacher-info {
+    word-break: break-all;
+}
+.teacher-info h4 {
+	margin-top: 0;
+}
+.teacher-info p {
+	margin: 0 0 5px;
+	font-family: dotum, "돋움";
+	font-size: 12px;
+	color: #aaa;
+}
+.teacher-btn {
+	margin-top: 25px;
+}
+.teacher-btn button{
+	margin-left: 5px;
+}
+.teacher-btn .dropdown-menu {
+	right: 0;
+	left: auto;
+}

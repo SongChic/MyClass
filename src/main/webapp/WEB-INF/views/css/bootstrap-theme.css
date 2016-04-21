@@ -61,7 +61,7 @@ fieldset[disabled] .btn-danger {
 .btn.active {
   background-image: none;
 }
-.btn-default {
+.btn-default.gradient {
   text-shadow: 0 1px 0 #fff;
   background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
   background-image:      -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
@@ -73,13 +73,13 @@ fieldset[disabled] .btn-danger {
   border-color: #dbdbdb;
   border-color: #ccc;
 }
-.btn-default:hover,
-.btn-default:focus {
+.btn-default.gradient:hover,
+.btn-default.gradient:focus {
   background-color: #e0e0e0;
   background-position: 0 -15px;
 }
-.btn-default:active,
-.btn-default.active {
+.btn-default.gradient:active,
+.btn-default.gradient.active {
   background-color: #e0e0e0;
   border-color: #dbdbdb;
 }

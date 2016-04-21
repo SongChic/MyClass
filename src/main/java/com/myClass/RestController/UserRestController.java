@@ -1,6 +1,9 @@
 package com.myClass.RestController;
 
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.myClass.Common.FileUpload;
 import com.myClass.Dao.UserDao;
 import com.myClass.Model.Member;
 import com.myClass.Service.ParentService;
@@ -76,51 +81,63 @@ public class UserRestController {
 	@RequestMapping(value="/rest/setMember", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public ResponseEntity<Integer> setMember(
-			@RequestParam(value="id", defaultValue="0", required=false) int id,
-			@RequestParam(value="memId") String memId,
-			@RequestParam(value="memPw") String memPw,
-			@RequestParam(value="name") String name,
-			@RequestParam(value="email") String email,
-			@RequestParam(value="phone") String phone,
-			@RequestParam(value="userType") int userType,
-			@RequestParam(value="gender") int gender,
-			@RequestParam(value="birthdayYear") int birthdayYear,
-			@RequestParam(value="birthdayMonth") int birthdayMonth,
-			@RequestParam(value="birthdayDay") int birthdayDay,
-			@RequestParam(value="schoolName", defaultValue="", required=false) String school,
-			@RequestParam(value="slogan", defaultValue="", required=false) String slogan,
-			@RequestParam(value="studentArr", defaultValue="", required=false) String studentArr,
-			HttpServletRequest request, HttpServletResponse response) {
+			Principal principal,
+			MultipartHttpServletRequest form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		int req = 0;
-		System.out.println("sign up");
 		
 		Member member = new Member();
 		
-		member.setId(id);
-		member.setMemId(memId);
-		member.setMemPw(memPw);
-		member.setName(name);
-		member.setEmail(email);
-		member.setPhone(phone);
-		member.setGender(gender);
-		member.setUserType(userType);
-		member.setBirthdayYear(birthdayYear);
-		member.setBirthdayMonth(birthdayMonth);
-		member.setBirthdayDay(birthdayDay);
-		member.setSchool(school);
+		FileUpload fileUpload = new FileUpload("/WEB-INF/views/img/profile", form);
+		
+		if ( request.getParameter("oldFileName") != null ) {
+        	fileUpload.setOldFileName(request.getParameter("oldFileName"));
+        }
+		
+		String fileNames = fileUpload.upload();
+		
+		Iterator<String> iterator = form.getFileNames();
+		
+		if ( iterator.hasNext() ) {
+			member.setProfile(fileNames);
+		} else {
+			member.setProfile(request.getParameter("profile"));
+		}
+		
+		if ( fileNames != null || fileNames.length() > 0 ) {
+			member.setProfile(fileNames);
+		} else {
+			member.setProfile(form.getParameter("profile"));
+		}
+		
+		member.setId(Integer.parseInt(form.getParameter("id")));
+		member.setMemId(form.getParameter("memId"));
+		member.setMemPw(form.getParameter("memPw"));
+		member.setName(form.getParameter("name"));
+		member.setEmail(form.getParameter("email"));
+		member.setPhone(form.getParameter("phone"));
+		member.setUserType(Integer.parseInt(form.getParameter("userType")));
+		member.setGender(Integer.parseInt(form.getParameter("gender")));
+		member.setBirthdayYear(Integer.parseInt(form.getParameter("birthdayYear")));
+		member.setBirthdayMonth(Integer.parseInt(form.getParameter("birthdayMonth")));
+		member.setBirthdayDay(form.getParameter("birthdayDay"));
+		member.setSchool(form.getParameter("schoolName"));
 		
 		if ( member.getUserType() == 2 ) {
 			int parentId = userService.setMember(member);
 			if ( parentId > 0 ) {
-				System.out.println(studentArr);
-				req = parentService.setStudentMapper(parentId, studentArr);
+				req = parentService.setStudentMapper(parentId, form.getParameter("studentArr"));
 			}
 		} else {
 			req = userService.setMember(member);
 		}
 		
-		System.out.println(req);
+		if ( member.getId() > 0 ) {
+			HttpSession session = request.getSession();
+			session.setAttribute("member", userService.get(principal.getName()));
+		}
+		
 		
 		
 		HttpHeaders headers = new HttpHeaders();

@@ -1,7 +1,9 @@
 package com.myClass.CommonController;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +50,6 @@ public class HomeController {
 		
 		Member member = userService.get(principal.getName());
 		
-		
 		ModelAndView mav = new ModelAndView("/common/main");
 		session.setAttribute("member", member);
 		mav.addObject("member", member);
@@ -63,6 +64,13 @@ public class HomeController {
 		
 		Member member = userService.get(principal.getName());
 		mav.addObject("member", member);
+		return mav;
+	}
+	
+	@RequestMapping(value="/editMember", method = RequestMethod.GET)
+	public ModelAndView editMember () {
+		ModelAndView mav = new ModelAndView("/user/edit-member");
+		
 		return mav;
 	}
 

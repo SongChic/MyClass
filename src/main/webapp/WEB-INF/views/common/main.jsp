@@ -31,6 +31,12 @@
 		<div id="header">
 			<div class="gnb row">
 				<div class="gnb-wrap row">
+				
+					<div class="visible-xs profile-zone">
+						<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}">
+						<h3>${member.name }</h3>
+					</div>
+					
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
@@ -59,6 +65,12 @@
 			
 				<div class="quick-menu pull-right">
 					<ul class="row">
+						<li class="visible-xs">
+							<a href="${ctx }/">
+								<i class="fa fa-home" aria-hidden="true"></i>
+								<span><i class="fa fa-caret-up"></i>메인으로</span>
+							</a>
+						</li>
 						<li>
 							<i class="fa fa-users"></i>
 							<span><i class="fa fa-caret-up"></i>그룹채팅</span>
@@ -80,17 +92,34 @@
 				
 				<div class="s-menu pull-left">
 					<ul class="row">
-						<li class="drop-menu">
-							<a>
-								회원
-								<span>Member</span>
-							</a>
-							<ul class="drop-item">
-								<li><a href="${ctx }/teacher/members/manageMembers?type=1">대기회원</a></li>							
-								<li><a href="${ctx }/teacher/members/manageMembers?type=2">회원</a></li>							
-								<li><a href="${ctx }/teacher/members/manageMembers?type=3">퇴원</a></li>							
-							</ul>
-						</li>
+						<c:choose>
+							<c:when test="${member.userType == 1 }">
+								<li class="drop-menu">
+									<a>
+										회원
+										<span>Member</span>
+									</a>
+									<ul class="drop-item">
+										<li><a href="${ctx }/teacher/members/manageMembers?type=1">대기회원</a></li>							
+										<li><a href="${ctx }/teacher/members/manageMembers?type=2">회원</a></li>							
+										<li><a href="${ctx }/teacher/members/manageMembers?type=3">퇴원</a></li>							
+									</ul>
+								</li>
+							</c:when>
+							<c:when test="${member.userType == 3 }">
+								<li class="drop-menu">
+									<a>
+										선생님
+										<span>Teacher</span>
+									</a>
+									<ul class="drop-item">
+										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=1">승인 대기중</a></li>							
+										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=2">내 선생님</a></li>							
+										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=3">퇴원</a></li>							
+									</ul>
+								</li>
+							</c:when>
+						</c:choose>
 						<li class="drop-menu">
 							<a>
 								수업
@@ -215,6 +244,7 @@ var ctx = "${ctx }";
 		}
 		
 	});
+	
 </script>
 </body>
 </html>

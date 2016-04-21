@@ -22,13 +22,20 @@ public class Member implements UserDetails {
 	private int district;
 	private int birthdayYear;
 	private int birthdayMonth;
-	private int birthdayDay;
+	private String birthdayDay;
 	private String slogan;
 	private int mainColor;
 	private String school;
+	private String profile;
+	private long created;
 	
 	
-	
+	public String getProfile() {
+		return profile;
+	}
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
 	public String getSchool() {
 		return school;
 	}
@@ -119,10 +126,10 @@ public class Member implements UserDetails {
 	public void setBirthdayMonth(int birthdayMonth) {
 		this.birthdayMonth = birthdayMonth;
 	}
-	public int getBirthdayDay() {
+	public String getBirthdayDay() {
 		return birthdayDay;
 	}
-	public void setBirthdayDay(int birthdayDay) {
+	public void setBirthdayDay(String birthdayDay) {
 		this.birthdayDay = birthdayDay;
 	}
 	public String getSlogan() {
@@ -132,6 +139,12 @@ public class Member implements UserDetails {
 		this.slogan = slogan;
 	}
 	
+	public long getCreated() {
+		return created;
+	}
+	public void setCreated(long created) {
+		this.created = created;
+	}
 	public Member (String memId, String memPw) {
 		this.memId = memId;
 		this.memPw = memPw;

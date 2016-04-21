@@ -1,5 +1,6 @@
 package com.myClass.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,11 @@ public class ClassesService {
 		return classesDao.setClasses(classes, teacherId);
 	}
 	
-	public List<Map<String, Object>> get (int id) {
+	public List<Map<String, Object>> getList (int id) {
+		return classesDao.getList(id);
+	}
+	
+	public Classes get ( int id ) {
 		return classesDao.get(id);
 	}
 }

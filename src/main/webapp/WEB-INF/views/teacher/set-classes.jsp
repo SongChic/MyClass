@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -28,10 +29,18 @@
 </head>
 <body>
 
+<jsp:useBean id="longToDate" class="java.util.Date" />
+
 <div id="wrap">
 	<div id="header">
 			<div class="gnb row">
 				<div class="gnb-wrap row">
+				
+					<div class="visible-xs profile-zone">
+						<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}">
+						<h3>${member.name }</h3>
+					</div>
+					
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
@@ -58,6 +67,13 @@
 				
 				<div class="quick-menu pull-right">
 					<ul class="row">
+						<li class="visible-xs">
+							<a href="${ctx }/">
+								<i class="fa fa-home" aria-hidden="true"></i>
+								<span><i class="fa fa-caret-up"></i>메인으로</span>
+							</a>
+						</li>
+						
 						<li>
 							<i class="fa fa-users"></i>
 							<span><i class="fa fa-caret-up"></i>그룹채팅</span>
@@ -155,7 +171,7 @@
 							<div class="form-group row">
 								<label class="col-sm-2 hidden-xs control-label">반 이름</label>
 								<div class="col-sm-10 col-xs-12">
-									<input type="text" class=" form-control" name="name" placeholder="반 이름을 입력해주세요." />
+									<input type="text" class=" form-control" name="name" placeholder="반 이름을 입력해주세요." value="${classes.name }" />
 								</div>
 							</div>
 							
@@ -201,14 +217,24 @@
 							<div class="form-group row">
 								<label class="col-sm-2 hidden-xs control-label">시작일</label>
 								<div class="col-sm-10 col-xs-12">
-									<input type="text" class=" form-control" name="startDate" id="start-date" placeholder="시작일을 선택해주세요." />
+								<c:if test="${classes.startDate > 0 }">
+									<jsp:setProperty property="time" name="longToDate" value="${classes.startDate }"/>
+									<fmt:formatDate value="${longToDate }" pattern="yyyy/MM/dd" var="startDate"/>
+								</c:if>
+								
+									<input type="text" class=" form-control" name="startDate" id="start-date" placeholder="시작일을 선택해주세요." value="${startDate }" />
 								</div>
 							</div>
 							
 							<div class="form-group row">
 								<label class="col-sm-2 hidden-xs control-label">종료일</label>
 								<div class="col-sm-10 col-xs-12">
-									<input type="text" class=" form-control" name="endDate" id="end-date" placeholder="종료일을 선택해주세요." />
+								<c:if test="${classes.endDate > 0 }">
+									<jsp:setProperty property="time" name="longToDate" value="${classes.endDate }"/>
+									<fmt:formatDate value="${longToDate }" pattern="yyyy/MM/dd" var="endDate"/>
+								</c:if>
+								
+									<input type="text" class=" form-control" name="endDate" id="end-date" placeholder="종료일을 선택해주세요." value="${endDate }" />
 								</div>
 							</div>
 							
@@ -225,36 +251,25 @@
 								</div>
 							</div>
 							
-<!-- 							<div class="form-group row"> -->
-<!-- 								<label class="col-sm-2 hidden-xs control-label">반날짜</label> -->
-<!-- 								<div class="col-sm-10 col-xs-12 class-date-type form-group"> -->
-<!-- 									<span class="radio"> -->
-<!-- 										<label> -->
-<!-- 											<input type="radio" name="classDateType" checked/> -->
-<!-- 											시간별 -->
-<!-- 										</label> -->
-<!-- 									</span> -->
-									
-<!-- 									<span class="radio"> -->
-<!-- 										<label> -->
-<!-- 											<input type="radio" name="classDateType"/> -->
-<!-- 											요일별 -->
-<!-- 										</label> -->
-<!-- 									</span> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-							
 							<div class="form-group row">
 								<label class="col-sm-2 hidden-xs control-label">시작시간</label>
 								<div class="col-sm-10 col-xs-12">
-									<input type="text" class=" form-control" name="startTime" id="start-time" placeholder="시작시간을 선택해주세요." />
+									<c:if test="${classes.endDate > 0 }">
+										<jsp:setProperty property="time" name="longToDate" value="${classes.startDate }"/>
+										<fmt:formatDate value="${longToDate }" pattern="HH:mm" var="startTime"/>
+									</c:if>
+									<input type="text" class=" form-control" name="startTime" id="start-time" placeholder="시작시간을 선택해주세요." value="${startTime }" />
 								</div>
 							</div>
 							
 							<div class="form-group row">
 								<label class="col-sm-2 hidden-xs control-label">종료시간</label>
 								<div class="col-sm-10 col-xs-12">
-									<input type="text" class=" form-control" name="endTime" id="end-time" placeholder="종료시간을 선택해주세요." />
+									<c:if test="${classes.endDate > 0 }">
+										<jsp:setProperty property="time" name="longToDate" value="${classes.endDate }"/>
+										<fmt:formatDate value="${longToDate }" pattern="HH:mm" var="endTime"/>
+									</c:if>
+									<input type="text" class=" form-control" name="endTime" id="end-time" placeholder="종료시간을 선택해주세요." value="${endTime }" />
 								</div>
 							</div>
 							
@@ -321,7 +336,7 @@
 									
 									<div class="input-group">
 										<input type="file" id="classesImg" name="classesImg" style="display: none;">
-										<input type="text" class="form-control" placeholder="파일을 선택해주세요.">
+										<input type="text" class="form-control file-name" placeholder="파일을 선택해주세요." value="${classes.picture }" disabled>
 										
 								        <span class="input-group-btn">
 								       		<button class="btn btn-info file-btn" type="button" onclick="document.all.classesImg.click();"><i class="fa fa-folder-open" aria-hidden="true"></i> 파일 첨부</button>
@@ -343,7 +358,19 @@
 											</ul>
 											
 											<div class="image-zone">
-												<i class="fa fa-camera img-preview-icon" aria-hidden="true"></i>
+												<c:choose>
+													
+													<c:when test="${not empty classes.picture }">
+														<img src="${ctx }/img/data/${classes.picture }" />
+													</c:when>
+
+													<c:otherwise>
+														<i class="fa fa-camera img-preview-icon" aria-hidden="true"></i>
+													</c:otherwise>
+													
+												</c:choose>
+											
+												
 											</div>
 											
 										</div>
@@ -379,10 +406,18 @@
 		</div>
 </div>
 
+<script type="text/javascript">
+var ctx = "${ctx }";
+</script>
+
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
 	$.material.init();
-	var picture = new FormData();
+	var pictureChange = 0,
+		oldFileName = "${classes.picture }";
+		
+	var id = <%= request.getParameter("id") %>;
+	
 	
 	$('#start-date, #end-date').datetimepicker({
 		locale : 'ko',
@@ -415,7 +450,12 @@
 		
 		console.log("change");
 		console.log($(this).val())
-	})
+	});
+	
+	
+	if ( id ) {
+		$($(".class-date-type input")[parseInt("${classes.classesViewType}") - 1]).click()
+	}
 	
 	$(".picker-wrap").on("click", function ( event ){
 		
@@ -435,6 +475,7 @@
 	
 // 	$(".picker-wrap")[0].click();
 	function onsetClass ( form ) {
+		
 		if ( form.name.value == "" ) {
 			form.name.focus();
 			return false;
@@ -489,13 +530,25 @@
 		
 		var startTime = form.startTime.value.split(":"),
 			endTime = form.endTime.value.split(":"),
-			date = new Date();
+			date = new Date(),
+			picture = new FormData();
+		
+		
 		
 		var colorLength = <%= MyclassCommon.classColor.length %>;
 		
-		console.log (new Date(Date.parse(form.startDate.value) + startTime[0] * 60 * 60 * 1000 + startTime[1] * 60 * 1000));
+		console.log (Date.parse(form.startDate.value) + startTime[0] * 60 * 60 * 1000 + startTime[1] * 60 * 1000);
 		
-		picture.append("id", 0);
+		if ( id ) {
+			picture.append("id", id);
+			
+			if ( oldFileName !== $(".file-name").val() ) {
+				picture.append("oldFileName", oldFileName);
+			}
+		} else {
+			picture.append("id", 0);
+		}
+		
 		picture.append("name", form.name.value);
 		picture.append("startDate", Date.parse(form.startDate.value) + startTime[0] * 60 * 60 * 1000 + startTime[1] * 60 * 1000);
 		picture.append("endDate", Date.parse(form.endDate.value) + endTime[0] * 60 * 60 * 1000 + endTime[1] * 60 * 1000);
@@ -503,9 +556,14 @@
 		picture.append("subject", form.subject.value);
 		picture.append("summary", form.summary.value);
 		picture.append("days", 0);
-		picture.append("classesViewType", 1);
+		picture.append("classesViewType", classesType);
 		picture.append("color", classesType == 1 ? color : Math.floor(Math.random() * colorLength));
-		picture.append("picture", classesType != 1 ? $("#classesImg")[0].files[0] : "");
+		
+		if ( classesType != 1 ) {
+			picture.append("picture", pictureChange > 0 ? $("#classesImg")[0].files[0] : $(".file-name").val());	
+		} else {
+			picture.append("picture", "");
+		}
 		picture.append("thumbnail", "");
 		picture.append("finished", 0);
 		picture.append("maxNum", 30);
@@ -544,6 +602,7 @@
 		reader.readAsDataURL(this.files[0]);
 		
 		$(this).next().val(event.target.value);
+		pictureChange = 1;
 		
 		console.log("change");
 		console.log(event.target.result);

@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Megrim);
 
+html, body {
+	height: 100%;
+}
+
 .mouse-pointer {
 	cursor: pointer;
 }
@@ -9,11 +13,12 @@
 /* .modal-content .modal-header { */
 /* 	padding-bottom: 24px; */
 /* } */
-.info-text {
+p.info-text {
 	font-size: 12px;
 	font-family: dotum, "돋움", sans-serif;
+    clear: both;
 }
-.error-msg {
+p.error-msg {
 	color: #f00
 }
 li {
@@ -21,6 +26,8 @@ li {
 }
 
 #wrap {
+	overflow-x: hidden;
+	height: 100%;
 }
 #header {
 	background: #e66659;
@@ -156,11 +163,16 @@ li {
 	padding: 0;
 }
 .quick-menu li {
+	display: block;
 	float: left;
 	position: relative;
 	margin: 20px 5px;
 	font-size: 20px;
 	cursor: pointer;
+}
+.quick-menu li a {
+	color: #fff;
+	font-size: 20px;
 }
 .quick-menu span {
 	display: none;
@@ -202,6 +214,7 @@ li {
 	max-width: 1280px;
 }
 .content {
+	margin-top: 10px;
 	position: relative;
 }
 .calendar-wrap {
@@ -236,7 +249,6 @@ li {
 }
 
 .box-layout {
-	overflow: hidden;
 	margin-bottom: 10px;
 	box-shadow: 0 0 5px rgba(0, 0, 0,.2);
 	border-radius: 5px;
@@ -250,18 +262,20 @@ li {
     padding: 15px 10px;
     background: #f7f7f7;
     border-bottom: 1px solid #e0e0e0;
+    border-radius: 5px 5px 0 0;
 }
-.box-layout h4 {
-	margin: 0 0 10px;
-	padding: 10px 0;
-	border-bottom: 1px solid #afafaf;
+.fix-title {
+	height: 51px;
 }
 .box-layout ul {
 	margin: 0;
 	padding: 0;
 }
 .box-padding {
-	padding: 0 15px;
+	padding: 0 10px;
+}
+.padding-box {
+	padding: 10px;
 }
 
 .tab-content>.tab-pane {
@@ -291,19 +305,19 @@ li {
 }
 @media (max-width: 522px) {
 	.content {
-		width: 264px;
+		width: 100%;
 	}
 }
 @media (max-width: 768px) {
 	#header {
-		position: fixed;
+/* 		position: fixed; */
 		width: 100%;
 		z-index: 1002;
 		box-shadow: 0 3px 5px rgba(0,0,0,.1);
 	}
 	
 	#container {
-		padding-top: 100px;
+/* 		padding-top: 100px; */
 	}
 	body {
 /* 		background: #fff; */
@@ -318,6 +332,11 @@ li {
 		height: 5000px;
 		color: #B8B8B8;
 	}
+	.profile-zone {
+		padding: 20px 10px;
+		text-align: center;
+		border-bottom: 1px solid rgba(0, 0, 0, .1)
+	}
 	.gnb ul {
 		float: none;
 		border-bottom: 1px solid rgba(265, 265, 265,.08);
@@ -329,9 +348,6 @@ li {
 		border-bottom: 1px solid rgba(0, 0, 0, .1);
 		font-size: 1.3em;
 		text-indent: 10px;
-	}
-	.gnb li:first-child {
-		border-top: 0;
 	}
 	.gnb li:hover {
 		background: rgba(0,0,0,.1)
@@ -392,3 +408,80 @@ li {
 	}
 }
 
+.visibility {
+	float: left;
+	display: inline-block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 1px;
+}
+.visibility + i {
+	padding-top: 3px;
+}
+
+.more-btn {
+	background: none;
+	border: 0;
+	font-size: 20px;
+}
+
+/* custom tab menu */
+.custom-tab-menu {
+	overflow: hidden;
+	display: inline-block;
+	border: 1px solid #245580;
+	border-radius: 5px;
+}
+.custom-tab-menu.row {
+	margin: 0;
+	padding: 0;
+}
+.custom-tab-menu > li {
+	float: left;
+	margin-left: -1px;
+}
+.custom-tab-menu > li:first-child {
+	border-left: 0;
+}
+.custom-tab-menu > li:last-child {
+	border-right: 0;
+}
+.custom-tab-menu > li > a {
+	display: block;
+	padding: 5px 15px;
+	border-bottom: 1px solid transparent;
+	font-weight: bold;
+	text-decoration: none;	
+}
+.custom-tab-menu > li.active {
+	background: #245580;
+}
+.custom-tab-menu > li.active a {
+	color: #fff;
+}
+
+
+/* bootstrap */
+.help-block {
+	font-family: dotum, "돋움";
+}
+
+.user {
+	width: 130px;
+	max-height: 130px;
+	object-fit: cover;
+    object-position: top;
+}
+.divider {
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid #e0e0e0;
+}
+.dropdown-menu>li>a {
+	padding: 10px;
+}
+.init {
+	margin-left: -15px;
+	margin-right: -15px;
+	
+}

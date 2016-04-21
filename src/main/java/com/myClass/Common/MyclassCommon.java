@@ -2,6 +2,7 @@ package com.myClass.Common;
 
 public class MyclassCommon {
 	public static String appName = "우리반";
+	public static String enAppName = "myClass";
 	
 	public static int adminType = 0;
 	public static int teacherType = 1;
@@ -58,5 +59,36 @@ public class MyclassCommon {
 			"midd_list", //중학교
 			"high_list" //고등학교
 	};
+	
+	public static String [][] schoolRegion = {
+            {"100260", "서울특별시"},
+            {"100267", "부산광역시"},
+            {"100269", "인천광역시"},
+            {"100271", "대전광역시"},
+            {"100272", "대구광역시"},
+            {"100273", "울산광역시"},
+            {"100275", "광주광역시"},
+            {"100276", "경기도"},
+            {"100278", "강원도"},
+            {"100280", "충청북도"},
+            {"100281", "충청남도"},
+            {"100282", "전라북도"},
+            {"100283", "전라남도"},
+            {"100285", "경상북도"},
+            {"100291", "경상남도"},
+            {"100292", "제주도"}
+	};
+	
+	public static String[] subject = {
+			"수학",
+			"국어"
+	};
+	
+	public static int early = 0;
+	public static int invite = 1;
+	public static int complete = 2;
+	public static int withdrawal = 3;
+	
+	public static String jusoApiKey = "0ca91af6a632400daf52611c45f2cda6";
 
 }

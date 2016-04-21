@@ -34,8 +34,19 @@ public class UserDao {
 			member.setMemId(rs.getString("mem_id"));
 			member.setMemPw(rs.getString("mem_pw"));
 			member.setName(rs.getString("name"));
+			member.setEmail(rs.getString("email"));
+			member.setPhone(rs.getString("phone"));
 			member.setUserType(rs.getInt("user_type"));
 			member.setMainColor(rs.getInt("main_color"));
+			member.setGender(rs.getInt("gender"));
+			member.setProfile(rs.getString("profile"));
+			member.setSchool(rs.getString("school"));
+			if ( rs.getTimestamp("created") != null ) {
+				member.setCreated(rs.getTimestamp("created").getTime());
+			}
+			member.setBirthdayYear(rs.getInt("birthday_year"));
+			member.setBirthdayMonth(rs.getInt("birthday_month"));
+			member.setBirthdayDay(rs.getString("birthday_day"));
 			
 			return member;
 		}
@@ -110,7 +121,29 @@ public class UserDao {
 		
 		try {
 			
+			if ( member.getId() > 0 ) {
+				
+			}
+			
 			if ( member.getUserType() == 1 ) {
+				
+				if ( member.getId() > 0 ) {
+					sql = getQuery.get("teacherDao.update");
+					Object[] params = {
+						member.getName(),
+						member.getEmail(),
+						member.getPhone(),
+						member.getGender(),
+						member.getBirthdayYear(),
+						member.getBirthdayMonth(),
+						member.getBirthdayDay(),
+						member.getProfile(),
+						member.getId()
+					};
+					
+					return jdbcTemplate.update(sql, params);
+				}
+				
 				sql = getQuery.get("teacherDao.setMember");
 				Object[] params = {
 					member.getMemId(),
@@ -160,7 +193,7 @@ public class UserDao {
 						pstm.setInt (7, member.getGender() );
 						pstm.setInt (8, member.getBirthdayYear() );
 						pstm.setInt (9, member.getBirthdayMonth() );
-						pstm.setInt (10, member.getBirthdayDay() );
+						pstm.setString (10, member.getBirthdayDay() );
 						return pstm;
 					}
 				},keyHolder);

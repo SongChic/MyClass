@@ -95,7 +95,7 @@ label.control-label {
 	padding: 10px;
 	width: 100%;
 	height: 100%;
-	background: url("../img/gradient.png") repeat-x top;
+	background: url("../img/gradient.png") repeat-x bottom;
 	color: #fff;
 }
 .classes-wrap:hover ul {

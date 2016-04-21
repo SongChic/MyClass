@@ -2,7 +2,9 @@ package com.myClass.Dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,10 +32,19 @@ public class StudentDao {
 			member.setMemId(rs.getString("mem_id"));
 			member.setMemPw(rs.getString("mem_pw"));
 			member.setName(rs.getString("name"));
+			member.setEmail(rs.getString("email"));
+			member.setPhone(rs.getString("phone"));
 			member.setUserType(rs.getInt("user_type"));
 			member.setMainColor(rs.getInt("main_color"));
-			
+			member.setGender(rs.getInt("gender"));
+			member.setProfile(rs.getString("profile"));
 			member.setSchool(rs.getString("school"));
+			if ( rs.getTimestamp("created") != null ) {
+				member.setCreated(rs.getTimestamp("created").getTime());
+			}
+			member.setBirthdayYear(rs.getInt("birthday_year"));
+			member.setBirthdayMonth(rs.getInt("birthday_month"));
+			member.setBirthdayDay(rs.getString("birthday_day"));
 			return member;
 		}
 	};
@@ -47,6 +58,67 @@ public class StudentDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public List<Map<String, Object>> getTeacher (int studentId) {
+		String sql = getQuery.get("studentDao.getTeacher");
+		Object[] params = {
+			studentId	
+		};
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public List<Map<String, Object>> findTeacher (String name) {
+		String sql = getQuery.get("studentDao.findTeacher");
+		Object[] params = {
+			"%" + name + "%"	
+		};
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public int classRequest ( int teacherId, int studentId ) {
+		String sql = getQuery.get("studentDao.classRequest");
+		Object[] params = {
+				teacherId,
+				studentId
+		};
+		
+		try {
+			return jdbcTemplate.update(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int requestCancel (int teacherId, int StudentId) {
+		String sql = getQuery.get("studentDao.requestCancel");
+		Object[] params = {
+			teacherId,
+			StudentId
+		};
+		
+		try {
+			return jdbcTemplate.update(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
+		
+		return 0;
 	}
 	
 }

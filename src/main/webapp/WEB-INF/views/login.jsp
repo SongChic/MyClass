@@ -75,6 +75,9 @@
 	</div>
 </div>
 
+<script type="text/javascript">
+var ctx = "${ctx }";
+</script>
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript" src="${ctx }/js/library/jquery.tmpl.js" ></script>
@@ -102,6 +105,23 @@
   				<button type="button" class="btn btn-default active" data-item="3">학생</button>
 				<button type="button" class="btn btn-default" data-item="2">부모님</button>
 				<button type="button" class="btn btn-default" data-item="1">선생님</button>
+			</div>
+
+			<div class="form-group">
+				<label>프로필</label>
+				<div class="profile-wrap row">
+					<div class="col-xs-12 row">
+						<div class="photo-zone mouse-pointer" onclick="document.all.profile.click(); return false;">
+							<i class="fa fa-camera" aria-hidden="true"></i>
+						</div>
+						<div class="photo-input">
+							<input type="file" id="profile" name="profile" style="display: none;">
+							
+							<button class="btn btn-success" onclick="document.all.profile.click(); return false;">파일 선택</button>
+							<p class="help-block">파일을 선택해주세요.</p>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="form-group">
@@ -443,60 +463,55 @@
 		}
 		
 		// sign up process
+		var formData = new FormData();
+		
+		formData.append("id", 0);
+		
+		formData.append("profile", $("#profile").val() != "" ? $("#profile")[0].files[0] : "");
+		
+		formData.append("memId", form.id.value);
+		formData.append("memPw", form.pw1.value);
+		formData.append("name", form.name.value);
+		formData.append("email", form.email.value);
+		formData.append("phone", form.phone.value);
+		formData.append("userType", userType);
+		formData.append("gender", gender);
+		formData.append("birthdayYear", form.year.value);
+		formData.append("birthdayMonth", form.month.value);
+		formData.append("birthdayDay", form.day.value);
+		
 		if ( userType == 3 ){
-			var ajaxData = {
-				memId : form.id.value,
-				memPw : form.pw1.value,
-				name : form.name.value,
-				email : form.email.value,
-				phone : form.phone.value,
-				userType : userType,
-				gender : gender,
-				birthdayYear : form.year.value,
-				birthdayMonth : form.month.value,
-				birthdayDay : form.day.value,
-				schoolName : form.schoolName.value
-			};
+			formData.append("schoolName", form.schoolName.value);
 		} else if ( userType == 2 ) {
-			var ajaxData = {
-					memId : form.id.value,
-					memPw : form.pw1.value,
-					name : form.name.value,
-					email : form.email.value,
-					phone : form.phone.value,
-					userType : userType,
-					gender : gender,
-					birthdayYear : form.year.value,
-					birthdayMonth : form.month.value,
-					birthdayDay : form.day.value,
-					studentArr : studentArr.toString()
-				};
+			formData.append("studentArr", studentArr.toString());
 		} else if ( userType == 1 ) {
-			var ajaxData = {
-					memId : form.id.value,
-					memPw : form.pw1.value,
-					name : form.name.value,
-					email : form.email.value,
-					phone : form.phone.value,
-					userType : userType,
-					gender : gender,
-					birthdayYear : form.year.value,
-					birthdayMonth : form.month.value,
-					birthdayDay : form.day.value,
-					slogan : form.slogan.value
-				};
+			formData.append("slogan", form.slogan.value);
 		}
 		
-		publicAjax ( "post", "${ctx }/rest/setMember", ajaxData, function ( response ){
-			if ( response == 1) {
-				alert("회원가입에 성공했습니다.");
-				location.reload();
-			} else {
-				return alert("서버에 문제가 있습니다.\n 개발자에게 문의해주세요.");
+		$.ajax({
+			dataType : 'json',
+            url : "${ctx }/rest/setMember",
+            data : formData,
+            type : "POST",
+            enctype: 'multipart/form-data',
+            processData: false, 
+            contentType: false
+        }).done( function( response ) {
+        	
+        	if ( response > 0 ) {
+				location.href = "${ctx }/teacher/classes/manageClasses?type=1";
 			}
-		});
+        	
+        }).fail ( function ( response ){
+        	
+        });
 		
 	}
+	
+	$("#login").tmpl().appendTo($container);
+	$(".login-wrap").css({left : 0});
+	$.material.init();
+	
 	$container.on("click", ".tmpl-btn", function ( event ) {
 		
 		if ( $(this).closest(".tmpl-type").hasClass("login-box") ) {
@@ -701,9 +716,6 @@
 		$("#findSchoolModal").modal("show");
 	});
 	
-	$("#login").tmpl().appendTo($container);
-	$(".login-wrap").css("left",0);
-	
 	function findStudent (form) {
 		if ( form.studentName.value == "" ) {
 			$(form).find(".info-text").removeClass("hide").addClass("show");
@@ -907,6 +919,19 @@
 		$(".student-name-text").val( studentName.toString() );
 		$("#findStudentModal").modal( "hide" );
 		
+	});
+	
+	$container.on("change", "#profile", function (event) {
+		if ( this.files && this.files[0] ) {
+			var reader = new FileReader();
+			reader.onload = function ( e ) {
+				
+				var imgHtml = "<img src='" + e.target.result + "' class='user' >";
+				$container.find(".photo-zone").html(imgHtml);
+				
+			}
+		}
+		reader.readAsDataURL(this.files[0]);
 	});
 </script>
 </body>

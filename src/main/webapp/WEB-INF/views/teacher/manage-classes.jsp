@@ -44,6 +44,12 @@
 	<div id="header">
 			<div class="gnb row">
 				<div class="gnb-wrap row">
+				
+					<div class="visible-xs profile-zone">
+						<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}">
+						<h3>${member.name }</h3>
+					</div>
+					
 					<ul class="row">
 						<c:choose>
 							<c:when test="${member.userType == 2 }">
@@ -70,6 +76,12 @@
 				
 				<div class="quick-menu pull-right">
 					<ul class="row">
+						<li class="visible-xs">
+							<a href="${ctx }/">
+								<i class="fa fa-home" aria-hidden="true"></i>
+								<span><i class="fa fa-caret-up"></i>메인으로</span>
+							</a>
+						</li>
 						<li>
 							<i class="fa fa-users"></i>
 							<span><i class="fa fa-caret-up"></i>그룹채팅</span>
@@ -172,10 +184,10 @@
 						<button type="button" class="btn btn-primary gradient pull-left" onclick="location.href='${ctx}/teacher/classes/setClasses'">반만들기</button>
 						
 						<div class="btn-group pull-right">
-							<button type="button" class="btn btn btn-default gradient"><i class="fa fa-cog"></i></button>
+							<button type="button" class="btn btn btn-default gradient"><span class="visibility">더보기</span><i class="fa fa-cog"></i></button>
 							<button type="button" class="btn btn btn-default gradient dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-								<span class="sr-only">Toggle Dropdown</span>
+								<span class="visibility">더보기</span>
+								<i class="fa fa-caret-down" aria-hidden="true"></i>
 							</button>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#">요일순</a></li>
@@ -192,10 +204,77 @@
 				
 						<c:forEach items="${classes }" var="classes">
 						
-							<fmt:formatDate value="${classes.end_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
-							<c:set value="${format_date }" var="end_date" />
+							<fmt:formatDate value="${classes.start_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+							<c:set value="${format_date }" var="start_date" />
 							<%
-								Date dateParse = sdf.parse((String) pageContext.getAttribute("end_date"));
+								Date dateParse = sdf.parse((String) pageContext.getAttribute("start_date"));
+								long parseDate = dateParse.getTime();
+							%>
+							<c:set value="<%= parseDate %>" var="parseDate"/>
+							
+							<c:if test="${classes.finished == 0 and parseDate > date  }">
+							<div class="classes-item">
+								<c:set value="${classes.color }" var="color"/>
+									<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+									
+									<c:if test="${not empty classes.picture }">
+										<img class="classes-img lazy" data-original="${ctx }/img/data/${classes.picture }">
+									</c:if>
+									
+									<div class="title-wrap">
+										<h4 class="title">${classes.name }</h4>
+									</div>
+									
+									
+									<div class="item mouse-pointer" data-item="${classes.id }">
+										<div class="left-btn-wrap">
+											<button type="button" class="btn btn-danger btn-sm edit-btn" data-item="${classes.id }">
+												<i class="fa fa-pencil"></i> 수정
+											</button>	
+										</div>
+										<div class="right-btn-wrap">
+											<button type="button" class="btn btn-default btn-sm end-btn" data-item="${classes.id }">
+												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-default btn-sm delete-btn" data-item="${classes.id }">
+												<i class="fa fa-times" aria-hidden="true"></i>
+											</button>
+										</div>
+										<a href="" data-item="${classes.id }"></a>
+									</div>
+									
+								</div>
+								<ul class="classes-info">
+									<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+									<c:choose>
+										<c:when test="${classes.days == 0}">
+										</c:when>
+										<c:otherwise>
+											<li>요일 : </li>
+										</c:otherwise>
+									</c:choose>
+									
+									<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
+									<li>인원 : ${classes.number }</li>
+									<li class="divider"></li>
+									<li class="creator">${classes.teacher_name }</li>
+								</ul>
+							</div>
+							</c:if>
+						</c:forEach>
+					
+					</div>
+
+				</div>
+			    <div role="tabpanel" class="tab-pane fade" id="profile">
+			    	<div class="content classes-content">
+				
+						<c:forEach items="${classes }" var="classes">
+							
+							<fmt:formatDate value="${classes.start_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+							<c:set value="${format_date }" var="start_date" />
+							<%
+								Date dateParse = sdf.parse((String) pageContext.getAttribute("start_date"));
 								long parseDate = dateParse.getTime();
 							%>
 							<c:set value="<%= parseDate %>" var="parseDate"/>
@@ -213,7 +292,7 @@
 								</c:choose>
 									
 									<c:if test="${not empty classes.picture }">
-										<img src="${ctx }/img/data/${classes.picture }">
+										<img class="classes-img lazy" data-original="${ctx }/img/data/${classes.picture }">
 									</c:if>
 									
 									<div class="title-wrap">
@@ -222,17 +301,23 @@
 									
 									<div class="item mouse-pointer">
 										<div class="left-btn-wrap">
-											<button type="button" class="btn btn-danger btn-sm">
+											<button type="button" class="btn btn-danger btn-sm edit-btn" data-item="${classes.id }">
 												<i class="fa fa-pencil"></i> 수정
 											</button>	
 										</div>
 										<div class="right-btn-wrap">
+											<button type="button" class="btn btn-default btn-sm end-btn" data-item="${classes.id }">
+												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-default btn-sm delete-btn" data-item="${classes.id }">
+												<i class="fa fa-times" aria-hidden="true"></i>
+											</button>
 										</div>
 									</div>
 									
 								</div>
 								<ul class="classes-info">
-									<li>기간 : </li>
+									<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
 									<c:choose>
 										<c:when test="${classes.days == 0}">
 										</c:when>
@@ -241,73 +326,7 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<li>시간 : </li>
-									<li>인원 : ${classes.number }</li>
-									<li class="divider"></li>
-									<li class="creator">${classes.teacher_name }</li>
-								</ul>
-							</div>
-							</c:if>
-						</c:forEach>
-					
-					</div>
-
-				</div>
-			    <div role="tabpanel" class="tab-pane fade" id="profile">
-			    	<div class="content classes-content">
-				
-						<c:forEach items="${classes }" var="classes">
-							
-							<fmt:formatDate value="${classes.end_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
-							<c:set value="${format_date }" var="end_date" />
-							<%
-								Date dateParse = sdf.parse((String) pageContext.getAttribute("end_date"));
-								long parseDate = dateParse.getTime();
-							%>
-							<c:set value="<%= parseDate %>" var="parseDate"/>
-							
-							<c:if test="${classes.finished == 0 and parseDate > date  }">
-							<div class="classes-item">
-								<c:set value="${classes.color }" var="color"/>
-								<c:choose>
-									<c:when test="${not empty classes.picture }">
-										<div class="view img" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-									</c:when>
-									<c:otherwise>
-										<div class="view" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-									</c:otherwise>
-								</c:choose>
-									
-									<c:if test="${not empty classes.picture }">
-										<img src="${ctx }/img/data/${classes.picture }">
-									</c:if>
-									
-									<div class="title-wrap">
-										<h4 class="title">${classes.name }</h4>
-									</div>
-									
-									<div class="item mouse-pointer">
-										<div class="left-btn-wrap">
-											<button type="button" class="btn btn-danger btn-sm">
-												<i class="fa fa-pencil"></i> 수정
-											</button>	
-										</div>
-										<div class="right-btn-wrap">
-										</div>
-									</div>
-									
-								</div>
-								<ul class="classes-info">
-									<li>기간 : </li>
-									<c:choose>
-										<c:when test="${classes.days == 0}">
-										</c:when>
-										<c:otherwise>
-											<li>요일 : </li>
-										</c:otherwise>
-									</c:choose>
-									
-									<li>시간 : </li>
+									<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
 									<li>인원 : ${classes.number }</li>
 									<li class="divider"></li>
 									<li class="creator">${classes.teacher_name }</li>
@@ -336,7 +355,7 @@
 								</c:choose>
 								
 									<c:if test="${not empty classes.picture }">
-										<img src="${ctx }/img/data/${classes.picture }">
+										<img class="classes-img lazy" data-original="${ctx }/img/data/${classes.picture }">
 									</c:if>
 									
 									<div class="title-wrap">
@@ -345,17 +364,20 @@
 									
 									<div class="item mouse-pointer">
 										<div class="left-btn-wrap">
-											<button type="button" class="btn btn-danger btn-sm">
+											<button type="button" class="btn btn-danger btn-sm edit-btn" data-item="${classes.id }">
 												<i class="fa fa-pencil"></i> 수정
 											</button>	
 										</div>
 										<div class="right-btn-wrap">
+											<button type="button" class="btn btn-default btn-sm end-btn" data-item="${classes.id }">
+												<i class="fa fa-trash" aria-hidden="true"></i>
+											</button>
 										</div>
 									</div>
 									
 								</div>
 								<ul class="classes-info">
-									<li>기간 : </li>
+									<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
 									<c:choose>
 										<c:when test="${classes.days == 0}">
 										</c:when>
@@ -364,7 +386,7 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<li>시간 : </li>
+									<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
 									<li>인원 : ${classes.number }</li>
 									<li class="divider"></li>
 									<li class="creator">${classes.teacher_name }</li>
@@ -386,17 +408,24 @@
 		</div>
 </div>
 
+<script type="text/javascript">
+var ctx = "${ctx }";
+</script>
+
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript" src="${ctx }/js/library/masonry.js"></script>
 <script type="text/javascript">
 	
 	var $container = $('.classes-content');
-	$container.masonry({
-		// options
-		itemSelector: '.classes-item',
-		columnWidth: 254,
-		originLeft: true
-	});
+	 $(".lazy").lazyload({
+		  load : function () {
+			  $container.masonry({
+		    	 	itemSelector: '.classes-item',
+		  		  	columnWidth: 254,
+		  		  	originLeft: true
+		      });   
+		  }
+	  });
 	
 	$(".tab-menu").on("click", "li" , function ( event) {
 		$(window).resize();
@@ -406,12 +435,43 @@
 	  var $this = $(this);
 
 	  $this.on('shown.bs.tab', function () {
-	      $container.masonry({
-    	 	itemSelector: '.classes-item',
-  		  	columnWidth: 254,
-  		  	originLeft: true
-	      });   
+		  $(".lazy").lazyload({
+			  load : function () {
+				  $container.masonry({
+			    	 	itemSelector: '.classes-item',
+			  		  	columnWidth: 254,
+			  		  	originLeft: true
+			      });   
+			  }
+		  });
+	      
 	  });
+	});
+	
+	$(".edit-btn").on("click", function ( event ) {
+        event.preventDefault();
+		var id = $(this).attr("data-item");
+        
+        if ( id ) {
+            location.href="${ctx }/teacher/classes/setClasses?id=" + id;
+        } 
+        
+    });
+	
+	$(".item").on("click", "a", function ( event ) {
+		event.preventDefault();
+		var id = $(this).attr("data-item");
+		console.log("pass");
+		location.href="${ctx }/teacher/classes/classRoom?id=" + id;
+	});
+	
+	$(document).ready(function(event) {
+//		if ( $(this).width() < 332 ) {
+//			$("#container").css("paddingTop", $("#header").outerHeight());
+//		} else {
+//			$("#container").removeAttr("style");
+//		}
+		
 	});
 	
 </script>

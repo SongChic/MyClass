@@ -137,3 +137,22 @@ html {
 	border-bottom: 0;
 	
 }
+
+/* profile zone */
+.photo-zone,
+.photo-input {
+	float: left;
+}
+.photo-zone {
+	margin: 0 10px 10px 0;
+	width: 130px;
+	height: 130px;
+	
+    border: 1px solid #ccc;
+    color: #ccc;
+	text-align: center;
+	font-size: 40px;
+}
+.photo-zone i {
+	line-height: 130px;
+}

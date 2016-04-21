@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.myClass.Common.FileUpload;
+import com.myClass.Dao.TeacherDao;
 import com.myClass.Model.Classes;
 import com.myClass.Service.ClassesService;
+import com.myClass.Service.TeacherService;
 
 
 @Controller
@@ -35,54 +38,39 @@ public class TeacherRestController {
 	@Autowired
 	ClassesService classesService;
 	
+	@Autowired
+	TeacherService teacherService;
+	
 	@RequestMapping(value="/rest/teacher/setClass", method={ RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseEntity<Integer> setClass (
+			Principal principal,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			MultipartHttpServletRequest request) {
 		
 		
 		Classes classes = new Classes();
 		
+        FileUpload fileUpload = new FileUpload("/WEB-INF/views/img", request);
+        
+//        fileUpload.setDir("/WEB-INF/views/img");
+//        fileUpload.setRequest(request);
+        
+        System.out.println("oldFileName null check : ");
+        System.out.println(request.getParameter("oldFileName") != null);
+        
+        if ( request.getParameter("oldFileName") != null ) {
+        	fileUpload.setOldFileName(request.getParameter("oldFileName"));
+        }
+        
+        String fileNames = fileUpload.upload();
+        
 		Iterator<String> iterator = request.getFileNames();
 		
 		if ( iterator.hasNext() ) {
-			
-			MultipartFile multipartFile = request.getFile(iterator.next());
-			
-			try {
-				
-				 String path = httpServletRequest.getSession().getServletContext().getRealPath("/WEB-INF/views/img");
-				
-				/* 파일 이름 (yyyyMMddHHmmss) + (fileName) */
-				SimpleDateFormat filePrefix = new SimpleDateFormat("yyyyMMddHHmmss_");
-				Date date = new Date();
-				String fileName=multipartFile.getOriginalFilename();
-				
-				/* 폴더 체크 및 생성 */
-				File directory = new File( path + "/data/" );
-				
-				if ( !directory.exists() ) {
-					directory.mkdirs();
-				}
-				
-				/* 파일 저장 */
-				File file = new File(directory.getAbsolutePath() + "\\" + filePrefix.format(date) + fileName);
-				byte[] bytes = multipartFile.getBytes();
-				
-				BufferedOutputStream stream = new BufferedOutputStream( new FileOutputStream(file) );
-				
-				stream.write(bytes);
-				stream.close();
-				
-				classes.setPicture(file.getName());
-				
-			} catch ( Exception e ) {
-				e.printStackTrace();
-			}
-			
+			classes.setPicture(fileNames);
 		} else {
-			classes.setPicture("");
+			classes.setPicture(request.getParameter("picture"));
 			classes.setThumbnail("");
 		}
 		
@@ -96,6 +84,7 @@ public class TeacherRestController {
 		classes.setDays(Integer.parseInt(request.getParameter("days")));
 		classes.setClassesViewType(Integer.parseInt(request.getParameter("classesViewType")));
 		classes.setColor(Integer.parseInt(request.getParameter("color")));
+		
 
 		classes.setFinished(Integer.parseInt(request.getParameter("finished")));
 		classes.setMaxNum(Integer.parseInt(request.getParameter("maxNum")));
@@ -155,7 +144,24 @@ public class TeacherRestController {
 //		Iterator<String> integer = request.getFileNames();
 //		MultipartFile multipartFile = request.getFile(integer.next());
 		
-		System.out.println(request.getParameter("text"));
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType( MediaType.APPLICATION_JSON );
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping("/rest/teacher/addClassStudent")
+	public ResponseEntity<Integer> addClassStudent (
+			@RequestParam(value="classIds") String classIds,
+			@RequestParam(value="teacherId") int teacherId,
+			@RequestParam(value="studentId") int studentId,
+			HttpServletRequest request, HttpServletResponse response) {
+		int req = 0;
+		String[] classArray = classIds.split(",");
+		
+		System.out.println(Arrays.toString(classArray));
+		
+		req = teacherService.addClassStudent(Arrays.toString(classArray), teacherId, studentId);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );

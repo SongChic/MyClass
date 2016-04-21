@@ -23,7 +23,6 @@ public class GetQuery extends PropertyPlaceholderConfigurer {
         this.properties = Collections.unmodifiableMap(properties);
     }
 
-
     public String get(String key) {
         return this.properties.get(key);
     }

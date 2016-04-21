@@ -6,8 +6,15 @@
 <script type="text/javascript" src="${ctx }/js/library/jquery.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/jquery-ui.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/bootstrap.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/less.min.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/material.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/jquery.mCustomScrollbar.js" ></script>
+
+<script type="text/javascript" src="${ctx }/js/library/lazyload.js" ></script>
+
+<script type="text/javascript" src="${ctx }/js/library/jquery.validate.min.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/additional-methods.min.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/messages_ko.min.js" ></script>
 
 <script type="text/javascript" src="${ctx }/js/library/moment.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/moment.lang.ko.js" ></script>
