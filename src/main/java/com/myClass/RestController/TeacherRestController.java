@@ -150,7 +150,7 @@ public class TeacherRestController {
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
 	
-	@RequestMapping("/rest/teacher/addClassStudent")
+	@RequestMapping(value="/rest/teacher/addClassStudent", method={ RequestMethod.GET, RequestMethod.POST })
 	public ResponseEntity<Integer> addClassStudent (
 			@RequestParam(value="classIds") String classIds,
 			@RequestParam(value="teacherId") int teacherId,
@@ -159,9 +159,39 @@ public class TeacherRestController {
 		int req = 0;
 		String[] classArray = classIds.split(",");
 		
-		System.out.println(Arrays.toString(classArray));
-		
 		req = teacherService.addClassStudent(Arrays.toString(classArray), teacherId, studentId);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType( MediaType.APPLICATION_JSON );
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rest/teacher/deleteStudentFromClass", method={ RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public ResponseEntity<Integer> requestCancel (
+			@RequestParam(value="teacherId") int teacherId,
+			@RequestParam(value="studentId") int studentId,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		int req = teacherService.deleteStudentFromClass(teacherId, studentId);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType( MediaType.APPLICATION_JSON );
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rest/teacher/studentStateUpdate", method={ RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public ResponseEntity<Integer> studentStateUpdate (
+			@RequestParam(value="teacherId") int teacherId,
+			@RequestParam(value="studentId") int studentId,
+			@RequestParam(value="state") int state,
+			@RequestParam(value="studentState") int studentState,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		int req = teacherService.studentStateUpdate(teacherId, studentId, state, studentState);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );

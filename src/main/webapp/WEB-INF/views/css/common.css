@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Megrim);
-
+* html .clearfix { height: 1%; }
 html, body {
 	height: 100%;
 }
@@ -329,7 +329,7 @@ li {
 		left: -260px;
 		padding: 0;
 		width: 260px;
-		height: 5000px;
+		height: 100%;
 		color: #B8B8B8;
 	}
 	.profile-zone {
@@ -483,5 +483,4 @@ li {
 .init {
 	margin-left: -15px;
 	margin-right: -15px;
-	
 }

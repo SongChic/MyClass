@@ -20,5 +20,6 @@
 <script type="text/javascript" src="${ctx }/js/library/moment.lang.ko.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/fullcalendar.js" ></script>
 <script type="text/javascript" src="${ctx }/js/library/bootstrap-datetimepicker.js" ></script>
+<script type="text/javascript" src="${ctx }/js/library/bootbox.js" ></script>
 
 <script type="text/javascript" src="${ctx }/js/myclass-common.js" ></script>

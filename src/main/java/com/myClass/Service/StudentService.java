@@ -22,15 +22,19 @@ public class StudentService {
 		return studentDao.getTeacher(studentId);
 	}
 	
-	public List<Map<String, Object>> findTeacher (String name) {
-		return studentDao.findTeacher(name);
+	public List<Map<String, Object>> findTeacher (String name, String studentId) {
+		return studentDao.findTeacher(name, studentId);
 	}
 	
-	public int classRequest ( int teacherId, int studentId ) {
-		return studentDao.classRequest(teacherId, studentId);
+	public int classRequest ( int teacherId, int studentId, String classIds ) {
+		return studentDao.classRequest(teacherId, studentId, classIds);
 	}
 	
 	public int requestCancel (int teacherId, int StudentId) {
 		return studentDao.requestCancel(teacherId, StudentId);
+	}
+	
+	public List<Map<String, Object>> getTeacherClassName (int teacherId) {
+		return studentDao.getTeacherClassName(teacherId);
 	}
 }

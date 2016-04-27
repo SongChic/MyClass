@@ -1,13 +1,16 @@
 package com.myClass.CommonController;
 
 import java.security.Principal;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,12 +110,71 @@ public class TeacherController {
 	
 	@RequestMapping( value="/teacher/member/findStudent" )
 	public ModelAndView findStudent (
+			Principal principal, 
 			@RequestParam( value="classId", required=true ) int classId,
 			HttpServletRequest request, HttpServletResponse response
 			) {
 		ModelAndView mav = new ModelAndView("/teacher/find-student");
+		Member teacher = userService.get(principal.getName());
 		
-		mav.addObject("student", teacherService.findStudent());
+		mav.addObject("student", teacherService.findStudent( teacher.getId() ));
+		return mav;
+	}
+	
+	@RequestMapping(value="/teacher/members/manageMembers")
+	public ModelAndView manageMember (
+//			@RequestParam(value="teacherId") int teacherId,
+			Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("/teacher/member/manage-member");
+		
+		Member teacher = userService.get(principal.getName());
+		
+		List<Map<String, Object>> student = teacherService.manageMember(teacher.getId());
+		List<Map<String, Object>> students = new ArrayList<Map<String,Object>>();
+		
+		for ( int i = 0; i < student.size(); i++ ) {
+			Map<String, Object> list = new HashMap<String, Object>();
+			list.put("profile", student.get(i).get("profile"));
+			list.put("student_state", student.get(i).get("student_state"));
+			list.put("state", student.get(i).get("state"));
+			list.put("id", student.get(i).get("id"));
+			list.put("name", student.get(i).get("name"));
+			list.put("school", student.get(i).get("school"));
+			
+			String classId = (String) student.get(i).get("teacher_class_id");
+			
+			if ( classId.length() > 0 ) {
+				classId = classId.substring(1, classId.length() - 1);
+			} else {
+				classId = "0";
+			}
+			
+			List<Map<String, Object>> className = teacherService.getClassName(classId);
+			String classNames = "";
+			for (int j = 0; j < className.size(); j++) {
+				classNames += className.get(j).get("name") + ", ";
+			}
+			
+			if ( classNames.length() > 0 ) {
+				classNames = classNames.substring(0, classNames.length() - 2 );
+			}
+			
+			list.put("className", classNames);
+			students.add(list);
+		}
+		
+		
+		mav.addObject("students", students);
+		return mav;
+	}
+	
+	@RequestMapping(value="/teacher/exam/setTestPaper")
+	public ModelAndView viewTestPaper(
+			
+			HttpServletRequest request, HttpServletResponse response){
+		ModelAndView mav = new ModelAndView("/teacher/exam/set-test-paper");
+		
 		return mav;
 	}
 }

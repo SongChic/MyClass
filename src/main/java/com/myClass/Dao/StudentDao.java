@@ -75,10 +75,11 @@ public class StudentDao {
 		return new ArrayList<Map<String,Object>>();
 	}
 	
-	public List<Map<String, Object>> findTeacher (String name) {
+	public List<Map<String, Object>> findTeacher (String name, String studentId) {
 		String sql = getQuery.get("studentDao.findTeacher");
 		Object[] params = {
-			"%" + name + "%"	
+			"%" + name + "%",
+			studentId
 		};
 		
 		try {
@@ -89,11 +90,12 @@ public class StudentDao {
 		return new ArrayList<Map<String,Object>>();
 	}
 	
-	public int classRequest ( int teacherId, int studentId ) {
+	public int classRequest ( int teacherId, int studentId, String classIds ) {
 		String sql = getQuery.get("studentDao.classRequest");
 		Object[] params = {
 				teacherId,
-				studentId
+				studentId,
+				classIds
 		};
 		
 		try {
@@ -117,8 +119,27 @@ public class StudentDao {
 			e.printStackTrace();
 		}
 		
-		
 		return 0;
+	}
+	
+	public List<Map<String, Object>> getTeacherClassName (int teacherId) {
+		String sql = getQuery.get("studentDao.getTeacherClassName");
+		Object[] params = {
+			teacherId	
+		};
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public List<Map<String, Object>> getClassNames( String classIds ) {
+		String sql = getQuery.get("studentDao.getClassNames");
+		return new ArrayList<Map<String,Object>>();
 	}
 	
 }

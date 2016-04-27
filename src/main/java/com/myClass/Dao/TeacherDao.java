@@ -65,11 +65,14 @@ public class TeacherDao {
 		return 0;
 	}
 	
-	public List<Map<String, Object>> findStudent () {
+	public List<Map<String, Object>> findStudent ( int teacherId ) {
 		String sql = getQuery.get("teacherDao.findStudent");
 		
+		Object[] params = {
+				teacherId	
+		};
 		try {
-			return jdbcTemplate.queryForList(sql);
+			return jdbcTemplate.queryForList(sql, params);
 		} catch ( DataAccessException e ) {
 			e.printStackTrace();
 		}
@@ -106,6 +109,65 @@ public class TeacherDao {
 			e.printStackTrace();
 		}
 		
+		return 0;
+	}
+	
+	public List<Map<String, Object>> manageMember (int teacherId) {
+		String sql = getQuery.get("teacherDao.getStudent");
+		Object[] params = {
+			teacherId	
+		};
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public List<Map<String, Object>> getClassName (String classIds) {
+		
+		String sql = getQuery.get("teacherDao.getClassName") + " in (" + classIds + ")";
+		
+		try {
+			return jdbcTemplate.queryForList(sql);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public int deleteStudentFromClass (int teacherId, int studentId) {
+		String sql = getQuery.get("teacherDao.deleteStudentFromClass");
+		Object[] params = {
+				teacherId,
+				studentId
+		};
+		
+		try {
+			return jdbcTemplate.update(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int studentStateUpdate ( int teacherId, int studentId, int state, int studentState ) {
+		String sql = getQuery.get("teacherDao.studentStateUpdate");
+		Object[] params = {
+				state,
+				studentState,
+				teacherId,
+				studentId
+		};
+		try { 
+			return jdbcTemplate.update(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 	

@@ -51,9 +51,10 @@ public class StudentRestController {
 	@RequestMapping(value="/rest/student/teacherFind", method = {RequestMethod.GET, RequestMethod.POST} )
 	public ResponseEntity<List<Map<String, Object>>> findTeacher (
 			@RequestParam(value="name") String name,
+			@RequestParam(value="studentId") String studentId,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		List<Map<String, Object>> teacher = studentService.findTeacher(name);
+		List<Map<String, Object>> teacher = studentService.findTeacher(name, studentId);
 		
 		List<Map<String, Object>> teahcerList = new ArrayList<Map<String,Object>>();
 		for (int i = 0; i < teacher.size(); i++) {
@@ -77,9 +78,12 @@ public class StudentRestController {
 	public ResponseEntity<Integer> classRequest (
 			@RequestParam(value="teacherId") int teacherId,
 			@RequestParam(value="studentId") int studentId,
+			@RequestParam(value="classIds") String classIds,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		int req = studentService.classRequest(teacherId, studentId); 
+		int req = studentService.classRequest(teacherId, studentId, Arrays.asList(classIds).toString()); 
+		
+		System.out.println(Arrays.asList(classIds));
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );
@@ -101,5 +105,19 @@ public class StudentRestController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/rest/student/getTeacherClassName", method = {RequestMethod.GET, RequestMethod.POST})
+	public ResponseEntity<List<Map<String, Object>>> getTeacherClassName(
+			@RequestParam(value="teacherId") int teacherId,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		List<Map<String, Object>> req = studentService.getTeacherClassName(teacherId);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return new ResponseEntity<List<Map<String,Object>>>(req, headers, HttpStatus.OK);
+		
 	}
 }

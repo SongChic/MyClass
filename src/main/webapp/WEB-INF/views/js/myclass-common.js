@@ -19,9 +19,6 @@ function anywhereAjax (options, callback) {
 		return false;
 	}
 	
-	console.log( option.ajaxData );
-	console.log( option.url );
-	
 	$.ajax({
 		cache : false,
 		url : option.url,
@@ -38,7 +35,6 @@ function anywhereAjax (options, callback) {
 		return alert("서버에 문제가 있습니다.\n 개발자에게 문의해주세요.");
 	});
 	
-	console.log(option);
 }
 
 function publicAjax(method, url, ajaxData, callback) {
@@ -127,6 +123,7 @@ $(document).ready(function(event) {
 });
 
 function noticeModal (options, callback) {
+	
 	var option = {
 				title : "알림",
 				content : "",
@@ -134,22 +131,106 @@ function noticeModal (options, callback) {
 		},
 		$target = $("#noticeModal");
 	
+	/* 매개인자가 하나일때의 처리 */
+	callback = typeof options !== 'function' ? callback : options;
+	
+	
 	if ( options ) {
 		$.extend(option, options);
 	}
-	$target.find(".modal-title").html(option.title);
-	$target.find(".modal-body").html(option.content);
 	
-	$target.on("click", ".confirm-btn", function ( event ) {
-		$target.modal("hide");
-		if (callback) callback(true);
+	var appendHtml = "<div class='modal fade' id='noticeModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' data-backdrop='static'>" +
+				    "<div class='modal-dialog'>" +
+				    "<div class='modal-content'>" +
+				    "<div class='modal-header bg-primary'>" +
+				    "<h4 class='modal-title' id='myModalLabel'>Modal title</h4>" +
+				    "</div>" +
+				    "<div class='modal-body'>" +
+				    "..." +
+				    "</div>" +
+				    "<div class='modal-footer'>" +
+				    "<button type='button' class='btn btn-default cancel-btn' data-dismiss='modal'>취소</button>" +
+				    "<button type='button' class='btn btn-primary confirm-btn'>확인</button>" +
+				    "</div>" +
+				    "</div>" +
+				    "</div>" +
+				    "</div>",
+	    dialog = $(appendHtml);
+	
+	dialog.modal("show").on("keydown", function ( event ) {
+		if (event.keyCode === 27) {
+			if (typeof callback === "function" ) callback( false );
+        }
 	});
 	
-	$target.on("click", ".cancel-btn", function ( event ) {
-		if (callback) callback(false);
+	
+	dialog.on("hidden.bs.modal", function ( event ) {
+		if ( event.target == this ) {
+			dialog.remove();
+		}
 	});
 	
-	$("#noticeModal").modal("show");
+	dialog.find(".confirm-btn").on("click", function ( evetn ) {
+		if (typeof callback === "function" ) callback( true );
+		dialog.modal("hide");
+	});
+	
+	dialog.find(".modal-title").html(option.title);
+	dialog.find(".modal-body").html(option.content);
+	
+//	$target.on("mouseup", ".confirm-btn", function ( event ) {
+//		processCallback ( event, $target, callback );
+//	});
+//	
+//	$target.on("click", ".cancel-btn", function ( event ) {
+//		if (callback) callback(false);
+//	});
+//	
+//	$("#noticeModal").modal("show");
 };
 
+function processCallback ( e, dialog, callback ) {
+	event.stopPropagation();
+	event.preventDefault();
+	
+	if (typeof callback === "function") {
+		callback(true);
+		$("#noticeModal").modal("show");
+	}
+	
+}
+
+function customModal ( callback ) {
+	var appendHtml = "<div class='modal fade' id='noticeModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>" +
+    "<div class='modal-dialog'>" +
+    "<div class='modal-content'>" +
+    "<div class='modal-header bg-primary'>" +
+    "<!--         <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button> -->" +
+    "<h4 class='modal-title' id='myModalLabel'>Modal title</h4>" +
+    "</div>" +
+    "<div class='modal-body'>" +
+    "..." +
+    "</div>" +
+    "<div class='modal-footer'>" +
+    "<button type='button' class='btn btn-default cancel-btn' data-dismiss='modal'>취소</button>" +
+    "<button type='button' class='btn btn-primary confirm-btn'>확인</button>" +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "</div>",
+    dialog = $(appendHtml);
+	
+//	$body.append(appendHtml);
+	dialog.modal("show");
+	
+	dialog.find(".confirm-btn").on("click", function ( evetn ) {
+		if ( callback ) callback( true );
+		dialog.modal("hide");
+	});
+	
+	dialog.on("hidden.bs.modal", function ( event ) {
+		dialog.remove();
+	});
+	
+}
 

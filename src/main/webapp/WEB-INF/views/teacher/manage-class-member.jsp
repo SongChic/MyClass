@@ -174,55 +174,80 @@
 				    		<div class="box-padding">
 				    		
 				    			<c:forEach items="${student }" var="student">
-					    			<div class="student-item row">
-					    				<a class="student_img pull-left">
-					    					<div class="img-zone">
-					    						<img class="user lazy" data-original="${ctx }/img/profile/data/${student.profile }">
-					    					</div>
-					    				</a>
-					    				<div class="student-info-wrap clearfix">
-											<div class="pull-right student-btn">
-												<button type="button" class="btn btn-default btn-sm">초대취소</button>
-												<span class="btn-group">
-												  <button type="button" class="btn btn-default btn-sm dropdown-toggle more-btn" data-toggle="dropdown" aria-expanded="false">
-												    <span class="sr-only">더보기</span><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-												  </button>
-												  <ul class="dropdown-menu" role="menu">
-												    <li><a href="#">반배정</a></li>
-												    <li><a href="#">퇴원</a></li>
-												  </ul>
-												</span>
-											</div>
-					    					<div class="student-info">
-						    					<h4>${student.name }</h4>
-						    					<p><i class="fa fa-university" aria-hidden="true"></i>${student.school }</p>
-					    					</div>
-					    				</div>
-					    			</div>
+				    				<c:if test="${student.state == 1}">
+						    			<div class="student-item row">
+						    				<a class="student_img pull-left">
+						    					<div class="img-zone">
+						    						<img class="user lazy" data-original="${ctx }/img/profile/data/${student.profile }">
+						    					</div>
+						    				</a>
+						    				<div class="student-info-wrap clearfix">
+												<div class="pull-right student-btn">
+													<c:if test="${student.student_state == 0 }">
+														<button type="button" class="btn btn-default btn-sm request-approve" data-item="${students.id }">승인</button>
+														<button type="button" class="btn btn-default btn-sm request-cancel" data-item="${students.id }">거절</button>
+													</c:if>
+													<c:if test="${student.student_state == 1 }">
+														<button type="button" class="btn btn-default btn-sm">초대취소</button>
+													</c:if>
+													<button type="button" class="btn btn-default btn-sm add-student-btn" data-item="${student.id }"><span class="visibility">정보</span><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+	<!-- 												<span class="btn-group"> -->
+	<!-- 												  <button type="button" class="btn btn-default btn-sm dropdown-toggle more-btn" data-toggle="dropdown" aria-expanded="false"> -->
+	<!-- 												    <span class="sr-only">더보기</span><i class="fa fa-ellipsis-v" aria-hidden="true"></i> -->
+	<!-- 												  </button> -->
+	<!-- 												  <ul class="dropdown-menu" role="menu"> -->
+	<!-- 												    <li><a href="#">반배정</a></li> -->
+	<!-- 												    <li><a href="#">퇴원</a></li> -->
+	<!-- 												  </ul> -->
+	<!-- 												</span> -->
+												</div>
+						    					<div class="student-info">
+							    					<h4>${student.name }</h4>
+							    					<p><i class="fa fa-university" aria-hidden="true"></i>${student.school }</p>
+						    					</div>
+						    				</div>
+						    			</div>
+					    			</c:if>
 				    			</c:forEach>
 				    		</div>
 				    	</div>
 				    </div>
 				    
 				    <div role="tabpanel" class="tab-pane fade" id="myclass">
-				    	<div class="student-item row">
-		    				<a class="student_img pull-left">
-		    					<div class="img-zone">
-		    						<img class="user lazy" data-original="${ctx }/img/profile/data/${member.profile }">
-		    					</div>
-		    				</a>
-		    				<div class="student-info-wrap clearfix">
-		    					<div class="pull-right student-btn">
-		    						<button type="button" class="btn btn-default btn-sm">초대취소</button>
-		    						<button type="button" class="btn btn-success btn-sm"><span class="visibility">추가</span><i class="fa fa-user-plus" aria-hidden="true"></i></button>
-		    					</div>
-		    					<div class="student-info">
-			    					<h4>${member.name }</h4>
-			    					<p><i class="fa fa-university" aria-hidden="true"></i>${member.school }</p>
-			    					<p>반이름과 반이름에 가입되어있습니다.</p>
-		    					</div>
-		    				</div>
-		    			</div>
+				    	<div class="box-layout">
+				    		<div class="box-padding">
+				    		
+				    			<c:forEach items="${student }" var="student">
+				    				<c:if test="${student.state == 2}">
+						    			<div class="student-item row">
+						    				<a class="student_img pull-left">
+						    					<div class="img-zone">
+						    						<img class="user lazy" data-original="${ctx }/img/profile/data/${student.profile }">
+						    					</div>
+						    				</a>
+						    				<div class="student-info-wrap clearfix">
+												<div class="pull-right student-btn">
+													<span class="btn-group">
+													  <button type="button" class="btn btn-default btn-sm dropdown-toggle more-btn" data-toggle="dropdown" aria-expanded="false">
+													    <span class="sr-only">더보기</span><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+													  </button>
+													  <ul class="dropdown-menu" role="menu">
+													    <li><a href="#">정보</a></li>
+													    <li><a href="#">반배정</a></li>
+													    <li><a href="#">퇴원</a></li>
+													  </ul>
+													</span>
+												</div>
+						    					<div class="student-info">
+							    					<h4>${student.name }</h4>
+							    					<p><i class="fa fa-university" aria-hidden="true"></i>${student.school }</p>
+						    					</div>
+						    				</div>
+						    			</div>
+					    			</c:if>
+				    			</c:forEach>
+				    		</div>
+				    	</div>
 				    </div>
 				    
 				    <div role="tabpanel" class="tab-pane fade" id="unenrolled">
@@ -245,6 +270,8 @@ var ctx = "${ctx }";
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
+
+
 
 </script>
 </body>

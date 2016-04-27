@@ -29,147 +29,7 @@
 <body>
 
 <div id="wrap">
-	<div id="header">
-			<div class="gnb row">
-				<div class="gnb-wrap row">
-					
-					<div class="visible-xs profile-zone">
-						<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}">
-						<h3>${member.name }</h3>
-					</div>
-				
-					<ul class="row">
-						<c:choose>
-							<c:when test="${member.userType == 2 }">
-								<li><i class="fa fa-plus"></i> 자녀 등록</li>	
-							</c:when>
-							<c:when test="${member.userType == 3 }">
-								<li><i class="fa fa-plus"></i> 부모님 등록</li>	
-							</c:when>
-						</c:choose>
-						
-						<li><a href="${ctx }/setting"><i class="fa fa-cog"></i> 설정</a></li>
-						<li><i class="fa fa-university"></i> 학교별정보</li>
-						<li><i class="fa fa-bullhorn"></i> 공지사항</li>
-						<li><i class="fa fa-television"></i> 강좌</li>
-						<li><i class="fa fa-book"></i> 메뉴얼</li>
-						<li><a href="${ctx }/logout"><i class="fa fa-sign-in"></i> 로그아웃</a></li>
-					</ul>
-				</div>
-			</div>
-			
-			<div class="lnb row">
-				<h3 class="logo hidden-xs pull-left"><a href="${ctx }/">My Class</a></h3>
-				<h3 class="visible-xs mobile-title mouse-pointer pull-left"><i class="fa fa-bars"></i> ${member.memId }</h3>
-				
-				<div class="quick-menu pull-right">
-					<ul class="row">
-						<li class="visible-xs">
-							<a href="${ctx }/">
-								<i class="fa fa-home" aria-hidden="true"></i>
-								<span><i class="fa fa-caret-up"></i>메인으로</span>
-							</a>
-						</li>
-						<li>
-							<i class="fa fa-users"></i>
-							<span><i class="fa fa-caret-up"></i>그룹채팅</span>
-						</li>
-						<li>
-							<i class="fa fa-pencil-square-o"></i>
-							<span><i class="fa fa-caret-up"></i>진행반</span>
-						</li>
-						<li>
-							<i class="fa fa-newspaper-o"></i>
-							<span><i class="fa fa-caret-up"></i>진행시험</span>
-						</li>
-						<li>
-							<i class="fa fa-search"></i>
-							<span><i class="fa fa-caret-up"></i>회원검색</span>
-						</li>
-					</ul>
-				</div>
-				
-				<div class="s-menu pull-left">
-					<ul class="row">
-						<c:choose>
-							<c:when test="${member.userType == 1 }">
-								<li class="drop-menu">
-									<a>
-										회원
-										<span>Member</span>
-									</a>
-									<ul class="drop-item">
-										<li><a href="${ctx }/teacher/members/manageMembers?type=1">대기회원</a></li>							
-										<li><a href="${ctx }/teacher/members/manageMembers?type=2">회원</a></li>							
-										<li><a href="${ctx }/teacher/members/manageMembers?type=3">퇴원</a></li>							
-									</ul>
-								</li>
-							</c:when>
-							<c:when test="${member.userType == 3 }">
-								<li class="drop-menu">
-									<a>
-										선생님
-										<span>Teacher</span>
-									</a>
-									<ul class="drop-item">
-										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=1">승인 대기중</a></li>							
-										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=2">내 선생님</a></li>							
-										<li><a href="${ctx }/student/myTeacher/manageTeachers?type=3">퇴원</a></li>							
-									</ul>
-								</li>
-							</c:when>
-						</c:choose>
-						<li class="drop-menu">
-							<a>
-								수업
-								<span>Class</span>
-							</a>
-							<ul class="drop-item">
-								<li><a href="${ctx }/teacher/classes/manageClasses?type=1">예정반</a></li>							
-								<li><a href="${ctx }/teacher/classes/manageClasses?type=2">우리반</a></li>							
-								<li><a href="${ctx }/teacher/classes/manageClasses?type=3">예정반</a></li>							
-							</ul>
-						
-						</li>
-						<li class="drop-menu">
-							<a>
-								교재
-								<span>Textbook</span>
-							</a>
-							<ul class="drop-item">
-								<li><a href="${ctx }/teacher/mac/textbook?type=1">전체교재</a></li>							
-								<li><a href="${ctx }/teacher/mac/textbook?type=2">내 교재</a></li>							
-								<li><a href="${ctx }/teacher/mac/textbook?type=3">사용 교재</a></li>							
-								<li><a href="${ctx }/teacher/mac/textbook?type=4">시험지</a></li>							
-							</ul>
-						</li>
-						<li class="drop-menu">
-							<a>
-								모임
-								<span>Meeting</span>
-							</a>
-							<ul class="drop-item">
-								<li><a href="${ctx }/common/club/themeClubs?type=1">만든 모임</a></li>							
-								<li><a href="${ctx }/common/club/themeClubs?type=2">가입한 모임</a></li>							
-								<li><a href="${ctx }/common/club/themeClubs?type=3">전체 모임</a></li>							
-							</ul>
-						</li>
-						<li class="drop-menu">
-							<a>
-								채팅
-								<span>Chatting</span>
-							</a>
-							<ul class="drop-item">
-								<li><a href="${ctx }/common/chat/chatList?type=1">개인 채팅</a></li>							
-								<li><a href="${ctx }/common/chat/chatList?type=1">우리반 채팅</a></li>							
-								<li><a href="${ctx }/common/chat/chatList?type=1">모임 채팅</a></li>							
-							</ul>
-						</li>
-					</ul>
-				</div>
-				
-			</div>
-		</div>
+	<%@include file="/WEB-INF/views/include/header.jsp" %>
 		
 		<div id="container">
 			<div class="content box-padding">
@@ -256,6 +116,24 @@
 		
 		<div id="footer">
 		</div>
+		
+		<div class="modal fade" id="selectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+		      </div>
+		      <div class="modal-body">
+		        ...
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+		        <button type="button" class="btn btn-primary submit-btn">확인</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 </div>
 
 <script type="text/javascript">
@@ -293,7 +171,8 @@ $(".find-btn").on("click", function ( event ) {
 	}
 	
 	var ajaxData = {
-			name : searchVal
+			name : searchVal,
+			studentId : "${member.id }"
 	}
 	publicAjax("post", "${ctx }/rest/student/teacherFind", ajaxData, function ( response ) {
 		var appendHtml = "",
@@ -358,32 +237,99 @@ $(".city").on("change", function ( event ) {
 		$target.innerHTML = appendHtml;
 	});
 });
-
+	var teacherId,
+		studentId,
+		$this;
+	
 $(".teacher-search-wrap").on("click", ".submit-btn", function ( event ) {
-	var options = {
-		url : "${ctx }/rest/student/classRequest",
-		ajaxData : {
-			teacherId : $(this).closest(".teacher-item").attr("data-item"),
-			studentId : "${member.id }"
+	teacherId = $(this).closest(".teacher-item").attr("data-item");
+	studentId = "${member.id }",
+	$this = $(this);
+	var ajaxData = {
+			teacherId : teacherId
+		},
+		options = {
+			url : "${ctx }/rest/student/getTeacherClassName",
+			ajaxData : ajaxData
+		};
+	anywhereAjax(options, function (response) {
+		
+		var appendHtml = "";
+			appendHtml = "<div class='class-select-wrap'>";
+		for ( var i = 0; i < response.length; i++ ) {
+			appendHtml += "<div class='checkbox'>";
+			appendHtml += "<label>";
+			appendHtml += "<input type='checkbox' value='" + response[i].id + "'> ";
+			appendHtml += response[i].name;
+			appendHtml += "</label>";
+			appendHtml += "</div>";
 		}
-	},
-	$this = $(this),
-	teacherName = $this.closest(".teacher-item").find(".teacher-info h4").text();
-	noticeModal ({ title : "가입신청", content : teacherName + "선생님의 반을 신청하시겠습니까?"}, function ( result ) {
-		if ( result ) {
-			
-			anywhereAjax(options, function ( response ) {
-				if ( response > 0 ) {
-					$this.closest(".teacher-item").animate({
-						left: "150%"
-					},function () {
-						$(this).slideUp();
-					});
-				}
-			});
-		}
+		appendHtml += "</div>";
+		
+		$target = $("#selectModal");
+		$target.find(".modal-title").html("가입할 반을 선택해주세요.");
+		$target.find(".modal-body").html(appendHtml);
+		$target.modal("show");
+	 	$.material.init();
+	 	return false;
 	});
 });
+
+$("#selectModal").on("click", ".submit-btn", function ( event ) {
+	var $checkedInput = $("#selectModal .modal-body").find(".checkbox input:checked"),
+		classIds = [];
+    
+    for ( var i = 0; i < $checkedInput.length; i++ ) {
+    	classIds.push( $($checkedInput[i]).val() );  
+    }
+    var options = {
+	    	url : "${ctx }/rest/student/classRequest",
+	    	ajaxData : {
+	    			teacherId : teacherId, 
+	    			studentId : studentId,
+	    			classIds : classIds.toString()
+        	}
+    	};
+    console.log(options);
+    
+    anywhereAjax (options, function (response) {
+    	if ( response > 0 ) {
+			$this.closest(".teacher-item").animate({
+				left: "150%"
+			},function () {
+				$(this).slideUp();
+			});
+			}
+    });
+    $("#selectModal").modal("hide");
+});
+
+
+// $(".teacher-search-wrap").on("click", ".submit-btn", function ( event ) {
+// 	var options = {
+// 		url : "${ctx }/rest/student/classRequest",
+// 		ajaxData : {
+// 			teacherId : $(this).closest(".teacher-item").attr("data-item"),
+// 			studentId : "${member.id }"
+// 		}
+// 	},
+// 	$this = $(this),
+// 	teacherName = $this.closest(".teacher-item").find(".teacher-info h4").text();
+// 	noticeModal ({ title : "가입신청", content : teacherName + "선생님의 반을 신청하시겠습니까?"}, function ( result ) {
+// 		if ( result ) {
+			
+// 			anywhereAjax(options, function ( response ) {
+// 				if ( response > 0 ) {
+// 					$this.closest(".teacher-item").animate({
+// 						left: "150%"
+// 					},function () {
+// 						$(this).slideUp();
+// 					});
+// 				}
+// 			});
+// 		}
+// 	});
+// });
 
 </script>
 </body>

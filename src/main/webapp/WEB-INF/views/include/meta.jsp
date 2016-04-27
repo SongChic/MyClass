@@ -18,21 +18,3 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/library/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/common.css">
 
-<!-- Modal -->
-<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-<!--         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default cancel-btn" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary confirm-btn">확인</button>
-      </div>
-    </div>
-  </div>
-</div>

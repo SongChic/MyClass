@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.aspectj.debugger.request.Request;
 import org.json.simple.JSONArray;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myClass.Dao.ScheduleDao;
 import com.myClass.Dao.UserDao;
+import com.myClass.Model.Member;
 import com.myClass.Model.Schedule;
 import com.myClass.Service.UserService;
 
@@ -89,11 +91,15 @@ public class MainRestController {
 	@RequestMapping(value="/rest/setSetting", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseEntity<Integer> setSetting (
+			Principal principal,
 			@RequestParam(value="id") int id,
 			@RequestParam(value="mainColor") int mainColor,
 			HttpServletRequest request, HttpServletResponse response){
 		
 		int req = userService.setSetting(id, mainColor);
+		Member member = userService.get(principal.getName());
+		HttpSession session = request.getSession();
+		session.setAttribute("member", member);
 		
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType( MediaType.APPLICATION_JSON );

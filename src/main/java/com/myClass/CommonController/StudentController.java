@@ -1,6 +1,8 @@
 package com.myClass.CommonController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myClass.Model.Member;
 import com.myClass.Service.StudentService;
+import com.myClass.Service.TeacherService;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -24,6 +27,9 @@ public class StudentController {
 	@Autowired
 	StudentService studentService;
 	
+	@Autowired
+	TeacherService teacherService; 
+	
 	@RequestMapping(value="/student/myTeacher/manageTeachers")
 	public ModelAndView manageTeacher (
 			Principal principal,
@@ -33,9 +39,40 @@ public class StudentController {
 		Member student = userService.get(principal.getName());
 		
 		List<Map<String, Object>> teacherMap = studentService.getTeacher(student.getId());
+		List<Map<String, Object>> teachers = new ArrayList<Map<String,Object>>(); 
+		
+		for ( Map<String, Object> teacherList : teacherMap ) {
+			Map<String, Object> classMap = new HashMap<String, Object>();
+			
+			String classIds = (String) teacherList.get("teacher_class_id");
+			if ( classIds.length() > 0 ) {
+				classIds = classIds.substring(1, classIds.length() -1);
+			} else {
+				classIds = "0";
+			}
+			List<Map<String, Object>> className = teacherService.getClassName(classIds);
+			
+			String classNameString = "";
+			for (int i = 0; i < className.size(); i++) {
+				classNameString += className.get(i).get("name") + ", ";
+			}
+			if ( classNameString.length() > 0 ) {
+				classNameString = classNameString.substring(0, classNameString.length() - 2 );
+			}
+			classMap.put("className", classNameString);
+			
+			classMap.put("profile", teacherList.get("profile"));
+			classMap.put("student_state", teacherList.get("student_state"));
+			classMap.put("state", teacherList.get("state"));
+			classMap.put("id", teacherList.get("id"));
+			classMap.put("name", teacherList.get("name"));
+			classMap.put("subject", teacherList.get("subject"));
+			teachers.add(classMap);
+		}
+		
 		ModelAndView mav = new ModelAndView("/student/myTeacher/manage-teachers");
 		
-		mav.addObject("teacher", teacherMap);
+		mav.addObject("teacher", teachers);
 		return mav;
 	}
 	
