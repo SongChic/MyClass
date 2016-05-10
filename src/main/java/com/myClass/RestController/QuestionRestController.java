@@ -33,7 +33,11 @@ public class QuestionRestController {
 		
 		TestPaper testPaper = new TestPaper();
 		testPaper.setTitle(request.getParameter("title"));
-		testPaper.setCreator(request.getParameter("creator"));
+		testPaper.setTeacherId(Integer.parseInt(request.getParameter("teacherId")));
+		testPaper.setTextBook(request.getParameter("textBook"));
+		testPaper.setSubject(Integer.parseInt(request.getParameter("subject")));
+		testPaper.setSchoolLevel(Integer.parseInt(request.getParameter("schoolLevel")));
+		testPaper.setSchoolYear(Integer.parseInt(request.getParameter("schoolYear")));
 		
 		int req = questionService.setTestPaper(testPaper);
 		

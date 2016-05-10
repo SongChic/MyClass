@@ -19,8 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myClass.Model.Classes;
 import com.myClass.Model.Member;
+import com.myClass.Model.TestPaper;
 import com.myClass.Service.ClassesService;
 import com.myClass.Service.TeacherService;
+import com.myClass.Service.TestPaperService;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -33,6 +35,9 @@ public class TeacherController {
 	
 	@Autowired
 	ClassesService classesService;
+	
+	@Autowired
+	TestPaperService testPaperService;
 	
 	@RequestMapping(value="/teacher/classes/manageClasses")
 	public ModelAndView manageClasses (
@@ -170,11 +175,30 @@ public class TeacherController {
 	}
 	
 	@RequestMapping(value="/teacher/exam/setTestPaper")
-	public ModelAndView viewTestPaper(
+	public ModelAndView setTestPaper(
 			
 			HttpServletRequest request, HttpServletResponse response){
 		ModelAndView mav = new ModelAndView("/teacher/exam/set-test-paper");
 		
+		return mav;
+	}
+	@RequestMapping(value="/teacher/exam/viewTestPaper")
+	public ModelAndView viewTestPaper(
+			Principal principal,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		Member teacher = userService.get(principal.getName());
+		
+		List<TestPaper> testPaper = testPaperService.viewTestPaper( teacher.getId() );
+		
+		for ( TestPaper testPaerItem : testPaper ) {
+			Map<String, Object> testPaperMap = new HashMap<String, Object>();
+			testPaperMap.put("id", testPaerItem.getId());
+		}
+		
+		ModelAndView mav = new ModelAndView("/teacher/exam/view-test-paper");
+		
+		mav.addObject("testPaper", testPaper);
 		return mav;
 	}
 }

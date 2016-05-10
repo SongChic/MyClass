@@ -1,15 +1,15 @@
+.test-paper-title {
+	padding: 40px 0 0;
+}
 .exam-title {
 	margin-bottom: 10px;
 	padding: 5px;
 	border: 1px solid #999;
 }
-.exam-title .school-year,
-.exam-title .col-sm-6 {
-	text-align: center;
-}
 .exam-title h3,
 .exam-title h4 {
 	margin: 0;
+	text-align: center;
 }
 .exam-block {
 	width: 100px;
@@ -83,4 +83,7 @@
 	margin-top: 15px;
 	padding-top: 15px;
 	border-top: 1px solid #eee;
+}
+.input-title p.info-text {
+	margin: 0;
 }

@@ -1,7 +1,9 @@
 package com.myClass.CommonController;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myClass.Model.Member;
+import com.myClass.Service.ClassesService;
+import com.myClass.Service.StudentService;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -26,6 +30,12 @@ import com.myClass.Service.UserService;
 public class HomeController {
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ClassesService classesService;
+	
+	@Autowired
+	StudentService studentService;
 	
 	public Member getUser() {
 		return (Member) SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -45,14 +55,23 @@ public class HomeController {
 	
 	@RequestMapping(value= {"/", "/main"}, method = RequestMethod.GET)
 	public ModelAndView main (
-			HttpSession session,Principal principal,
+			HttpSession session,
+			Principal principal,
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		Member member = userService.get(principal.getName());
+		List<Map<String, Object>> classes = new ArrayList<Map<String,Object>>();
+		if ( member.getUserType() == 1 ) {
+			classes = classesService.getUnfinishedList(member.getId());
+		} else if ( member.getUserType() == 3 ) {
+			classes = studentService.getClass(member.getId(), true);
+		}
 		
 		ModelAndView mav = new ModelAndView("/common/main");
 		session.setAttribute("member", member);
 		mav.addObject("member", member);
+		
+		mav.addObject("classes", classes);
 		return mav;
 	}
 	

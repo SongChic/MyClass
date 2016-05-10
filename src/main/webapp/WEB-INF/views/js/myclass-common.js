@@ -3,6 +3,7 @@ function imageLoad() {
 	$('.user').attr('src', ctx + '/img/no_img.jpg');
 	$('.book').attr('src', ctx + '/img/book_cover.jpg');
 	$('.classes-img').attr('src', ctx + '/img/no_class_img.jpg');
+	$('.classes-back-img').css('backgroundImage', ctx + '/img/no_class_img.jpg');
 	$(".lazy").lazyload();
 }
 

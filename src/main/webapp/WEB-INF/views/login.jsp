@@ -437,7 +437,7 @@ var ctx = "${ctx }";
 			$(form).find(".birthday-wrap .error-msg").removeClass("show").addClass("hide");
 		}
 		
-		if ( form.schoolName.value === "") {
+		if ( form.schoolName.value === "" && userType === 3 ) {
 			$(form.schoolName).parent().find("p").removeClass("hide").addClass("show");
 			return false;
 		} else {
@@ -499,7 +499,12 @@ var ctx = "${ctx }";
         }).done( function( response ) {
         	
         	if ( response > 0 ) {
-				location.href = "${ctx }/teacher/classes/manageClasses?type=1";
+        		
+        		noticeModal({title : "회원가입 완료", content : "회원가입이 완료되었습니다."}, function ( result ) {
+       				location.href = "${ctx }/teacher/classes/manageClasses?type=1";
+        		})
+        		
+				
 			}
         	
         }).fail ( function ( response ){

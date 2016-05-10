@@ -133,7 +133,7 @@
                                     <li><a href="${ctx }/teacher/mac/textbook?type=1">전체교재</a></li>                                       
                                     <li><a href="${ctx }/teacher/mac/textbook?type=2">내 교재</a></li>                                       
                                     <li><a href="${ctx }/teacher/mac/textbook?type=3">사용 교재</a></li>                                      
-                                    <li><a href="${ctx }/teacher/exam/setTestPaper">시험지</a></li>                                        
+                                    <li><a href="${ctx }/teacher/exam/viewTestPaper">시험지</a></li>                                        
                               </ul>
                         </li>
                         <li class="drop-menu">

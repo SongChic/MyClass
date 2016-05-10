@@ -37,4 +37,7 @@ public class StudentService {
 	public List<Map<String, Object>> getTeacherClassName (int teacherId) {
 		return studentDao.getTeacherClassName(teacherId);
 	}
+	public List<Map<String, Object>> getClass ( int id, boolean state ) {
+		return studentDao.getClass(id, state);
+	}
 }

@@ -271,12 +271,6 @@ li {
 	margin: 0;
 	padding: 0;
 }
-.box-padding {
-	padding: 0 10px;
-}
-.padding-box {
-	padding: 10px;
-}
 
 .tab-content>.tab-pane {
 } 
@@ -476,6 +470,15 @@ li {
 	padding: 0;
 	margin: 0;
 	border-bottom: 1px solid #e0e0e0;
+}
+.box-padding {
+	padding: 0 10px;
+}
+.padding-box {
+	padding: 10px;
+}
+.top-margin {
+	margin: 10px 0;
 }
 .dropdown-menu>li>a {
 	padding: 10px;

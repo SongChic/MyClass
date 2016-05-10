@@ -4,7 +4,6 @@ function questionModal ( edit ) {
 	"<div class='modal-dialog'>"+
 	"<div class='modal-content'>"+
 	"<div class='modal-header'>"+
-	"<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+
 	"<h4 class='modal-title' id='myModalLabel'>추가할 문제를 작성해주세요.</h4>"+
 	"</div>"+
 	"<div class='modal-body'>"+
@@ -118,14 +117,28 @@ function questionModal ( edit ) {
 			$answer = dialog.find(".subjective-answer .circle")
 			question = [],
 			answer = [],
-			questionArray = [];
+			questionArray = [],
+			questionState = false;
+		
+		if ( dialog.find(".question-title-input").val() == "" ) {
+			dialog.find(".question-title-input").after("<p class='info-text error-msg'>※문제 제목을 입력해주세요.</p>");
+			return false;
+		}
 		
 		for ( var i = 0; i < $question.length; i++ ) {
+			if ( $($question[i]).find("input").val() == "" ) {
+				dialog.find(".subjective-question-section").after("<p class='info-text error-msg'>※객관식 답안을 입력해주세요.</p>");
+				questionState = true;
+				break;
+			}
 			question.push($($question[i]).find("input").val());
 			
 			if ( $($answer[i]).hasClass("bg-primary") ) {
 				answer.push( $($answer[i]).text() )
 			}
+		}
+		if ( questionState ) {
+			return false;
 		}
 		questionArray.push({
 			title : $(".question-title-input").val(),

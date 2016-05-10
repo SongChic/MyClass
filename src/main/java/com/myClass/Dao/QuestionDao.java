@@ -2,16 +2,19 @@ package com.myClass.Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.myClass.Model.Member;
 import com.myClass.Model.Question;
 import com.myClass.Model.TestPaper;
 import com.mysql.jdbc.Statement;
@@ -38,7 +41,11 @@ public class QuestionDao {
 					String sql = getQuery.get("questionDao.setTestPaper");
 					PreparedStatement pstm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					pstm.setString(1, testPaper.getTitle());
-					pstm.setString(2, testPaper.getCreator());
+					pstm.setInt(2, testPaper.getTeacherId());
+					pstm.setString(3, testPaper.getTextBook());
+					pstm.setInt(4, testPaper.getSubject());
+					pstm.setInt(5, testPaper.getSchoolLevel());
+					pstm.setInt(6, testPaper.getSchoolYear());
 					return pstm;
 				}
 			},holder);

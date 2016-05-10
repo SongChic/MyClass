@@ -171,4 +171,45 @@ public class TeacherDao {
 		return 0;
 	}
 	
+	public Member getTeacher ( int id ) {
+		String sql = getQuery.get("teacherDao.getTeacher");
+		Object[] params = {
+				id
+		};
+		
+		try {
+			return jdbcTemplate.queryForObject(sql, params, new RowMapper<Member>(){
+
+				@Override
+				public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+					// TODO Auto-generated method stub
+					Member member = new Member();
+					member.setId(rs.getInt("id"));
+					member.setMemId(rs.getString("mem_id"));
+					member.setMemPw(rs.getString("mem_pw"));
+					member.setName(rs.getString("name"));
+					member.setEmail(rs.getString("email"));
+					member.setPhone(rs.getString("phone"));
+					member.setUserType(rs.getInt("user_type"));
+					member.setMainColor(rs.getInt("main_color"));
+					member.setGender(rs.getInt("gender"));
+					member.setProfile(rs.getString("profile"));
+					member.setSchool(rs.getString("school"));
+					if ( rs.getTimestamp("created") != null ) {
+						member.setCreated(rs.getTimestamp("created").getTime());
+					}
+					member.setBirthdayYear(rs.getInt("birthday_year"));
+					member.setBirthdayMonth(rs.getInt("birthday_month"));
+					member.setBirthdayDay(rs.getString("birthday_day"));
+					
+					return member;
+				}
+				
+			});
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

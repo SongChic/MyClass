@@ -22,6 +22,9 @@ public class ClassesService {
 	public List<Map<String, Object>> getList (int id) {
 		return classesDao.getList(id);
 	}
+	public List<Map<String, Object>> getUnfinishedList (int id) {
+		return classesDao.getUnfinishedList(id);
+	}
 	
 	public Classes get ( int id ) {
 		return classesDao.get(id);

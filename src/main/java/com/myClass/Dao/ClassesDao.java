@@ -157,6 +157,26 @@ public class ClassesDao {
 		return new ArrayList<Map<String,Object>>();
 	}
 	
+	public List<Map<String, Object>> getUnfinishedList ( int id ) {
+		
+		try {
+			String sql = getQuery.get("classesDao.finished");
+			jdbcTemplate.update(sql);
+			
+			sql = getQuery.get("classesDao.unfinishedClass");
+			
+			Object[] params = {
+					id
+			};
+			return jdbcTemplate.queryForList(sql, params);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
 	public Classes get ( int id ) {
 		
 		String sql = getQuery.get("classesDao.get");

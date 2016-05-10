@@ -142,4 +142,21 @@ public class StudentDao {
 		return new ArrayList<Map<String,Object>>();
 	}
 	
+	public List<Map<String, Object>> getClass ( int id, boolean state ) {
+		String sql = getQuery.get("studentDao.getClass");
+		Object[] params = {
+				id
+		};
+		
+		if ( state ) {
+			sql += " and class.finished != 1";
+		}
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch ( DataAccessException e ) {
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String,Object>>();
+	}
 }

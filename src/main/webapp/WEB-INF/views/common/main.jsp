@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -42,6 +44,36 @@
 				<div class="content row">
 					<div class="col-md-8 col-sm-7">
 						<h4>우리반</h4>
+						
+						<div class="classes-wrap row">
+						
+							<c:forEach items="${classes }" var="classes">
+									
+									<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">
+										<div class="classes-thumbnail box-layout">
+										<c:if test="${not empty classes.picture }">
+											<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
+											</div>
+										</c:if>
+											<div class="classes-info">
+												<ul>
+													<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+													<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
+													<li class="divider top-margin"></li>
+													<li> ${classes.teacher_name }</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									
+							</c:forEach>
+							
+							<c:if test="${fn:length(classes) == 0 }">
+								<p>현재 진행중인 수업이 없습니다.</p>
+							</c:if>
+							
+							
+						</div>
 					</div>
 					
 					<div class="col-md-4 col-sm-5">
@@ -80,6 +112,7 @@ var ctx = "${ctx }";
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript" src="${ctx }/js/fullcalendar-setting.js" ></script>	
+<script type="text/javascript" src="${ctx }/js/library/freewall.js" ></script>	
 <script type="text/javascript">
 	$(".calendar-btn").on("click", function(event){
 		var state = $(this).attr("class");
@@ -100,6 +133,28 @@ var ctx = "${ctx }";
 				   .addClass("fa-chevron-down");
 		}
 		
+	});
+	
+	var wall = new Freewall(".classes-wrap");
+	wall.reset({
+		selector : '.item',
+		animate : true,
+		cellW : 170,
+		cellH : 190,
+		onResize : function() {
+			wall.refresh();
+		}
+	});
+	wall.fitWidth();
+	
+	$(".classes-thumbnail-wrap").on("click", function ( event ) {
+		var userType = "${member.userType }",
+			id = $(this).attr("data-item");
+		if ( userType === "1" ) {
+			location.href="${ctx }/teacher/classes/classRoom?id=" + id;
+		} else if ( userType === "3" ) {
+			
+		}
 	});
 	
 </script>

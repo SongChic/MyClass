@@ -156,7 +156,8 @@ public class UserDao {
 					member.getBirthdayYear(),
 					member.getBirthdayMonth(),
 					member.getBirthdayDay(),
-					member.getSlogan()
+					member.getSlogan(),
+					member.getProfile()
 				};
 				
 				return jdbcTemplate.update(sql, params);

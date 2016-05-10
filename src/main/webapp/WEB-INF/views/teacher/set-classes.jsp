@@ -393,7 +393,16 @@
 						</div>
 						
 						<div class="box-padding btn-wrap">
+						<c:choose>
+						<c:when test="${classes.id > 0 }">
+							<button type="submit" class="btn btn-primary btn-lg btn-block create-btn">수정</button>
+						</c:when>
+						
+						<c:otherwise>
 							<button type="submit" class="btn btn-primary btn-lg btn-block create-btn">만들기</button>
+						</c:otherwise>
+						</c:choose>
+							
 						</div>
 						
 					</div>
