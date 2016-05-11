@@ -80,8 +80,6 @@ public class MainRestController {
 			@RequestParam(value="created") long created,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println( new Date ( created ) );
-		
 		int req = 0;
 		if (id > 0) {
 			req = scheduleDao.setSchedule(id, created);
