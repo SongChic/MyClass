@@ -194,4 +194,20 @@ public class ClassesDao {
 		return null;
 	}
 	
+	public List<Map<String, Object>> getStudentList (int classId ) {
+		
+		String sql = getQuery.get("classesDao.getStudentList");
+		Object[] params = {
+				classId
+		};
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch (DataAccessException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
 }

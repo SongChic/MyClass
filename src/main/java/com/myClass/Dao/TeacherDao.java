@@ -98,9 +98,9 @@ public class TeacherDao {
 	public int addClassStudent (String classIds, int teacherId, int studentId) {
 		String sql = getQuery.get("teacherDao.addClassStudent");
 		Object[] params = {
-			teacherId,
-			studentId,
-			classIds
+				classIds,
+				teacherId,
+				studentId
 		};
 		
 		try { 

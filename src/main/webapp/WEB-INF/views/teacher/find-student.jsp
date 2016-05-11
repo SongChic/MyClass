@@ -171,6 +171,7 @@
 		    		<div class="box-padding student-item-wrap">
 		    		
 		    			<c:forEach items="${student }" var="student">
+		    				
 			    			<div class="student-item row">
 			    				<a class="student_img pull-left">
 			    					<div class="img-zone">
@@ -219,8 +220,8 @@ $(".student-item-wrap").on("click", ".add-student-btn", function ( event ) {
 		
 	var ajaxData = {
 		classIds : classId,
-		studentId : studentId,
-		teacherId : teacherId
+		teacherId : teacherId,
+		studentId : studentId
 	};
 	publicAjax ( "post", "${ctx }/rest/teacher/addClassStudent", ajaxData, function ( response ) {
 		if ( response > 0 ) {

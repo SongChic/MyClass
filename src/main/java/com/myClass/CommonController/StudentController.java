@@ -44,13 +44,11 @@ public class StudentController {
 		for ( Map<String, Object> teacherList : teacherMap ) {
 			Map<String, Object> classMap = new HashMap<String, Object>();
 			
-			String classIds = (String) teacherList.get("teacher_class_id");
-			if ( classIds.length() > 0 ) {
-				classIds = classIds.substring(1, classIds.length() -1);
-			} else {
-				classIds = "0";
+			int classIds = (Integer) teacherList.get("map_id");
+			if ( classIds <= 0 ) {
+				classIds = 0;
 			}
-			List<Map<String, Object>> className = teacherService.getClassName(classIds);
+			List<Map<String, Object>> className = teacherService.getClassName(String.valueOf(classIds));
 			
 			String classNameString = "";
 			for (int i = 0; i < className.size(); i++) {

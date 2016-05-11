@@ -23,11 +23,16 @@
 	long date = new Date().getTime();
 	ServletContext context = request.getSession().getServletContext();
 	String prefixUrl = context.getRealPath("/WEB-INF/views/img/data/").replace("\\", "/");
+	String tabType = "1";
+	if ( request.getParameter("type") != null ) {
+		tabType = request.getParameter("type");
+	}
 	
 %>
 <c:set value="<%= date %>" var="date" />
 <c:set value="<%= prefixUrl %>" var="prefixUrl" />
 <c:set value="${member.mainColor }" var="mainColor"/>
+<c:set value="<%= tabType %>" var="tabType"></c:set>
 <style type="text/css">
 	#header {
 		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
@@ -292,6 +297,11 @@ var ctx = "${ctx }";
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript" src="${ctx }/js/library/masonry.js"></script>
 <script type="text/javascript">
+
+	var tabType = parseInt("${tabType }");
+	
+	//tab menu controll
+	$($(".tab-menu li")[tabType - 1]).find("a").click();
 	
 	var $container = $('.classes-content');
 	 $(".lazy").lazyload({
@@ -340,15 +350,6 @@ var ctx = "${ctx }";
 		var id = $(this).attr("data-item");
 		console.log("pass");
 		location.href="${ctx }/teacher/classes/classRoom?id=" + id;
-	});
-	
-	$(document).ready(function(event) {
-//		if ( $(this).width() < 332 ) {
-//			$("#container").css("paddingTop", $("#header").outerHeight());
-//		} else {
-//			$("#container").removeAttr("style");
-//		}
-		
 	});
 	
 </script>

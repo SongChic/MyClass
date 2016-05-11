@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.myClass.Common.MyclassCommon"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -13,10 +14,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
+<%
+	long date = new Date().getTime();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+%>
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
 
+<c:set value="<%= date %>" var="date" />
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
 	#header {
@@ -26,6 +32,7 @@
 		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
 	}
 </style>
+
 
 </head>
 <body>
@@ -48,23 +55,47 @@
 						<div class="classes-wrap row">
 						
 							<c:forEach items="${classes }" var="classes">
-									
-									<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">
-										<div class="classes-thumbnail box-layout">
-										<c:if test="${not empty classes.picture }">
-											<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
-											</div>
-										</c:if>
-											<div class="classes-info">
-												<ul>
-													<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
-													<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
-													<li class="divider top-margin"></li>
-													<li> ${classes.teacher_name }</li>
-												</ul>
+							
+								<fmt:formatDate value="${classes.start_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+								<c:set value="${format_date }" var="start_date" />
+								<%
+									Date dateParse = sdf.parse((String) pageContext.getAttribute("start_date"));
+									long parseDate = dateParse.getTime();
+								%>
+								<c:set value="<%= parseDate %>" var="parseDate"/>
+								parseDate : ${parseDate } <br>
+								date : ${date } <br>
+								<c:if test="${classes.finished == 0 and parseDate < date  }">
+										
+										<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">
+											<div class="classes-thumbnail box-layout">
+											
+											<c:choose>
+												<c:when test="${not empty classes.picture and classes.classes_view_type == 2 }">
+													<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
+														<p>${classes.name }</p>
+													</div>
+												</c:when>
+												<c:when test="${classes.classes_view_type == 1 }">
+													<c:set value="${classes.color }" var="color"/>
+													<div class="classes-back-color" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+														${classes.name }
+													</div>
+												</c:when>
+											</c:choose>
+											
+												<div class="classes-info">
+													<ul>
+														<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+														<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
+														<li class="divider top-margin"></li>
+														<li> ${classes.teacher_name }</li>
+													</ul>
+												</div>
 											</div>
 										</div>
-									</div>
+									
+									</c:if>
 									
 							</c:forEach>
 							

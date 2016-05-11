@@ -263,12 +263,14 @@
 						</div>
 						
 						<div class="row padding-box student-info-wrap">
-							
-							<div class="student-item">
-								<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile }">
-								<p>${member.name }</p>
-							</div>
-							
+							<c:forEach items="${classStudent }" var="classStudent">
+								<c:if test="${classStudent.state == 2 }">
+									<div class="student-item">
+										<img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${classStudent.profile}">
+										<p>${classStudent.name }</p>
+									</div>
+								</c:if>
+							</c:forEach>
 						</div>
 					</div>
 					

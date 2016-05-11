@@ -69,13 +69,16 @@ public class TeacherController {
 		
 		Classes classes = new Classes();
 		
+		List<Map<String, Object>> classStudent = new ArrayList<Map<String,Object>>();
+		
 		if ( id > 0 ) {
 			classes = classesService.get(id);
+			classStudent = classesService.getStudentList(id);
 		}
 		
-//		classes.add(classes.size() + 1, classesService.number(member.getId()));
 		
 		mav.addObject("classes", classes);
+		mav.addObject("classStudent", classStudent);
 		mav.addObject("member", member);
 		return mav;
 	}
@@ -122,7 +125,13 @@ public class TeacherController {
 		ModelAndView mav = new ModelAndView("/teacher/find-student");
 		Member teacher = userService.get(principal.getName());
 		
-		mav.addObject("student", teacherService.findStudent( teacher.getId() ));
+		List<Map<String, Object>> studentItem = teacherService.findStudent( teacher.getId() );
+		
+		for ( Map<String, Object> item : studentItem ) {
+			System.out.println( item.get("id") );
+		}
+		
+		mav.addObject("student", studentItem);
 		return mav;
 	}
 	
@@ -147,11 +156,9 @@ public class TeacherController {
 			list.put("name", student.get(i).get("name"));
 			list.put("school", student.get(i).get("school"));
 			
-			String classId = (String) student.get(i).get("teacher_class_id");
+			String classId = String.valueOf(student.get(i).get("teacher_class_id"));
 			
-			if ( classId.length() > 0 ) {
-				classId = classId.substring(1, classId.length() - 1);
-			} else {
+			if ( classId.length() <= 0 ) {
 				classId = "0";
 			}
 			
@@ -166,6 +173,7 @@ public class TeacherController {
 			}
 			
 			list.put("className", classNames);
+			
 			students.add(list);
 		}
 		

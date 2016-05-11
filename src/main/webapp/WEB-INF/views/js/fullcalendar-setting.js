@@ -14,6 +14,7 @@ publicAjax ("post", ctx + "/rest/setCalendar", {}, function(response) {
 //	console.log(data);
 
 function setCalendar (data) {
+	
 	$(".calendar").fullCalendar({
 		lang : 'ko',
 		customButtons : {
@@ -29,16 +30,19 @@ function setCalendar (data) {
 			center : 'prev title next',
 			right : 'searchBtn'
 		},
-		themeButtonIcons : {
-			prev: 'carat-1-w',
-		    next: 'carat-1-e',
-		},
+//		themeButtonIcons : {
+//			prev: 'carat-1-w',
+//		    next: 'carat-1-e',
+//		},
 		timeFormat : "HH : mm",
 		timezone : "Asia/Seoul",
 		
 		//drag event
-//		editable : true,
+		editable : data.editable ? data.editable : false,
+		
 		eventDrop : function (event, delta, revertFunc) {
+			
+			console.log(event.start._d);
 			
 			var ajaxData = {
 				id : event.id,
@@ -60,6 +64,14 @@ function setCalendar (data) {
 			type: 'agenda'
 		},
 		
+		viewRender: function ( view, element) {
+			console.log(view);
+			console.log(element);
+			$(".fc-left").on("click", function ( event ) {
+				calenderAddDialog( data[0].userType );
+			});
+		},
+		
 		viewDestroy : function( view, element ) {
 			console.log(view);
 			console.log(element);
@@ -74,4 +86,43 @@ function setCalendar (data) {
 		
 	});
 	$(".calendar").hide();
+	
+	function calenderAddDialog ( userType ) {
+		var template = 
+			"<div class='modal fade' id='calendarModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"+
+			"<div class='modal-dialog'>"+
+			"<div class='modal-content'>"+
+			"<div class='modal-header'>"+
+			"</div>" + //modal-header
+			"<div class='modal-body'>"+
+			"</div>" + //modal-body
+			"</div>" + //modal-content
+			"</div>" + //modal-dialog
+			"</div>";  //modal
+		
+		var dialog = $(template);
+		
+		if ( userType === 1 ) {
+			appendHtml = "<ul>" +
+			 "<li><a href='" + ctx + "/teacher/classes/setClasses'>반만들기</a></li>"+
+			 "<li><a>모임만들기</a></li>" + 
+			 "<li><a>일정추가</a></li>" + 
+			 "<li><a>기념일추가</a></li>" + 
+			 "</ul>";
+		} else {
+			appendHtml = "<ul>" +
+			 "<li><a>모임만들기</a></li>" + 
+			 "<li><a>일정추가</a></li>" + 
+			 "<li><a>기념일추가</a></li>" + 
+			 "</ul>";
+		}
+		
+		dialog.find(".modal-header").append("추가하실 항목을 선택해주세요.");
+		dialog.find(".modal-body").append(appendHtml);
+		
+		dialog.modal({
+	 		show : true,
+	 		keyboard : true
+	 	});
+	}
 }

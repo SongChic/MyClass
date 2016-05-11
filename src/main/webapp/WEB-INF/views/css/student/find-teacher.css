@@ -62,3 +62,9 @@
 	right: 0;
 	left: auto;
 }
+.no-search {
+	padding: 10px 0;
+}
+.no-search p {
+	margin: 0;
+}

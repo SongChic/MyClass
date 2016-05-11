@@ -178,37 +178,44 @@ $(".find-btn").on("click", function ( event ) {
 		var appendHtml = "",
 			resultBox = document.getElementById("teacherResultBox");
 		
-// 		console.log( response );
 		
-		for ( var i = 0; i < response.length; i++ ) {
+		if ( response.length > 0 ) {
 			
-// 			console.log(response[i].classes[i]);
-			appendHtml += "<div class='teacher-item row' data-item='" + response[i].id + "'>";
-			appendHtml += "<a class='teacher_img pull-left'>";
-			appendHtml += "<div class='img-zone'>";
-			appendHtml += "<img class='user lazy' data-original='${ctx }/img/profile/data/" + response[i].profile + "'>";
-			appendHtml += "</div>";
-			appendHtml += "</a>";
-			appendHtml += "<div class='teacher-info-wrap clearfix'>";
-			appendHtml += "<div class='pull-right teacher-btn'>";
-			appendHtml += "<button type='button' class='btn btn-default btn-sm'>반보기</button>";
-			appendHtml += "<button type='button' class='btn btn-success btn-sm submit-btn'><span class='visibility'>추가</span><i class='fa fa-user-plus' aria-hidden='true'></i></button>";
-			appendHtml += "</div>";
-			appendHtml += "<div class='teacher-info'>";
-			appendHtml += "<h4>" + response[i].name + "</h4>";
-			
-			if ( response[i].classes.length <= 2 ) {
-				appendHtml += "<p><i class='fa fa-book' aria-hidden='true'></i> " + response[i].classes[1].name + "와(과) " + response[i].classes[1].name +"를(을) 개설했습니다.</p>";
+			for ( var i = 0; i < response.length; i++ ) {
+				
+				appendHtml += "<div class='teacher-item row' data-item='" + response[i].id + "'>";
+				appendHtml += "<a class='teacher_img pull-left'>";
+				appendHtml += "<div class='img-zone'>";
+				appendHtml += "<img class='user lazy' data-original='${ctx }/img/profile/data/" + response[i].profile + "'>";
+				appendHtml += "</div>";
+				appendHtml += "</a>";
+				appendHtml += "<div class='teacher-info-wrap clearfix'>";
+				appendHtml += "<div class='pull-right teacher-btn'>";
+				appendHtml += "<button type='button' class='btn btn-default btn-sm'>반보기</button>";
+				appendHtml += "<button type='button' class='btn btn-success btn-sm submit-btn'><span class='visibility'>추가</span><i class='fa fa-user-plus' aria-hidden='true'></i></button>";
+				appendHtml += "</div>";
+				appendHtml += "<div class='teacher-info'>";
+				appendHtml += "<h4>" + response[i].name + "</h4>";
+				
+				
+				if ( response[i].classes.length <= 2 && response[i].classes[1] ) {
+					appendHtml += "<p><i class='fa fa-book' aria-hidden='true'></i> " + response[i].classes[1].name + "와(과) " + response[i].classes[1].name +"를(을) 개설했습니다.</p>";
+				} else if ( response[i].classes[1] ) {
+					appendHtml += "<p>반을 개설하지 않았습니다.</p>"
+				}
+				appendHtml += "</div>";
+				appendHtml += "</div>";
+				appendHtml += "</div>";
 			}
-// 			appendHtml += "<p>반이름과 반이름에 가입되어있습니다.</p>";
+			
+			resultBox.innerHTML = appendHtml;
+			imageLoad();
+		} else {
+			appendHtml += "<div class='no-search'>";
+			appendHtml += "<p>" + searchVal  + "선생님이 존재 하지 않습니다.</p>";
 			appendHtml += "</div>";
-			appendHtml += "</div>";
-			appendHtml += "</div>";
+			resultBox.innerHTML = appendHtml;
 		}
-		
-		resultBox.innerHTML = appendHtml;
-		imageLoad();
-// 		$(".teacher-search-wrap").empty().append(appendHtml);
 	});
 });
 
@@ -303,33 +310,6 @@ $("#selectModal").on("click", ".submit-btn", function ( event ) {
     });
     $("#selectModal").modal("hide");
 });
-
-
-// $(".teacher-search-wrap").on("click", ".submit-btn", function ( event ) {
-// 	var options = {
-// 		url : "${ctx }/rest/student/classRequest",
-// 		ajaxData : {
-// 			teacherId : $(this).closest(".teacher-item").attr("data-item"),
-// 			studentId : "${member.id }"
-// 		}
-// 	},
-// 	$this = $(this),
-// 	teacherName = $this.closest(".teacher-item").find(".teacher-info h4").text();
-// 	noticeModal ({ title : "가입신청", content : teacherName + "선생님의 반을 신청하시겠습니까?"}, function ( result ) {
-// 		if ( result ) {
-			
-// 			anywhereAjax(options, function ( response ) {
-// 				if ( response > 0 ) {
-// 					$this.closest(".teacher-item").animate({
-// 						left: "150%"
-// 					},function () {
-// 						$(this).slideUp();
-// 					});
-// 				}
-// 			});
-// 		}
-// 	});
-// });
 
 </script>
 </body>

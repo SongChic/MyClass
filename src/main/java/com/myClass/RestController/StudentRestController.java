@@ -54,6 +54,8 @@ public class StudentRestController {
 			@RequestParam(value="studentId") String studentId,
 			HttpServletRequest request, HttpServletResponse response) {
 		
+		System.out.println(studentId);
+		
 		List<Map<String, Object>> teacher = studentService.findTeacher(name, studentId);
 		
 		List<Map<String, Object>> teahcerList = new ArrayList<Map<String,Object>>();
@@ -81,9 +83,7 @@ public class StudentRestController {
 			@RequestParam(value="classIds") String classIds,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		int req = studentService.classRequest(teacherId, studentId, Arrays.asList(classIds).toString()); 
-		
-		System.out.println(Arrays.asList(classIds));
+		int req = studentService.classRequest(teacherId, studentId, classIds); 
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );

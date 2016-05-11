@@ -96,6 +96,7 @@ public class TeacherRestController {
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		return new ResponseEntity<Integer>(req, headers, HttpStatus.OK);
 	}
+	
 	@RequestMapping(value="/rest/teacher/test", method={ RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public ResponseEntity<Integer> test (
@@ -156,10 +157,21 @@ public class TeacherRestController {
 			@RequestParam(value="teacherId") int teacherId,
 			@RequestParam(value="studentId") int studentId,
 			HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println(teacherId);
+		
 		int req = 0;
 		String[] classArray = classIds.split(",");
-		
-		req = teacherService.addClassStudent(Arrays.toString(classArray), teacherId, studentId);
+		for ( int i = 0; i < classArray.length; i++ ) {
+			req = teacherService.addClassStudent(classArray[i], teacherId, studentId);
+			if ( req > 0 ) {
+				continue;
+			} else {
+				req = -1;
+				break;
+			}
+		}
+//		req = teacherService.addClassStudent(Arrays.toString(classArray), teacherId, studentId);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );

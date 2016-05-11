@@ -8,9 +8,14 @@ public class Schedule {
 	private String creator;
 	private long created;
 	private String color;
+	private int creatorId;
 	
-	
-	
+	public int getCreatorId() {
+		return creatorId;
+	}
+	public void setCreatorId(int creatorId) {
+		this.creatorId = creatorId;
+	}
 	public String getColor() {
 		return color;
 	}

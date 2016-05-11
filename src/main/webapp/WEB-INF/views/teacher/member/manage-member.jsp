@@ -15,6 +15,14 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/teacher/manage-member.css">
 
+<%
+	String tabType = "1";
+	if ( request.getParameter("type") != null ) {
+		tabType = request.getParameter("type");
+	}
+%>
+
+<c:set value="<%= tabType %>" var="tabType"></c:set>
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
 	#header {
@@ -349,6 +357,11 @@ var ctx = "${ctx }";
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
+
+var tabType = parseInt("${tabType }");
+
+//tab menu controll
+$($(".custom-tab-menu li")[tabType - 1]).find("a").click();
 
 $(".students-info-wrap").on("click", ".dropdown-menu a", function ( event ) {
 	event.preventDefault();

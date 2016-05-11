@@ -29,4 +29,8 @@ public class ClassesService {
 	public Classes get ( int id ) {
 		return classesDao.get(id);
 	}
+	
+	public List<Map<String, Object>> getStudentList (int classId ) {
+		return classesDao.getStudentList(classId);
+	}
 }

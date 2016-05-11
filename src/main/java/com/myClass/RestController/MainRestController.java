@@ -44,6 +44,7 @@ public class MainRestController {
 			HttpServletRequest request, HttpServletResponse response){
 		
 		
+		Member member = userService.get(principal.getName());
 		
 		JSONArray calendarArr = new JSONArray();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -56,10 +57,12 @@ public class MainRestController {
 			calendarData.put("start", new Date(schedule.getCreated()));
 			calendarData.put("color", schedule.getColor());
 			
+			
 			if (schedule.getCreator().equals(principal.getName())) {
 				calendarData.put("editable", true);
 			}
 			
+			calendarData.put("userType", member.getUserType());
 			
 			calendarArr.add(calendarData);
 		}
@@ -76,6 +79,8 @@ public class MainRestController {
 			@RequestParam(value="id", defaultValue="0", required=false) int id,
 			@RequestParam(value="created") long created,
 			HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println( new Date ( created ) );
 		
 		int req = 0;
 		if (id > 0) {

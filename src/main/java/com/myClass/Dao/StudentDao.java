@@ -145,6 +145,7 @@ public class StudentDao {
 	public List<Map<String, Object>> getClass ( int id, boolean state ) {
 		String sql = getQuery.get("studentDao.getClass");
 		Object[] params = {
+				id,
 				id
 		};
 		

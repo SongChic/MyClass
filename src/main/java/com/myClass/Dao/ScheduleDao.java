@@ -36,6 +36,7 @@ public class ScheduleDao {
 			schedule.setCreator(rs.getString("creator"));
 			schedule.setCreated(rs.getTimestamp("created").getTime());
 			schedule.setColor(rs.getString("color"));
+			schedule.setCreatorId(rs.getInt("creator_id"));
 			return schedule;
 		}
 	};

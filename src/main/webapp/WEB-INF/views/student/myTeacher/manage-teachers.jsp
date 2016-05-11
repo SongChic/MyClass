@@ -15,6 +15,14 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/student/manage-teacher.css">
 
+<%
+	String tabType = "1";
+	if ( request.getParameter("type") != null ) {
+		tabType = request.getParameter("type");
+	}
+%>
+
+<c:set value="<%= tabType %>" var="tabType"></c:set>
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
 	#header {
@@ -86,9 +94,16 @@
 							    						<c:set value="${teacher.subject }" var="subject"/>
 						    							<p><i class="fa fa-book" aria-hidden="true"></i> <%= MyclassCommon.subject[ (Integer) pageContext.getAttribute("subject") ] %> </p>
 					    							</c:if>
-					    							<c:if test="${teacher.className ne '' }">
-					    								<p>신청한 반 : ${teacher.className }</p>
-					    							</c:if>
+					    							
+					    							<c:choose>
+						    							<c:when test="${teacher.className ne '' and student_state == 0 }">
+						    								<p>신청한 반 : ${teacher.className }</p>
+						    							</c:when>
+						    							<c:otherwise>
+						    								<p>초대한 반 : ${teacher.className }</p>
+						    							</c:otherwise>
+					    							</c:choose>
+					    							
 						    					</div>
 						    				</div>
 						    			</div>
@@ -159,6 +174,11 @@ var ctx = "${ctx }";
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
+
+var tabType = parseInt("${tabType }");
+
+//tab menu controll
+$($(".custom-tab-menu li")[tabType - 1]).find("a").click();
 
 $(".request-approve").on("click", function ( event ) {
 	var $this = $(this);
