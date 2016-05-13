@@ -166,8 +166,8 @@
 						<div class="profile-wrap row">
 					
 							<div class="teacher-profile">
-								<p><img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${member.profile}"></p>
-								<h3>${member.name }</h3>
+								<p><img class="user lazy img-circle img-thumbnail" data-original="${ctx }/img/profile/data/${teacher.profile}"></p>
+								<h3>${teacher.name }</h3>
 								<p>교과 : </p>
 								<p>슬로건 : </p>
 							</div>
@@ -189,7 +189,9 @@
 					<div class="box-layout">
 						<div class="title row fix-title">
 							<b>우리반 정보</b>
-							<button type="button" class="btn btn-success btn-xs pull-right">교재관리</button>
+							<c:if test="${member.userType == 1 }">
+								<button type="button" class="btn btn-success btn-xs pull-right">교재관리</button>
+							</c:if>
 						</div>
 						<div class="btn-wrap">
 							
@@ -250,16 +252,20 @@
 					<div class="box-layout">
 						<div class="title row classes-student fix-title">
 							<b>우리반 학생</b>
-							<div class="select-menu form-inline pull-right">
-								<a href="${ctx }/teacher/classes/manageClassMember?classId=${classes.id }" class="btn btn-success btn-xs">학생관리</a>
-								<select class="form-control">
-									<option>전체</option>
-									<option>출석</option>
-									<option>지각</option>
-									<option>조퇴</option>
-									<option>결석</option>
-								</select>
-							</div>
+							
+							<c:if test="${member.userType == 1 }">
+								<div class="select-menu form-inline pull-right">
+									<a href="${ctx }/teacher/classes/manageClassMember?classId=${classes.id }" class="btn btn-success btn-xs">학생관리</a>
+									<a href="#" class="btn btn-default btn-xs"><i class="fa fa-pencil" aria-hidden="true"></i>출결관리</a>
+									<select class="form-control">
+										<option>전체</option>
+										<option>출석</option>
+										<option>지각</option>
+										<option>조퇴</option>
+										<option>결석</option>
+									</select>
+								</div>
+							</c:if>
 						</div>
 						
 						<div class="row padding-box student-info-wrap">

@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myClass.Model.Classes;
 import com.myClass.Model.Member;
+import com.myClass.Service.ClassesService;
 import com.myClass.Service.StudentService;
 import com.myClass.Service.TeacherService;
 import com.myClass.Service.UserService;
@@ -29,6 +32,9 @@ public class StudentController {
 	
 	@Autowired
 	TeacherService teacherService; 
+	
+	@Autowired
+	ClassesService classesService;
 	
 	@RequestMapping(value="/student/myTeacher/manageTeachers")
 	public ModelAndView manageTeacher (
@@ -98,4 +104,23 @@ public class StudentController {
 		return mav;
 		
 	}
+	
+//	@RequestMapping( value="/student/classes/classRoom" )
+//	public ModelAndView classRoom (
+//			@RequestParam(value="classId") int classId,
+//			Principal principal,
+//			HttpServletRequest request, HttpServletResponse response
+//			) {
+//		
+//		Member student = userService.get(principal.getName());
+//		
+//		Classes classes = classesService.get(classId);
+//		Member teacher = studentService.getClassTeacher(classId);
+//		
+//		ModelAndView mav = new ModelAndView("/common/class-room");
+//		
+//		mav.addObject("teacher", teacher);
+//		mav.addObject("classes", classes);
+//		return mav;
+//	}
 }

@@ -2,7 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,7 +16,7 @@
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
-<link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/exam/view-test-paper.css">
 
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
@@ -39,20 +42,31 @@
 						<button type="button" class="btn btn-primary gradient" onclick="location.href='${ctx}/teacher/exam/setTestPaper'">시험지 만들기</button>
 					</div>
 					
-					<table class="table table-hover">
-						<tr>
-							<th>번호</th>
-							<th>제목</th>
-							<th>제출자</th>
-							<th>대상</th>
-						</tr>
-						<c:forEach items="${testPaper }" var="testPaper">
+					<div class="box-layout">
+						<table class="table table-hover">
 							<tr>
-								<td>${testPaper.id }</td>
-								<td>${testPaper.title }</td>
+								<th>번호</th>
+								<th>제목</th>
+								<th>문제수</th>
+								<th>제작일</th>
 							</tr>
-						</c:forEach>
-					</table>
+							<c:forEach items="${testPaper }" var="testPaper">
+								<tr>
+									<td>${testPaper.id }</td>
+									<td><a href="${ctx }/teacher/exam/viewQuestion?id=${testPaper.id }">${testPaper.title }</a></td>
+									<td>${testPaper.question }</td>
+									<td><fmt:formatDate value="${testPaper.created }" pattern="yyyy/MM/dd"/></td>
+								</tr>
+							</c:forEach>
+							<c:if test="${fn:length(testPaper) <= 0 }">
+								<tr>
+									<td colspan="4">
+										<p class="info-text">만들어진 시험지가 없습니다. 시험지 만들기 버튼을 눌러 시험지를 추가해주세요.</p><p class="info-text"><a href="${ctx}/teacher/exam/setTestPaper">이곳을 눌러도 시험지 만들기를 하실 수 있습니다.</a></p>
+									</td>
+								</tr>
+							</c:if>						
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

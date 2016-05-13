@@ -369,6 +369,10 @@ $(".save-test-paper").on("click", function ( event ) {
 				var formData = new FormData(),
 					saveState = 0;
 				
+				if ( $(".text-paper-title").hasClass("hide") ) {
+					$(".text-paper-title").find(".test-paper-title").text( $(".input-title input").val() );
+				}
+				
 				formData.append("title", $(".test-paper-title").text());
 				formData.append("teacherId", "${member.id }");
 				

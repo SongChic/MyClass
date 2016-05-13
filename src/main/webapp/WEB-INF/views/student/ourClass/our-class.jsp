@@ -297,8 +297,12 @@ var ctx = "${ctx }";
 	  });
 	});
 	
-	$(".tab-pane").on("click", "a", function( event ) {
+	$(".tab-pane").on("click", ".item > a", function( event ) {
 		event.preventDefault();
+		
+		var classId = $(this).attr("data-item");
+		
+		location.href = "${ctx }/common/classes/classRoom?id=" + classId
 	});
 	
 	$('.right-btn-wrap').on('show.bs.dropdown', function () {

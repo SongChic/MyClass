@@ -8,6 +8,9 @@ public class TestPaper {
 	private int subject;
 	private int schoolLevel;
 	private int schoolYear;
+	private long created;
+	
+	private long limit;
 	
 	
 	public int getId() {
@@ -51,6 +54,18 @@ public class TestPaper {
 	}
 	public void setSchoolYear(int schoolYear) {
 		this.schoolYear = schoolYear;
+	}
+	public long getCreated() {
+		return created;
+	}
+	public void setCreated(long created) {
+		this.created = created;
+	}
+	public long getLimit() {
+		return limit;
+	}
+	public void setLimit(long limit) {
+		this.limit = limit;
 	}
 	
 }

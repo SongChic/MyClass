@@ -349,7 +349,7 @@ var ctx = "${ctx }";
 		event.preventDefault();
 		var id = $(this).attr("data-item");
 		console.log("pass");
-		location.href="${ctx }/teacher/classes/classRoom?id=" + id;
+		location.href="${ctx }/common/classes/classRoom?id=" + id;
 	});
 	
 </script>

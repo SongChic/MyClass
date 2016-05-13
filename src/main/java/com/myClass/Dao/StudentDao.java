@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.myClass.Model.Classes;
 import com.myClass.Model.Member;
 
 @Repository("studentDao")

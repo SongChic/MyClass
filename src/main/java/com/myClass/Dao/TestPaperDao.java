@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -34,6 +35,15 @@ public class TestPaperDao {
 			testPaper.setSubject(rs.getInt("subject"));
 			testPaper.setSchoolLevel(rs.getInt("school_level"));
 			testPaper.setSchoolYear(rs.getInt("school_year"));
+			testPaper.setCreated(rs.getDate("created").getTime());
+			
+			if ( rs.getDate("limit") != null ) {
+				testPaper.setLimit(rs.getDate("limit").getTime());
+			} else {
+				testPaper.setLimit(0);
+			}
+			
+			
 			
 			//제한시간 및 기간 현재 미구현
 			return testPaper;
@@ -41,7 +51,7 @@ public class TestPaperDao {
 		
 	};
 	
-public List<TestPaper> viewTestPaper ( int teacherId ) {
+	public List<Map<String, Object>> viewTestPaper ( int teacherId ) {
 		
 		String sql = getQuery.get("questionDao.viewTestPaper");
 		Object[] params = {
@@ -49,11 +59,43 @@ public List<TestPaper> viewTestPaper ( int teacherId ) {
 		};
 		
 		try {
-			return jdbcTemplate.query(sql, params, getRowMapper);
+			return jdbcTemplate.queryForList(sql, params);
 		} catch ( DataAccessException e ) {
 			e.printStackTrace();
 		}
 		
-		return new ArrayList<TestPaper>();
+		return new ArrayList<Map<String, Object>>();
+	}
+	
+	public List<Map<String, Object>> viewQuestion ( int id ) {
+		String sql = getQuery.get("questionDao.viewQuestion");
+		Object[] params = {
+				id
+		};
+		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch (DataAccessException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
+	
+	public TestPaper getTestPeper ( int id ) {
+		String sql = getQuery.get("questionDao.getTestPeper");
+		Object[] params = {
+				id
+		};
+		
+		try {
+			return jdbcTemplate.queryForObject(sql, getRowMapper, params);
+		} catch (DataAccessException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

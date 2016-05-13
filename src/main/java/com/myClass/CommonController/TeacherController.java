@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,30 +60,30 @@ public class TeacherController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/teacher/classes/classRoom")
-	public ModelAndView ClassRoom (
-			Principal principal,
-			@RequestParam( value="id", defaultValue="0", required=false ) int id,
-			HttpServletRequest request, HttpServletResponse response) {
-		
-		ModelAndView mav = new ModelAndView("/common/class-room");
-		Member member = userService.get(principal.getName());
-		
-		Classes classes = new Classes();
-		
-		List<Map<String, Object>> classStudent = new ArrayList<Map<String,Object>>();
-		
-		if ( id > 0 ) {
-			classes = classesService.get(id);
-			classStudent = classesService.getStudentList(id);
-		}
-		
-		
-		mav.addObject("classes", classes);
-		mav.addObject("classStudent", classStudent);
-		mav.addObject("member", member);
-		return mav;
-	}
+//	@RequestMapping(value="/teacher/classes/classRoom")
+//	public ModelAndView ClassRoom (
+//			Principal principal,
+//			@RequestParam( value="id", defaultValue="0", required=false ) int id,
+//			HttpServletRequest request, HttpServletResponse response) {
+//		
+//		ModelAndView mav = new ModelAndView("/common/class-room");
+//		Member member = userService.get(principal.getName());
+//		
+//		Classes classes = new Classes();
+//		
+//		List<Map<String, Object>> classStudent = new ArrayList<Map<String,Object>>();
+//		
+//		if ( id > 0 ) {
+//			classes = classesService.get(id);
+//			classStudent = classesService.getStudentList(id);
+//		}
+//		
+//		
+//		mav.addObject("classes", classes);
+//		mav.addObject("classStudent", classStudent);
+//		mav.addObject("teacher", member);
+//		return mav;
+//	}
 	
 	@RequestMapping(value="/teacher/classes/setClasses")
 	public ModelAndView setClasses(
@@ -197,16 +199,67 @@ public class TeacherController {
 		
 		Member teacher = userService.get(principal.getName());
 		
-		List<TestPaper> testPaper = testPaperService.viewTestPaper( teacher.getId() );
-		
-		for ( TestPaper testPaerItem : testPaper ) {
-			Map<String, Object> testPaperMap = new HashMap<String, Object>();
-			testPaperMap.put("id", testPaerItem.getId());
-		}
+		List<Map<String, Object>> testPaper = testPaperService.viewTestPaper( teacher.getId() );
 		
 		ModelAndView mav = new ModelAndView("/teacher/exam/view-test-paper");
 		
 		mav.addObject("testPaper", testPaper);
+		return mav;
+	}
+	
+	@RequestMapping(value="/teacher/exam/viewQuestion")
+	public ModelAndView viewQuestion (
+			@RequestParam(value="id") int id,
+			HttpServletRequest request, HttpServletResponse response
+			) {
+		
+		List<Map<String, Object>> question = testPaperService.viewQuestion(id);
+		TestPaper testPaper = testPaperService.getTestPeper(id);
+		
+		ArrayList<Object> testPaperItem = new ArrayList<Object>();
+		
+		int num = 1;
+		int i = 0;
+		List<Map<String, Object>> questionArr = new ArrayList<Map<String,Object>>();
+		Map<String, Object> list = new HashMap<String, Object>();
+		for ( Map<String, Object> item : question ) {
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			if ( !list.containsKey("title") ) {
+				list.put("title", item.get("title"));
+			}
+			
+			if ( num == (Integer) item.get("question_num") ) {
+				map.put("question", item.get("question"));
+				questionArr.add(map);
+				questionArr.size();
+			}
+			if ( num != (Integer) item.get("question_num") || question.size() - 1 == i ) {
+				list.put("question", questionArr);
+				testPaperItem.add(list);
+				questionArr = new ArrayList<Map<String,Object>>();
+				list = new HashMap<String, Object>();
+				
+				num++;
+				
+				if ( num == (Integer) item.get("question_num") ) {
+					map.put("question", item.get("question"));
+					questionArr.add(map);
+					questionArr.size();
+				}
+				
+			}
+			i++;
+			
+		}
+		
+		
+		ModelAndView mav = new ModelAndView("/teacher/exam/view-question");
+		
+		mav.addObject("testPaperItem", testPaperItem);
+		mav.addObject("testPaper", testPaper);
+		mav.addObject("question", question);
 		return mav;
 	}
 }

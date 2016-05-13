@@ -84,6 +84,17 @@ public class MyclassCommon {
 			"국어"
 	};
 	
+	public static String[] schoolLevel = {
+			"초등학교",
+			"중학교",
+			"고등학교"
+	};
+	public static String[][] schoolYear = {
+			{"4학년", "5학년", "6학년"},
+			{"1학년", "2학년", "3학년"},
+			{"1학년", "2학년", "3학년"}
+	};
+	
 	public static int early = 0;
 	public static int invite = 1;
 	public static int complete = 2;

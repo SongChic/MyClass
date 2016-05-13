@@ -178,12 +178,8 @@ var ctx = "${ctx }";
 	
 	$(".classes-thumbnail-wrap").on("click", function ( event ) {
 		var userType = "${member.userType }",
-			id = $(this).attr("data-item");
-		if ( userType === "1" ) {
-			location.href="${ctx }/teacher/classes/classRoom?id=" + id;
-		} else if ( userType === "3" ) {
-			
-		}
+		id = $(this).attr("data-item");
+		location.href="${ctx }/common/classes/classRoom?id=" + id;
 	});
 	
 </script>
