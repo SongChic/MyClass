@@ -82,4 +82,20 @@ public class StudentController {
 		
 		return mav;
 	}
+	
+	@RequestMapping( value="/student/classes/ourClasses" )
+	public ModelAndView ourClasses(
+			Principal principal,
+			HttpServletRequest request, HttpServletResponse response) {
+		
+		Member student = userService.get(principal.getName());
+		
+		List<Map<String, Object>> classes = studentService.getOurClasses(student.getId());
+		
+		ModelAndView mav = new ModelAndView("/student/ourClass/our-class");
+		
+		mav.addObject("classes", classes);
+		return mav;
+		
+	}
 }

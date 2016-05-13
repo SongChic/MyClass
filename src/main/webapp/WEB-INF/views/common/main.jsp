@@ -63,8 +63,6 @@
 									long parseDate = dateParse.getTime();
 								%>
 								<c:set value="<%= parseDate %>" var="parseDate"/>
-								parseDate : ${parseDate } <br>
-								date : ${date } <br>
 								<c:if test="${classes.finished == 0 and parseDate < date  }">
 										
 										<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">

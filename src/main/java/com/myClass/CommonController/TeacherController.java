@@ -64,7 +64,7 @@ public class TeacherController {
 			@RequestParam( value="id", defaultValue="0", required=false ) int id,
 			HttpServletRequest request, HttpServletResponse response) {
 		
-		ModelAndView mav = new ModelAndView("/teacher/class-room");
+		ModelAndView mav = new ModelAndView("/common/class-room");
 		Member member = userService.get(principal.getName());
 		
 		Classes classes = new Classes();

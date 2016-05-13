@@ -160,4 +160,22 @@ public class StudentDao {
 		}
 		return new ArrayList<Map<String,Object>>();
 	}
+	
+	public List<Map<String, Object>> getOurClasses ( int studentId ) {
+		String sql = getQuery.get("classesDao.finished");
+		jdbcTemplate.update(sql);
+		
+		sql = getQuery.get("studentDao.getOurClasses");
+		Object[] params = {
+				studentId
+		};		
+		try {
+			return jdbcTemplate.queryForList(sql, params);
+		} catch (DataAccessException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
+	}
 }

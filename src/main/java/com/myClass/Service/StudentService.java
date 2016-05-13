@@ -40,4 +40,7 @@ public class StudentService {
 	public List<Map<String, Object>> getClass ( int id, boolean state ) {
 		return studentDao.getClass(id, state);
 	}
+	public List<Map<String, Object>> getOurClasses ( int studentId ) {
+		return studentDao.getOurClasses(studentId);
+	}
 }

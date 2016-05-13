@@ -8,7 +8,6 @@
 	padding-top: 10px; 
 }
 .classes-item {
-	overflow: hidden;
 	float: left;
 	margin-bottom: 10px;
 	width: 244px;
@@ -24,6 +23,7 @@
 	
 }
 .classes-item .view {
+	border-radius: 5px 5px 0 0;
 	margin-bottom: 10px;
 	min-height: 150px;
 }
@@ -88,10 +88,10 @@
 }
 
 .view {
-	overflow: hidden;
 	position: relative;
 }
 .view img {
+	border-radius: 5px 5px 0 0;
 	width: 100%;
 }
 .view .title {
