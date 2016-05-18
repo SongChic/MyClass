@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set value="${pageContext.request.contextPath }" var="ctx"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,7 +14,7 @@
 <%@include file="/WEB-INF/views/include/meta.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
-<link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/teacher/exam/view-question.css">
 
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
@@ -74,22 +75,47 @@
 						</div>
 						
 						<div class="exam-content row">
-							<c:forEach items="${testPaperItem }" var="question" varStatus="">
+							<c:forEach items="${testPaperItem }" var="question" varStatus="titleState">
 								<div class="question row">
-									<c:forEach items=""></c:forEach>
-									<p class="question-title">${question.title }</p>
+									<p class="question-title"><em>${titleState.count }. </em><span>${question.title }</span></p>
 									<div class="question-answer-wrap row">
 										<ul>
-											<c:forEach items="${question.question }" var="item">
-												<li>${item.question }</li>
+											<c:forEach items="${question.question }" var="item" varStatus="status">
+												<c:set value="${fn:split(question.answer, ',')}" var="answer"/>
+												<c:set value="false" var="active"/>
+												<c:forEach items="${answer }" var="answers" varStatus="answerStatus">
+													<c:if test="${answer[answerStatus.index] == status.count }">
+														<c:set value="true" var="active"/>
+													</c:if>
+												</c:forEach>
+												<c:choose>
+													<c:when test="${active }">
+														<li class="active"><em>${status.count }</em>${item.question }</li>
+													</c:when>
+													
+													<c:otherwise>
+														<li><em>${status.count }</em>${item.question }</li>
+													</c:otherwise>
+												</c:choose>
+												
+												
 											</c:forEach>
 										</ul>
 									</div>
 								</div>
 							</c:forEach>
 						</div>
+						
 					</div>
 				
+				</div>
+				
+				<div class="exam-btn-wrap row">
+					<div class="exam-btn pull-right">
+						<button type="button" class="btn btn-danger">삭제</button>
+						<button type="button" class="btn btn-warning" onClick="location.href='${ctx }/teacher/exam/setTestPaper?id=${testPaper.id }'">수정</button>
+						<button type="button" class="btn btn-default" onClick="location.href='${ctx }/teacher/exam/viewTestPaper'">목록</button>
+					</div>
 				</div>
 			</div>
 		</div>

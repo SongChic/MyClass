@@ -146,6 +146,8 @@ var count = 0,
 	globalQuestionArr = [],
 	$exambody = $(".exam-body");
 	
+var testPaper = "${testPaper }";
+	
 //testpaper date check
 $(".date-set").on("click", function ( event ) {
 	$(this).prop("checked") ? 
@@ -162,6 +164,9 @@ $(".add-exam-btn").on("click", function ( event ) {
 });
 
 function addQuestion ( questionArr, edit ) {
+	
+	console.log(edit);
+	
 	var template = "<div class='question row' data-item='" + questionArr[0].answer + "'>" +
 				   "<p class='question-title'><em></em><span><span></p>" +
 				   "<div class='question-answer-wrap row'>" +
@@ -265,18 +270,21 @@ $exambody.on("mouseenter mouseleave", ".question", function ( event ) {
 		});
 	}
 });
+
+//exam edit
 $exambody.on("click", ".modify-btn", function ( event ) {
-	var dialog = questionModal( $(this).parent() ),
-		$question = dialog.find(".subjective-question-section .form-group");
-	dialog.find(".question-title-input").val( globalQuestionArr[0].title );
+// 	console.log($(this).parent().find("ul"));
+	var dialog = questionModal( $(this).parent().closest(".question") );
+// 		$question = dialog.find(".subjective-question-section .form-group");
+// 	dialog.find(".question-title-input").val( globalQuestionArr[0].title );
 	
-	for ( var i = 0; i < $question.length; i++ ) {
-		$($question[i]).find("input").val( globalQuestionArr[0].question[i] );
-	}
+// 	for ( var i = 0; i < $question.length; i++ ) {
+// 		$($question[i]).find("input").val( globalQuestionArr[0].question[i] );
+// 	}
 	
-	for ( var i = 0; i < globalQuestionArr[0].answer.length; i ++) {
-		$(dialog.find("#subjectiveAnswer .circle") [ globalQuestionArr[0].answer[i] - 1 ]).addClass("bg-primary")
-	}
+// 	for ( var i = 0; i < globalQuestionArr[0].answer.length; i ++) {
+// 		$(dialog.find("#subjectiveAnswer .circle") [ globalQuestionArr[0].answer[i] - 1 ]).addClass("bg-primary")
+// 	}
 });
 
 $(".school-year").on("change", ".school-level", function ( event ) {
@@ -315,6 +323,7 @@ $(".title-edit-save").on("click", function ( event ) {
 		$titleInput.next("p").removeClass("hide").addClass("show");
 	}
 });
+
 $(".title-input").on("keydown keyup", function ( event ) {
 	if ( $(this).val() !== "" ) {
 		$(this).next("p").removeClass("show").addClass("hide");
@@ -330,7 +339,7 @@ $(".title-input").on("keydown keyup", function ( event ) {
 $(".save-test-paper").on("click", function ( event ) {
 	var $parent = $(".exam-body"),
 		$item = $parent.find(".question"),
-		id = 0,
+		id = "${id}",
 		contentArr = {
 			limitDate : "기간을 설정 하지 않으셧습니다. 그래도 시험지를 생성하시겠습니까?",
 			limitTime : "제한시간을 설정 하지 않으셧습니다. 그래도 시험지를 생성하시겠습니까?",
@@ -360,19 +369,18 @@ $(".save-test-paper").on("click", function ( event ) {
 		contentText = "시험지를 생성하시겠습니까?"
 	}
 	
-// 	content = $(".limit-time").val() == "" ? "제한시간을 설정 하지 않으셧습니다. 그래도 시험지를 생성하시겠습니까?" : ""; 
-// 	content = !$(".date-set").prop("checked") ? "기간을 설정 하지 않으셧습니다. 그래도 시험지를 생성하시겠습니까?" : "";
-	
 	noticeModal ({title : "시험지 생성 안내", content : contentText}, function ( result ) {
 		if ( result ) {
 			if ( $item.length > 0 ) {
 				var formData = new FormData(),
-					saveState = 0;
+					saveState = 0,
+					responseId = 0;
 				
 				if ( $(".text-paper-title").hasClass("hide") ) {
 					$(".text-paper-title").find(".test-paper-title").text( $(".input-title input").val() );
 				}
 				
+				formData.append("id", id);
 				formData.append("title", $(".test-paper-title").text());
 				formData.append("teacherId", "${member.id }");
 				
@@ -393,16 +401,21 @@ $(".save-test-paper").on("click", function ( event ) {
 			        contentType: false
 			    }).done( function( response ) {
 			    	
-			    	id = response;
+			    	responseId = response;
 			    	for ( var i = 0; i < $item.length; i++ ) {
 			    		for ( var j = 0; j < $($item[i]).find(".question-answer-wrap ul li").length; j++ ) {
 			    			var formData = new FormData(),
 			    				answerArr = [];
-			    			formData.append( "id", id );
+			    			formData.append( "edited", id > 0 ? true : false);
+			    			formData.append( "id", id > 0 ? id : responseId);
+			    			
 			    			formData.append( "title", $($item[i]).find(".question-title span").text() );
 			    			formData.append( "selectNum", j + 1 );
 			    			formData.append( "questionNum", i + 1 );
 			    			formData.append( "question", $($($item[i]).find(".question-answer-wrap ul li span")[j]).text() );
+			    			
+			    			console.log( $($($item[i]).find(".question-answer-wrap ul li span")[j]).text() );
+			    			
 			    			for ( var k = 0; k < $($item[i]).find(".question-answer-wrap ul li.active").length; k++ ) {
 			    				answerArr.push($($($item[i]).find(".question-answer-wrap ul li.active")[k]).index() + 1);
 			    			}
@@ -419,13 +432,19 @@ $(".save-test-paper").on("click", function ( event ) {
 			    		        type : "POST",
 			    		        enctype: 'multipart/form-data',
 			    		        processData: false, 
-			    		        contentType: false
+			    		        contentType: false,
+			    		        async: false
 			    		    }).done( function( response ) {
 			    		    	saveState ++;
 			    		    	if ( $item.length == saveState ) {
 			    		    		noticeModal({title:"시험지 생성 완료", content:"시험지 생성을 완료했습니다."}, function ( result ) {
 			    		    			if ( result ) {
-			    		    				location.href = "${ctx }/"
+			    		    				if ( id > 0 ) {
+			    		    					location.href = "${ctx }/teacher/exam/viewQuestion?id=" + id;
+			    		    				} else {
+			    		    					location.href = "${ctx }/teacher/exam/viewQuestion?id=" + responseId;
+			    		    				}
+			    		    				
 			    		    			}
 			    		    		});
 			    		    	}
@@ -469,6 +488,70 @@ $(".start-date, .end-date").datetimepicker({
 	locale : 'ko',
 	format : 'YYYY-MM-DD'
 });
+
+
+//set testpaper edit
+if ( testPaper ) {
+	$(".title-input").val( "${testPaper.title }" );
+	console.log( "${testPaper.schoolLevel }" );
+	$(".title-edit-save").click();
+	
+	var schoolLevel = parseInt("${testPaper.schoolLevel }"),
+		schoolYear = parseInt("${testPaper.schoolYear }"),
+		questionList = JSON.parse('${list }');
+	
+	
+	$($(".school-level").find("option")[schoolLevel]).prop("selected", true).change();
+	$($(".school-year-select").find("option")[schoolLevel]).prop("selected", true);
+	
+	if ( "${testPaper.schoolLevel }" ) {
+		console.log("limit");
+	}
+	
+	for ( var i = 0; i < questionList.length; i++ ) {
+		
+		var template = "<div class='question row'>" +
+		   "<p class='question-title'><em></em><span></span></p>" +
+		   "<div class='question-answer-wrap row'>" +
+		   "<ul></ul>" +
+		   "</div>" +
+		   "</div>";
+		   
+		var $item = $(template);
+		
+		var answer = questionList[i][0].answer.split(","),
+			title = questionList[i][0].title,
+			item = questionList[i][0].question;
+		
+		$item.find(".question-title span").text(title).parent().find("em").text((i+1) + ". ");
+		
+		var appendHtml = "";
+		
+		console.log(answer);
+		
+		
+		for ( var j = 0; j < item.length; j++ ) {
+			
+			appendHtml += "<li><em>" + (j + 1) + "</em><span>" + item[j].question + "</span></li>";
+			
+		}
+		
+		var items = $(appendHtml);
+		
+		$item.find("ul").html(appendHtml);
+		
+		var $examBody = $("#examBody").append($item),
+			$answerBody = $($examBody.find(".question")[i])
+		
+		for ( var x = 0; x < answer.length; x++ ) {
+			var answerInt = parseInt(answer[x]);
+			$($($answerBody).find("ul li")[answerInt - 1]).addClass("active");
+		}
+		
+		count++;
+	}
+	
+} 
 
 </script>
 </body>

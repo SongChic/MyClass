@@ -43,29 +43,31 @@
 					</div>
 					
 					<div class="box-layout">
-						<table class="table table-hover">
-							<tr>
-								<th>번호</th>
-								<th>제목</th>
-								<th>문제수</th>
-								<th>제작일</th>
-							</tr>
-							<c:forEach items="${testPaper }" var="testPaper">
+						<div class="table-responsive">
+							<table class="table table-hover">
 								<tr>
-									<td>${testPaper.id }</td>
-									<td><a href="${ctx }/teacher/exam/viewQuestion?id=${testPaper.id }">${testPaper.title }</a></td>
-									<td>${testPaper.question }</td>
-									<td><fmt:formatDate value="${testPaper.created }" pattern="yyyy/MM/dd"/></td>
+									<th width="10%">번호</th>
+									<th>제목</th>
+									<th width="10%">문제수</th>
+									<th width="15%">제작일</th>
 								</tr>
-							</c:forEach>
-							<c:if test="${fn:length(testPaper) <= 0 }">
-								<tr>
-									<td colspan="4">
-										<p class="info-text">만들어진 시험지가 없습니다. 시험지 만들기 버튼을 눌러 시험지를 추가해주세요.</p><p class="info-text"><a href="${ctx}/teacher/exam/setTestPaper">이곳을 눌러도 시험지 만들기를 하실 수 있습니다.</a></p>
-									</td>
-								</tr>
-							</c:if>						
-						</table>
+								<c:forEach items="${testPaper }" var="testPaper">
+									<tr>
+										<td>${testPaper.id }</td>
+										<td><a href="${ctx }/teacher/exam/viewQuestion?id=${testPaper.id }">${testPaper.title }</a></td>
+										<td>${testPaper.question }</td>
+										<td><fmt:formatDate value="${testPaper.created }" pattern="yyyy/MM/dd"/></td>
+									</tr>
+								</c:forEach>
+								<c:if test="${fn:length(testPaper) <= 0 }">
+									<tr>
+										<td colspan="4">
+											<p class="info-text">만들어진 시험지가 없습니다. 시험지 만들기 버튼을 눌러 시험지를 추가해주세요.</p><p class="info-text"><a href="${ctx}/teacher/exam/setTestPaper">이곳을 눌러도 시험지 만들기를 하실 수 있습니다.</a></p>
+										</td>
+									</tr>
+								</c:if>						
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

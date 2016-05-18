@@ -2,7 +2,6 @@ package com.myClass.CommonController;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -186,10 +184,71 @@ public class TeacherController {
 	
 	@RequestMapping(value="/teacher/exam/setTestPaper")
 	public ModelAndView setTestPaper(
-			
+			@RequestParam(required=false, defaultValue="0") int id,
 			HttpServletRequest request, HttpServletResponse response){
+		
+		TestPaper testPaper = null;
+		JSONArray list = null;
+		
+		if ( id > 0 ) {
+			testPaper = testPaperService.getTestPeper(id);
+			
+			List<Map<String, Object>> questionList = testPaperService.viewQuestion(id);
+			list = new JSONArray();
+			JSONArray question = new JSONArray();
+			JSONArray questionArr = new JSONArray();
+			JSONArray questionBody = new JSONArray();
+			
+			JSONObject questionInfo = new JSONObject();
+			
+			int num = 1;
+			int i = 1;
+			for ( Map<String, Object> item : questionList) {
+				JSONObject questionItem = new JSONObject();
+				if ( num == (Integer) item.get("question_num") ) {
+					if ( !questionInfo.containsKey("title") ) {
+						questionInfo.put("title", item.get("title"));
+						questionInfo.put("answer", item.get("answer"));
+					}
+					
+					questionItem.put("question", item.get("question"));
+					questionBody.add(questionItem);
+				}
+				
+				if ( num != (Integer) item.get("question_num") || questionList.size() == i ) {
+					questionArr = new JSONArray();
+					questionInfo.put("question", questionBody);
+					questionArr.add(questionInfo);
+					
+					list.add(questionArr);
+					question = new JSONArray();
+					
+					questionItem = new JSONObject();
+					questionInfo = new JSONObject();
+					questionBody = new JSONArray();
+					num ++;
+					
+					if ( num == (Integer) item.get("question_num") ) {
+						if ( !questionInfo.containsKey("title") ) {
+							questionInfo.put("title", item.get("title"));
+							questionInfo.put("answer", item.get("answer"));
+						}
+						
+						questionItem.put("question", item.get("question"));
+						questionBody.add(questionItem);
+					}
+					
+				}
+				i++;
+				
+			}
+		}
+		
 		ModelAndView mav = new ModelAndView("/teacher/exam/set-test-paper");
 		
+		mav.addObject("id", id);
+		mav.addObject("list", list);
+		mav.addObject("testPaper", testPaper);
 		return mav;
 	}
 	@RequestMapping(value="/teacher/exam/viewTestPaper")
@@ -228,6 +287,7 @@ public class TeacherController {
 			
 			if ( !list.containsKey("title") ) {
 				list.put("title", item.get("title"));
+				list.put("answer", item.get("answer"));
 			}
 			
 			if ( num == (Integer) item.get("question_num") ) {

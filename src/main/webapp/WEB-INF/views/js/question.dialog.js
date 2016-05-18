@@ -101,6 +101,23 @@ function questionModal ( edit ) {
 	
 	var dialog = $(template);
 	
+	if ( edit ) {
+		
+		var items = $(edit).find("ul li");
+		
+		//modal title
+		dialog.find(".question-title-input").val( $(edit).find(".question-title span").text() );
+		
+		for ( var i = 0; i < items.length; i++ ) {
+			if ( $(items[i]).hasClass("active") ) {
+				$(dialog.find("#subjectiveAnswer .circle")[ $(items[i]).index() ]).addClass("bg-primary");
+				console.log( $("#subjectiveAnswer .circle") );
+			}
+			$(dialog.find("#subjectiveQuestionSection .form-group")[i]).find("input").val( $(items[i]).find("span").text() )
+		}
+		
+	}
+	
 	dialog.modal({
  		show : true,
  		keyboard : false
@@ -149,6 +166,7 @@ function questionModal ( edit ) {
 		});
 		
 		console.log(questionArray);
+		
 		addQuestion(questionArray, edit);
 		$("#makeQuestion").modal("hide");
 	});

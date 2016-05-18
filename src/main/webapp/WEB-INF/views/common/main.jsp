@@ -71,18 +71,17 @@
 											<c:choose>
 												<c:when test="${not empty classes.picture and classes.classes_view_type == 2 }">
 													<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
-														<p>${classes.name }</p>
 													</div>
 												</c:when>
 												<c:when test="${classes.classes_view_type == 1 }">
 													<c:set value="${classes.color }" var="color"/>
 													<div class="classes-back-color" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-														${classes.name }
 													</div>
 												</c:when>
 											</c:choose>
 											
 												<div class="classes-info">
+													<h5>${classes.name }</h5>
 													<ul>
 														<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
 														<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
@@ -169,7 +168,7 @@ var ctx = "${ctx }";
 		selector : '.item',
 		animate : true,
 		cellW : 170,
-		cellH : 190,
+		cellH : 220,
 		onResize : function() {
 			wall.refresh();
 		}

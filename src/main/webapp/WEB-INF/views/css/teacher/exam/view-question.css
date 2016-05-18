@@ -1,5 +1,5 @@
 .test-paper-title {
-	padding: 40px 0 0;
+	padding: 20px 0 0;
 }
 .exam-title {
 	margin-bottom: 10px;
@@ -68,8 +68,6 @@
 .question {
 	position: relative;
 	margin-bottom: 10px;
-	padding-bottom: 5px;
-	border-bottom: 1px dashed #e9e9e9;
 }
 .question .modify-btn {
     position: absolute;
@@ -88,4 +86,8 @@
 }
 .input-title p.info-text {
 	margin: 0;
+}
+
+.exam-btn-wrap {
+	margin-top: 10px;
 }

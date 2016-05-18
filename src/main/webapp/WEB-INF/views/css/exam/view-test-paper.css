@@ -1,6 +1,9 @@
 .btn-wrap {
 	margin-bottom: 10px;
 }
+.table-hover {
+	margin-bottom: 0;
+}
 .table-hover > tbody > tr:hover {
 	background: none;
 }

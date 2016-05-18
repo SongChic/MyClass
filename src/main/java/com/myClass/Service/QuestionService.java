@@ -16,7 +16,7 @@ public class QuestionService {
 		return questionDao.setTestPaper( testPaper );
 	}
 	
-	public int setQuestion ( int id, Question question ) {
-		return questionDao.setQuestion(id, question);
+	public int setQuestion ( int id, Question question, Boolean edited ) {
+		return questionDao.setQuestion(id, question, edited);
 	}
 }

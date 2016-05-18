@@ -36,8 +36,10 @@ public class CommonController {
 			@RequestParam( value="id", defaultValue="0", required=false ) int id,
 			HttpServletRequest request, HttpServletResponse response) {
 		
+		Member member = userService.get(principal.getName());
+		
 		ModelAndView mav = new ModelAndView("/common/class-room");
-		Member teacher = commonService.getClassTeacher(id);
+		
 		
 		Classes classes = new Classes();
 		
@@ -51,7 +53,12 @@ public class CommonController {
 		
 		mav.addObject("classes", classes);
 		mav.addObject("classStudent", classStudent);
-		mav.addObject("teacher", teacher);
+		
+		if ( member.getUserType() == 3 ) {
+			Member teacher = commonService.getClassTeacher(id);
+			mav.addObject("teacher", teacher);
+		}
+		
 		return mav;
 	}
 	

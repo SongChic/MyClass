@@ -31,7 +31,11 @@ public class QuestionRestController {
 			MultipartHttpServletRequest request,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		
+		int req = 0;
+		
 		TestPaper testPaper = new TestPaper();
+		
+		testPaper.setId(Integer.parseInt(request.getParameter("id")));
 		testPaper.setTitle(request.getParameter("title"));
 		testPaper.setTeacherId(Integer.parseInt(request.getParameter("teacherId")));
 		testPaper.setTextBook(request.getParameter("textBook"));
@@ -39,7 +43,7 @@ public class QuestionRestController {
 		testPaper.setSchoolLevel(Integer.parseInt(request.getParameter("schoolLevel")));
 		testPaper.setSchoolYear(Integer.parseInt(request.getParameter("schoolYear")));
 		
-		int req = questionService.setTestPaper(testPaper);
+		req = questionService.setTestPaper(testPaper);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );
@@ -53,6 +57,7 @@ public class QuestionRestController {
 			MultipartHttpServletRequest request,
 			HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		
+		
 		Question question = new Question();
 		question.setTitle(request.getParameter("title"));
 		question.setSelectNum(Integer.parseInt(request.getParameter("selectNum")));
@@ -63,7 +68,7 @@ public class QuestionRestController {
 		question.setAddQuestion(request.getParameter("addQuestion"));
 		question.setQuestionImg(request.getParameter("questionImg"));
 		
-		int req = questionService.setQuestion(Integer.parseInt(request.getParameter("id")), question);
+		int req = questionService.setQuestion(Integer.parseInt(request.getParameter("id")), question, Boolean.parseBoolean(request.getParameter("edited")));
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType( MediaType.APPLICATION_JSON );
