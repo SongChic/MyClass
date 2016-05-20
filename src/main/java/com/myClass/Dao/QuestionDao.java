@@ -1,9 +1,10 @@
 package com.myClass.Dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -59,6 +60,7 @@ public class QuestionDao {
 						pstm.setInt(4, testPaper.getSubject());
 						pstm.setInt(5, testPaper.getSchoolLevel());
 						pstm.setInt(6, testPaper.getSchoolYear());
+						pstm.setTimestamp(7, new Timestamp(testPaper.getLimit()));
 						
 						return pstm;
 					}

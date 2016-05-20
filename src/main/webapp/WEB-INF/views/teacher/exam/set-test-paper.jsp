@@ -389,6 +389,19 @@ $(".save-test-paper").on("click", function ( event ) {
 				formData.append("subject", "${member.subject }");
 				formData.append("schoolLevel", $(".school-level").val() );
 				formData.append("schoolYear", $(".school-year-select").val() );
+				var nowDate = new Date().getTime()
+				if ( $(".limit-time").val() ) {
+					var limitArr = $(".limit-time").val().split(" : "),
+						dateTime = new Date(2016, 1, 1).getTime(),
+						limitTime = 0;
+					
+					limitTime = dateTime + (parseInt(limitArr[0]) * 60 * 60 * 1000) + (parseInt(limitArr[1]) * 60 * 1000);
+					
+				}
+				
+				console.log( limitTime );
+				
+				formData.append("limit", limitTime );
 				
 				
 				$.ajax({

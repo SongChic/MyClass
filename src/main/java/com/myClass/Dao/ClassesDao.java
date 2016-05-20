@@ -91,9 +91,9 @@ public class ClassesDao {
 			
 			
 			try {
+				
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					String sql = getQuery.get("classesDao.setClasses");
-					
 					@Override
 					public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 						// TODO Auto-generated method stub
