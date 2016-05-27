@@ -42,9 +42,15 @@ public class QuestionRestController {
 		testPaper.setSubject(Integer.parseInt(request.getParameter("subject")));
 		testPaper.setSchoolLevel(Integer.parseInt(request.getParameter("schoolLevel")));
 		testPaper.setSchoolYear(Integer.parseInt(request.getParameter("schoolYear")));
-		testPaper.setLimit(Long.parseLong(request.getParameter("limit")));
 		
-		System.out.println( Long.parseLong(request.getParameter("limit")) );
+		if ( Long.parseLong(request.getParameter("limit")) > 0 ) {
+			testPaper.setLimit(Long.parseLong(request.getParameter("limit")));
+		}
+		
+		if ( Long.parseLong( request.getParameter("startDate") ) > 0 ) {
+			testPaper.setStartDate( Long.parseLong(request.getParameter("startDate")) );
+			testPaper.setEndDate( Long.parseLong(request.getParameter("endDate")) );
+		}
 		
 		req = questionService.setTestPaper(testPaper);
 

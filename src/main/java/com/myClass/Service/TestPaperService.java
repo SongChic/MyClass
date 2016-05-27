@@ -23,4 +23,7 @@ public class TestPaperService {
 	public TestPaper getTestPeper ( int id ) {
 		return testPaperDao.getTestPeper(id);
 	}
+	public List<Map<String, Object>> getTestPaperList( String id ) {
+		return testPaperDao.getTestPaperList(id);
+	}
 }

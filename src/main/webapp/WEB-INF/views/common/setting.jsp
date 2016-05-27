@@ -60,14 +60,14 @@
 										<span class="radio">
 											<label>
 												<input type="radio" name="main-set" checked />
-												시험 / 과제
+												수업 / 시험
 											</label>
 										</span>
 										
 										<span class="radio">
 											<label>
 												<input type="radio" name="main-set" />
-												채팅
+												모임
 											</label>
 										</span>
 									</div>
@@ -136,6 +136,7 @@ var ctx = "${ctx }";
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
 <script type="text/javascript">
+	var changeState = false;
 	
 	$.material.init();
 	var colorIndex = "${member.mainColor }";
@@ -153,6 +154,8 @@ var ctx = "${ctx }";
 			$parent = $(this).parent();
 		
 		colorIndex = $(this).index();
+		
+		changeState = true;
 		
 		$("#header").removeClass().addClass($(this).attr("data-item"))
 		
@@ -173,12 +176,19 @@ var ctx = "${ctx }";
 			mainColor : colorIndex
 		};
 		
+		changeState = false;
+		
 		publicAjax ("post", "${ctx }/rest/setSetting", ajaxData, function (respose){
 			if (respose > 0) {
 				location.reload();
 			}
 		});
 	}
+	
+	$(window).bind('beforeunload', function() {
+		if ( changeState )
+			return "변경된 사항이 있습니다. 그래도 페이지에서 나가시겠습니까?";
+	});
 
 </script>
 </body>

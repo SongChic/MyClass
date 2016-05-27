@@ -10,6 +10,9 @@ public class TestPaper {
 	private int schoolYear;
 	private long created;
 	
+	private long startDate;
+	private long endDate;
+	
 	private long limit;
 	
 	
@@ -66,6 +69,18 @@ public class TestPaper {
 	}
 	public void setLimit(long limit) {
 		this.limit = limit;
+	}
+	public long getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(long startDate) {
+		this.startDate = startDate;
+	}
+	public long getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(long endDate) {
+		this.endDate = endDate;
 	}
 	
 }

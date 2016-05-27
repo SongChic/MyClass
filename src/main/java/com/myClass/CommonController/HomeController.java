@@ -1,11 +1,16 @@
 package com.myClass.CommonController;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myClass.Model.Member;
 import com.myClass.Service.ClassesService;
 import com.myClass.Service.StudentService;
+import com.myClass.Service.TestPaperService;
 import com.myClass.Service.UserService;
 
 @Controller
@@ -36,6 +42,9 @@ public class HomeController {
 	
 	@Autowired
 	StudentService studentService;
+	
+	@Autowired
+	TestPaperService testPaperService;
 	
 	public Member getUser() {
 		return (Member) SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -66,11 +75,16 @@ public class HomeController {
 		} else if ( member.getUserType() == 3 ) {
 			classes = studentService.getClass(member.getId(), true);
 		}
+		List<Map<String, Object>> testPaper = new ArrayList<Map<String,Object>>();
+		if ( member.getUserType() == 1 ) {
+			testPaper = testPaperService.getTestPaperList( String.valueOf( member.getId() ) );
+		}
 		
 		ModelAndView mav = new ModelAndView("/common/main");
 		session.setAttribute("member", member);
 		mav.addObject("member", member);
 		
+		mav.addObject("testPaper", testPaper);
 		mav.addObject("classes", classes);
 		return mav;
 	}

@@ -1,0 +1,197 @@
+/*mCustomer reset css (s)*/
+.mCSB_inside>.mCSB_container {
+	margin: 0;
+}
+.mCSB_scrollTools .mCSB_dragger {
+	z-index: 1001;
+}
+/*mCustomer reset css (e)*/
+.sticky-header {
+	position: fixed;
+	top: 0;
+	z-index: 1000;
+	width: 100%;
+}
+.section-img {
+	height: 750px;
+	background-attachment: fixed;
+}
+.section {
+	height: 750px;
+}
+.section > .content {
+	position: relative;
+	height: 100%;
+}
+.class-info {
+	background: #fff;
+}
+.class-info > .content {
+	position: relative;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+/* 	background-image: url(../img/bg.jpg) */
+}
+
+.class-wrap {
+	position: absolute;
+	bottom: 200px;
+	right: 0;
+	z-index: 900;
+}
+.class-info > .content.tablet .class-wrap,
+.class-info > .content.mobile .class-wrap {
+	left: 0;
+	right: 0;
+	bottom: 10px;
+}
+.testpaper-info {
+	height:900px;
+	background-image: url(../img/main_bg_02.gif)
+}
+.class-info h4,
+.class-info p,
+.class-info i {
+	margin: 0;
+	text-align: center;
+	font-family: 'NanumGothic';
+}
+.class-info h4 {
+	font-size: 40px;
+	font-weight: 400;
+}
+.class-info p {
+	margin-bottom: 10px;
+	font-size: 25px;
+}
+.class-info i {
+	display: block;
+	width: 100%;
+	margin-bottom: 50px;
+	font-style: normal;
+	font-size: 17px;
+}
+.class-info button {
+	margin:0 auto;
+	padding: 20px 80px;
+	display: block;
+	background: none;
+	border:1px solid #000;
+	border-radius: 10px;
+}
+.class-info button:hover {
+	background: rgba(0,0,0,.1)
+}
+
+/* */
+.class-info .item {
+	position: absolute;
+}
+.class-info .ipad {
+	top: 60px;
+	left: 35px;
+	width: 433px;
+	height: 636px;
+	opacity: 0;
+	background: url(../img/ipad.png) no-repeat;
+	ms-transform: rotate(-7deg); /* IE 9 */
+    -webkit-transform: rotate(-7deg); /* Chrome, Safari, Opera */
+    transform: rotate(-7deg);
+    transition: top opacity ease;
+    
+}
+.class-info .iphone {
+	top: 280px;
+	left: 350px;
+	width: 220px;
+	height: 431px;
+	opacity: 0;
+	background: url(../img/iphone.png) no-repeat;
+	
+	ms-transform: rotate(7deg); /* IE 9 */
+    -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+    transform: rotate(7deg);
+    
+    transition: top ease;
+}
+
+.class-info > .content.tablet > .ipad {
+	margin: 0 auto;
+	width: 253px;
+	height: 372px;
+	left: -50px;
+	right: 0;
+	background: url(../img/ipad_sm.png) no-repeat;
+}
+.class-info > .content.tablet > .iphone {
+	margin: 0 auto;
+	width: 135px;
+	height: 264px;
+	left: 100px;
+	right: 0;
+	background: url(../img/iphone_sm.png) no-repeat;
+}
+.class-info > .content.mobile > .ipad {
+	margin: 0 auto;
+	width: 253px;
+	height: 372px;
+	left: -50px;
+	right: 0;
+	background: url(../img/ipad_sm.png) no-repeat;
+}
+.class-info > .content.mobile > .iphone {
+	margin: 0 auto;
+	width: 135px;
+	height: 264px;
+	left: 100px;
+	right: 0;
+	background: url(../img/iphone_sm.png) no-repeat;
+}
+
+.icon-info {
+	position: absolute;
+	bottom: 0;
+	margin: 0;
+	padding: 0 0 10px;
+	width: 100%;
+}
+.icon-info li {
+	float: left;
+	padding: 10px;
+	margin-bottom: 20px;
+	width: 25%;
+	height: 180px;
+	
+	text-align: center;
+}
+.icon-info li > em {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 50px;
+}
+
+.function-info h4 {
+	margin: 0;
+	padding-top: 150px;
+	text-align: center;
+	font-family: 'NanumGothic';
+	font-size: 40px;
+	font-weight: 500;
+}
+
+.testpaper-info-wrap {
+	display: table;
+}
+
+.text-section,
+.type-section {
+	display: table-cell;
+	color: #fff;
+}
+.type-section {
+	padding: 100px;
+}
+.text-section {
+	vertical-align: middle;
+}

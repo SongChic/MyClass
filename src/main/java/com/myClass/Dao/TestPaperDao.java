@@ -37,10 +37,21 @@ public class TestPaperDao {
 			testPaper.setSchoolYear(rs.getInt("school_year"));
 			testPaper.setCreated(rs.getDate("created").getTime());
 			
-			if ( rs.getDate("limit") != null ) {
-				testPaper.setLimit(rs.getDate("limit").getTime());
+			if ( rs.getDate("limit_time") != null ) {
+				testPaper.setLimit(rs.getDate("limit_time").getTime());
 			} else {
 				testPaper.setLimit(0);
+			}
+			
+			if ( rs.getDate("start_date") != null ) {
+				testPaper.setStartDate(rs.getDate("start_date").getTime());
+			} else {
+				testPaper.setStartDate(0);
+			}
+			if ( rs.getDate("end_date") != null ) {
+				testPaper.setEndDate(rs.getDate("end_date").getTime());
+			} else {
+				testPaper.setEndDate(0);
 			}
 			
 			
@@ -97,5 +108,18 @@ public class TestPaperDao {
 		}
 		
 		return null;
+	}
+	
+	public List<Map<String, Object>> getTestPaperList( String id ) {
+		String sql = getQuery.get("testPaper.getTestPaperList") + "in (" + id + ") order by test.start_date asc";
+		
+		try {
+			return jdbcTemplate.queryForList(sql);
+		} catch (DataAccessException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<Map<String,Object>>();
 	}
 }

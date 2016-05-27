@@ -165,7 +165,6 @@ $(".add-exam-btn").on("click", function ( event ) {
 
 function addQuestion ( questionArr, edit ) {
 	
-	console.log(edit);
 	
 	var template = "<div class='question row' data-item='" + questionArr[0].answer + "'>" +
 				   "<p class='question-title'><em></em><span><span></p>" +
@@ -389,20 +388,29 @@ $(".save-test-paper").on("click", function ( event ) {
 				formData.append("subject", "${member.subject }");
 				formData.append("schoolLevel", $(".school-level").val() );
 				formData.append("schoolYear", $(".school-year-select").val() );
-				var nowDate = new Date().getTime()
+				var nowDate = new Date().getTime(),
+					limitTime = 0;
+				
 				if ( $(".limit-time").val() ) {
 					var limitArr = $(".limit-time").val().split(" : "),
-						dateTime = new Date(2016, 1, 1).getTime(),
-						limitTime = 0;
+						dateTime = new Date(2016, 1, 1).getTime();
 					
 					limitTime = dateTime + (parseInt(limitArr[0]) * 60 * 60 * 1000) + (parseInt(limitArr[1]) * 60 * 1000);
+				}
+				
+				var startDate = 0,
+				endDate = 0;
+				
+				if ( $(".date-set").prop("checked") ) {
+					
+					startDate = $(".start-date").val(),
+					endDate = $(".end-date").val();
 					
 				}
 				
-				console.log( limitTime );
-				
 				formData.append("limit", limitTime );
-				
+				formData.append("startDate", new Date ( startDate ).getTime() );
+				formData.append("endDate", new Date ( endDate ).getTime() );
 				
 				$.ajax({
 					dataType : 'json',
@@ -520,6 +528,15 @@ if ( testPaper ) {
 	if ( "${testPaper.schoolLevel }" ) {
 		console.log("limit");
 	}
+	if ( parseInt( "${testPaper.startDate }" ) > 0 ) {
+		var startDate = "${testPaper.startDate }",
+			endDate = "${testPaper.endDate }";
+			
+		$(".date-set").click();
+		$(".start-date").val( moment(new Date( parseInt(startDate) )).format( "YYYY-MM-DD" ) );
+		$(".end-date").val( moment(new Date( parseInt(endDate) )).format( "YYYY-MM-DD" ) );
+	}
+	console.log( "${testPaper.startDate }" );
 	
 	for ( var i = 0; i < questionList.length; i++ ) {
 		

@@ -31,6 +31,8 @@ public class QuestionDao {
 		
 		KeyHolder holder = new GeneratedKeyHolder();
 		
+		System.out.println( testPaper.getLimit() );
+		
 		if ( id > 0 ) {
 			String sql = getQuery.get("questionDao.editTestPeper");
 			
@@ -39,6 +41,9 @@ public class QuestionDao {
 					testPaper.getTextBook(),
 					testPaper.getSchoolLevel(),
 					testPaper.getSchoolYear(),
+					testPaper.getLimit() > 0 ? new Date ( testPaper.getLimit() ) : null,
+					testPaper.getStartDate() > 0 ? new Date ( testPaper.getStartDate() ) : null,
+					testPaper.getStartDate() > 0 ? new Date ( testPaper.getEndDate() ) : null,
 					id
 			};
 			
@@ -61,6 +66,10 @@ public class QuestionDao {
 						pstm.setInt(5, testPaper.getSchoolLevel());
 						pstm.setInt(6, testPaper.getSchoolYear());
 						pstm.setTimestamp(7, new Timestamp(testPaper.getLimit()));
+						pstm.setTimestamp(8, new Timestamp(testPaper.getStartDate()));
+						pstm.setTimestamp(9, new Timestamp(testPaper.getEndDate()));
+						
+						System.out.println( testPaper.getStartDate() );
 						
 						return pstm;
 					}

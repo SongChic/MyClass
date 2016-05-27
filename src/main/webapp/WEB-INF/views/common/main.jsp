@@ -21,6 +21,7 @@
 
 <link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
 <link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/parallax.css">
 
 <c:set value="<%= date %>" var="date" />
 <c:set value="${member.mainColor }" var="mainColor"/>
@@ -37,94 +38,50 @@
 </head>
 <body>
 	<div id="wrap">
+		<div class="sticky-header-section hide"></div>
 		<%@include file="/WEB-INF/views/include/header.jsp" %>
 		<div id="container">
-			<div class="row">
-				<div class="calendar-wrap">
-					<div class="calendar-btn calendar-show mouse-pointer"><i class="fa fa-chevron-down"></i></div>
-					
-					<div class="calendar">
-					<!-- calendar -->
-					</div>
+			<div class="section-img class-info">
+			<div class="content">
+				<div class="class-wrap">
+					<h4>이제는 스마트하게 공부하자</h4>
+					<p>MYCLASS와 함께 같이 공부하자</p>
+					<i>인강부터 모임까지 이제 혼자하는 공부가 아닌 같이하는 공부로<br>
+					게시판, 채팅기능으로 선생님에게 모르는 부분을 바로 물어볼 수 있습니다. 
+					</i>
+					<button>수업 확인하기</button>
 				</div>
 				
-				<div class="content row">
-					<div class="col-md-8 col-sm-7">
-						<h4>우리반</h4>
-						
-						<div class="classes-wrap row">
-						
-							<c:forEach items="${classes }" var="classes">
-							
-								<fmt:formatDate value="${classes.start_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
-								<c:set value="${format_date }" var="start_date" />
-								<%
-									Date dateParse = sdf.parse((String) pageContext.getAttribute("start_date"));
-									long parseDate = dateParse.getTime();
-								%>
-								<c:set value="<%= parseDate %>" var="parseDate"/>
-								<c:if test="${classes.finished == 0 and parseDate < date  }">
-										
-										<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">
-											<div class="classes-thumbnail box-layout">
-											
-											<c:choose>
-												<c:when test="${not empty classes.picture and classes.classes_view_type == 2 }">
-													<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
-													</div>
-												</c:when>
-												<c:when test="${classes.classes_view_type == 1 }">
-													<c:set value="${classes.color }" var="color"/>
-													<div class="classes-back-color" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
-													</div>
-												</c:when>
-											</c:choose>
-											
-												<div class="classes-info">
-													<h5>${classes.name }</h5>
-													<ul>
-														<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
-														<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
-														<li class="divider top-margin"></li>
-														<li> ${classes.teacher_name }</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									
-									</c:if>
-									
-							</c:forEach>
-							
-							<c:if test="${fn:length(classes) == 0 }">
-								<p>현재 진행중인 수업이 없습니다.</p>
-							</c:if>
-							
-							
-						</div>
+				<div class="item ipad"></div>
+				<div class="item iphone"></div>
+			</div>
+				
+			</div>
+			
+			<div class="section function-info">
+				<div class="content">
+					<h4>MYCLASS 주요 기능</h4>
+					<ul class="icon-info row">
+						<li><em><i class="fa fa-users" aria-hidden="true"></i></em><p>오늘의 수업도 확인하고 인강도 시청하고</p></li>
+						<li><em><i class="fa fa-file-text-o" aria-hidden="true"></i></em><p>선생님이 출제해준 시험으로 실제 시험에서도 자신있게</p></li>
+						<li><em><i class="fa fa-commenting-o" aria-hidden="true"></i></em><p>선생님, 친구와의 대화로 공부를 더 쉽고 재밌게</p></li>
+						<li><em><i class="fa fa-coffee" aria-hidden="true"></i></em><p>모임으로 함께하는 공부</p></li>
+						<li><em><i class="fa fa-line-chart" aria-hidden="true"></i></em><p>점점 성장해가는 나의 성적을 보면서 공부의지 2배UP</p></li>
+						<li><em><i class="fa fa-university" aria-hidden="true"></i></em><p>학교별 대항전, 학교별 성적으로 공부를 게임처럼</p></li>
+						<li><em><i class="fa fa-desktop" aria-hidden="true"></i></em><p>선생님의 인강을 인터넷이되는곳 어디서든</p></li>
+						<li><em><i class="fa fa-android" aria-hidden="true"></i></em><p>안드로이드 2016년 12월 출시 예정</p></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="section-img testpaper-info row">
+				<div class="testpaper-info-wrap">
+					<div class="text-section">
+						MyClass 시험지
 					</div>
-					
-					<div class="col-md-4 col-sm-5">
-						<h4>숙제 / 시험</h4>
-						
-						<!-- dummy model (s) -->
-						<div class="box-layout">
-							<div class="box-wrap">
-								<h4>시험지 제목</h4>
-								
-								<ul>
-									<li>기간 : 2016.04.06 ~ 2016.04.08</li>
-									<li>제한시간 : 160분</li>
-									<li>과목 : 수학</li>
-									<li>교재 : 수학</li>
-								</ul>
-							</div>
-							<p class="bg-primary">
-								출제 선생님 : 송석우
-							</p>
-						</div>
-						
-						<!-- dummy model (e) -->
+					<div class="type-section">
+						선생님
+						학생
 					</div>
 				</div>
 			</div>
@@ -139,47 +96,78 @@ var ctx = "${ctx }";
 </script>
 
 <%@include file="/WEB-INF/views/include/common-lib.jsp" %>
-<script type="text/javascript" src="${ctx }/js/fullcalendar-setting.js" ></script>	
-<script type="text/javascript" src="${ctx }/js/library/freewall.js" ></script>	
 <script type="text/javascript">
-	$(".calendar-btn").on("click", function(event){
-		var state = $(this).attr("class");
-		
-		if (state.indexOf("calendar-show") > -1) {
-			$(".calendar").slideDown();
-			$(this).removeClass("calendar-show")
-				   .addClass("calendar-hide")
-				   .find("i")
-				   .removeClass("fa-chevron-down")
-				   .addClass("fa-chevron-up");
+	$(".ipad").animate({
+		top : 20,
+		opacity : 1
+	}, 2000);
+	$(".iphone").animate({
+		top : 200,
+		opacity : 1
+	}, 2000);
+
+	$(window).load(function ( event ) {
+		$("#wrap").mCustomScrollbar({
+			theme: "minimal-dark",
+			callbacks : {
+				whileScrolling : function(){
+					
+					if ( $(this).find("#mCSB_1_container").offset().top > -746 ) {
+						var $ipad = $(".ipad"),
+						$iphone = $(".iphone");
+						$ipad.css({
+							top : - $(this).find("#mCSB_1_container").offset().top / 5 + 20
+						});
+						
+						$iphone.css({
+							top : - $(this).find("#mCSB_1_container").offset().top / 4 + 200
+						});
+					}
+					if ( $(this).find("#mCSB_1_container").offset().top >= 0 ) {
+						stickyHeader(false);
+					} else {
+						stickyHeader(true);
+					}
+				}
+			}
+		});
+	});
+	
+	function stickyHeader ( state ) {
+		if ( state ) {
+			$(".sticky-header-section").removeClass("hide");
+			$("#header").addClass("sticky-header");
 		} else {
-			$(".calendar").slideUp();
-			$(this).removeClass("calendar-hide")
-				   .addClass("calendar-show")
-				   .find("i")
-				   .removeClass("fa-chevron-up")
-				   .addClass("fa-chevron-down");
+			$(".sticky-header-section").addClass("hide");
+			$("#header").removeClass("sticky-header");
 		}
-		
-	});
+	}
 	
-	var wall = new Freewall(".classes-wrap");
-	wall.reset({
-		selector : '.item',
-		animate : true,
-		cellW : 170,
-		cellH : 220,
-		onResize : function() {
-			wall.refresh();
+	$(".sticky-header-section").css({
+		height : $("#header").outerHeight(true)
+	});
+	if ( $(".class-info > .content").width() <= 522 ) {
+		$(".class-info > .content").removeClass("tablet");
+		$(".class-info > .content").addClass("mobile");
+	} else if ( $(".class-info > .content").width() <= 772  ) {
+		$(".class-info > .content").removeClass("mobile");
+		$(".class-info > .content").addClass("tablet");
+	} else {
+		$(".class-info > .content").removeClass("tablet");
+	}
+	
+	$(window).resize(function ( event ) {
+		if ( $(".class-info > .content").width() <= 522 ) {
+			$(".class-info > .content").removeClass("tablet");
+			$(".class-info > .content").addClass("mobile");
+		} else if ( $(".class-info > .content").width() <= 772 ) {
+			$(".class-info > .content").removeClass("mobile");
+			$(".class-info > .content").addClass("tablet");
 		}
-	});
-	wall.fitWidth();
-	
-	$(".classes-thumbnail-wrap").on("click", function ( event ) {
-		var userType = "${member.userType }",
-		id = $(this).attr("data-item");
-		location.href="${ctx }/common/classes/classRoom?id=" + id;
-	});
+		else {
+			$(".class-info > .content").removeClass("tablet");
+		}
+	})
 	
 </script>
 </body>
