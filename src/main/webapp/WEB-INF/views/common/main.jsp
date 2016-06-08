@@ -26,7 +26,8 @@
 <c:set value="<%= date %>" var="date" />
 <c:set value="${member.mainColor }" var="mainColor"/>
 <style type="text/css">
-	#header {
+	#header,
+	#header .lnb {
 		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
 	}
 	.drop-item {
@@ -38,10 +39,9 @@
 </head>
 <body>
 	<div id="wrap">
-		<div class="sticky-header-section hide"></div>
 		<%@include file="/WEB-INF/views/include/header.jsp" %>
 		<div id="container">
-			<div class="section-img class-info">
+			<div class="section section-img class-info">
 			<div class="content">
 				<div class="class-wrap">
 					<h4>이제는 스마트하게 공부하자</h4>
@@ -74,15 +74,16 @@
 				</div>
 			</div>
 			
-			<div class="section-img testpaper-info row">
-				<div class="testpaper-info-wrap">
-					<div class="text-section">
-						MyClass 시험지
+			<div class="section section-img row">
+			</div>
+			
+			<div class="section location">
+				<div class="content">
+					<h1>Connect</h1>
+					
+					<div class="">
 					</div>
-					<div class="type-section">
-						선생님
-						학생
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -105,46 +106,84 @@ var ctx = "${ctx }";
 		top : 200,
 		opacity : 1
 	}, 2000);
+	var oldScroll = 0;
+	
+	/* variable declaration for sticky header */
+	var scrollState,
+		lastScrollTop = 0,
+		delta = 5,
+		$navbar = $("#header .lnb"),
+		scrollVal = 0,
+		contentHeight = 0;
 
 	$(window).load(function ( event ) {
 		$("#wrap").mCustomScrollbar({
 			theme: "minimal-dark",
 			callbacks : {
+				onInit: function(){
+					contentHeight = this.mcs.content
+				},
 				whileScrolling : function(){
+					var $section = $(".section"), 
+						scrollValue = Math.abs(this.mcs.top);
 					
-					if ( $(this).find("#mCSB_1_container").offset().top > -746 ) {
+					if ( scrollValue < $section.outerHeight(true) ) {
+						//section one moving event
+						
+						//item variable declare
 						var $ipad = $(".ipad"),
 						$iphone = $(".iphone");
-						$ipad.css({
-							top : - $(this).find("#mCSB_1_container").offset().top / 5 + 20
-						});
 						
+						$ipad.css({
+							top : scrollValue / 5 + 20
+						});
 						$iphone.css({
-							top : - $(this).find("#mCSB_1_container").offset().top / 4 + 200
+							top : scrollValue / 4 + 200
 						});
 					}
-					if ( $(this).find("#mCSB_1_container").offset().top >= 0 ) {
-						stickyHeader(false);
-					} else {
-						stickyHeader(true);
+					
+					/* section three moving event */
+					
+					scrollState = true; //state change for sticky header
+					scrollVal = this.mcs.draggerTop;
+					if ( scrollState ) {
+						hasScrolled ();
+						scrollState = false;
 					}
 				}
 			}
 		});
 	});
 	
-	function stickyHeader ( state ) {
-		if ( state ) {
-			$(".sticky-header-section").removeClass("hide");
-			$("#header").addClass("sticky-header");
-		} else {
+	function hasScrolled () {
+		var st = scrollVal;
+		if ( st <= 1 ) {
 			$(".sticky-header-section").addClass("hide");
-			$("#header").removeClass("sticky-header");
+			$navbar.removeClass("sticky-header-down sticky-header-up");
+			return;
+		} 
+		if ( Math.abs(lastScrollTop - st) <= delta )
+			return;
+		
+		if ( st > $navbar.outerHeight() ) {
+			$(".sticky-header-section").removeClass("hide");
+			
+			if ( st > lastScrollTop && st > $navbar.outerHeight() ) {
+				$navbar.removeClass('sticky-header-down').addClass('sticky-header-up');
+			}
+			else if( st + $(window).height() < contentHeight.outerHeight() ) {
+				$navbar.removeClass('sticky-header-up').addClass('sticky-header-down');
+	        }
 		}
+		 lastScrollTop = st;
 	}
 	
 	$(".sticky-header-section").css({
-		height : $("#header").outerHeight(true)
+		height : $("#header .lnb").outerHeight(true)
+	});
+	
+	$(".lnb").css({
+		top : - $("#header .lnb").outerHeight(true)
 	});
 	if ( $(".class-info > .content").width() <= 522 ) {
 		$(".class-info > .content").removeClass("tablet");
@@ -167,7 +206,7 @@ var ctx = "${ctx }";
 		else {
 			$(".class-info > .content").removeClass("tablet");
 		}
-	})
+	});
 	
 </script>
 </body>

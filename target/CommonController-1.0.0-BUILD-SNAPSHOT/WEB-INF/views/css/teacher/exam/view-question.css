@@ -1,0 +1,93 @@
+.test-paper-title {
+	padding: 20px 0 0;
+}
+.exam-title {
+	margin-bottom: 10px;
+	padding: 5px;
+	border: 1px solid #999;
+}
+.exam-title h3,
+.exam-title h4 {
+	margin: 0;
+	text-align: center;
+}
+.exam-block {
+	width: 100px;
+	height: 100px;
+	margin-bottom: 10px;
+	background: gray;
+}
+
+.subjective-answer {
+	margin-top: 10px;
+}
+.subjective-answer .circle{
+	display: inline-block;
+	margin-left: 5px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 50%;
+	border: 1px solid #30aea2;
+	font-size: 20px;
+	font-weight: bold;
+	color: #30aea2;
+	cursor: pointer;
+}
+.subjective-answer .circle.bg-primary {
+	color: #fff;
+	border: 1px solid #337ab7;
+}
+.subjective-answer .circle:first-child{
+	margin-left: 0;
+}
+
+.question-title {
+	font-weight: bold;
+}
+.question-answer-wrap ul li {
+	float: left;
+	margin-bottom: 3px;
+	padding: 3px;
+	min-width: 50%;
+}
+.question-answer-wrap ul li.active {
+	font-weight: bold;
+}
+.question-answer-wrap ul li > em {
+	display: inline-block;
+	margin-right: 5px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	border: 1px solid #30aea2;
+	border-radius: 50%;
+}
+.question {
+	position: relative;
+	margin-bottom: 10px;
+}
+.question .modify-btn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1500;
+    border: 1px solid #d43f3a;
+}
+.question .modal-backdrop.in {
+	opacity: .3;
+}
+.submit-btn-wrap {
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #eee;
+}
+.input-title p.info-text {
+	margin: 0;
+}
+
+.exam-btn-wrap {
+	margin-top: 10px;
+}

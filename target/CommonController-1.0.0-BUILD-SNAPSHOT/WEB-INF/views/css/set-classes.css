@@ -1,0 +1,107 @@
+.content {
+	padding: 0 10px;
+}
+.box-layout {
+	overflow: hidden;
+}
+.box-layout .title {
+	border-top: 1px solid #e0e0e0;
+}
+.box-layout .title:first-child {
+	border-top: 0;
+}
+.input-box {
+	padding-top: 7px;
+}
+.input-box label {
+	color: #333;
+}
+label.control-label {
+	margin: 10px 0 0;
+}
+.class-date-type .radio {
+	display: inline-block;
+	width: 100px;
+}
+.box-layout .divider {
+	margin: 10px 0;
+	border-bottom: 1px solid #e0e0e0;
+}
+.color-picker-wrap {
+	
+}
+.color-picker-wrap .picker-wrap {
+	display: block;
+	float: left;
+	padding: 5px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+}
+.color-picker-wrap .picker-wrap .checked {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	color: #fff;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, .2);
+}
+.color-picker-wrap .picker-wrap .checked > i {
+	line-height: 200%;
+	font-size: 25px;
+}
+.preview {
+	box-shadow: none;
+	border: 1px solid #c2c2c2;
+}
+.preview .classes-info {
+	font-size: 12px;
+	font-family: dotum, "돋움", sans-serif;
+}
+.preview .classes-info li {
+	padding: 0 10px;
+}
+.preview .classes-info .creator {
+	padding: 0 10px 10px;
+}
+.preview .classes-info li.divider {
+	padding: 0;
+}
+.classes-wrap {
+	position: relative;
+	margin-bottom: 10px;
+	height: 100px;
+	border-bottom: 1px solid #e0e0e0;
+}
+.classes-wrap.img-type {
+	height: auto;
+}
+.image-zone {
+	text-align: center;
+}
+.img-preview-icon {
+	padding: 40px 0;
+	font-size: 30px;
+	color: #e0e0e0;
+}
+.image-zone img {
+	width:100%;
+}
+.classes-wrap ul {
+	display: none;
+	position: absolute;
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+	background: url("../img/gradient.png") repeat-x bottom;
+	color: #fff;
+}
+.classes-wrap:hover ul {
+	display: block;
+}
+
+.btn-wrap {
+	padding: 20px 15px;
+}

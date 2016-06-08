@@ -1,0 +1,77 @@
+.timeline-wrap {
+	background: #333543;
+}
+.timeline-title {
+	position: relative;
+	width: 100%;
+	height: 150px;
+	background: #88c7f2;
+}
+.timeline-bg {
+	position: relative;
+	margin: 0 auto;
+	width: 1280px;
+	height: 100%;
+	background: url(../img/time_table_bg.png);
+	background-size: cover;
+}
+.timeline-main-title {
+	float: left;
+	padding-left: 10px;
+	width: 15%;
+}
+.timeline-main-title h4 {
+	margin: 0;
+	line-height: 150px;
+}
+.timeline-view {
+	float: left;
+	margin-top: 115px;
+	width: 85%;
+}
+.timeline-bg ul {
+/* 	position: absolute; */
+/* 	bottom: 0; */
+	margin: 0;
+	padding: 0;
+/* 	width: 1260px; */
+}
+.timeline-bg ul:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.timeline-bg ul li {
+	position: relative;
+	float: left;
+	width:4%;
+	height: 35px;
+	font-family: 'Myriad Pro';
+	font-size: 20px;
+	text-align: center;
+}
+.timeline-bg ul li > em {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 1px;
+	height: 12px;
+	background: #000;
+}
+
+/*time line-content*/
+.timeline-content {
+	margin: 0 auto;
+	width: 1280px;
+}
+.timeline-content .timeline-view {
+	margin: 0;
+}
+.timeline-content .timeline-main-title {
+	color: #faffef
+}
+.timeline {
+	padding: 10px 0;
+}

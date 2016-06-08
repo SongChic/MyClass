@@ -30,6 +30,8 @@
             </div>
       </div>
       
+      <div class="sticky-header-section hide"></div>
+      
       <div class="lnb row">
             
                   <h3 class="logo hidden-xs pull-left"><a href="${ctx }/">My Class</a></h3>

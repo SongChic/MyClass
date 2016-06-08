@@ -115,6 +115,14 @@ $(document).on("keypress", "form", function(event) {
 imageLoad();
 
 $(document).ready(function(event) {
+	/* footer control  */
+	$container = $("#container"),
+	$footer = $("#footer");
+	
+	$container.css({
+		paddingBottom : $footer.outerHeight(true)
+	})
+	
 //	if ( $(this).width() < 332 ) {
 //		$("#container").css("paddingTop", $("#header").outerHeight());
 //	} else {
@@ -234,4 +242,3 @@ function customModal ( callback ) {
 	});
 	
 }
-

@@ -63,7 +63,7 @@ li {
 }
 .lnb {
 	margin: 0 auto;
-	max-width: 1280px;
+	top: 0;
 	color: #fff;
 }
 .lnb .logo {
@@ -276,7 +276,11 @@ li {
 } 
 
 #footer {
+	position: absolute;
+	bottom: 0;
 	padding: 0 0 40px;
+	width: 100%;
+	background: #3a3a3a
 }
 
 @media (max-width: 1290px) {

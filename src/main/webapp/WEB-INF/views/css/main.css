@@ -2,6 +2,9 @@
 
 /* 슬라이드메뉴를 위한 style sheet (e) */
 
+#header {
+	top: -117px;
+}
 .s-menu > ul {
 	position: relative;
 	padding: 0;

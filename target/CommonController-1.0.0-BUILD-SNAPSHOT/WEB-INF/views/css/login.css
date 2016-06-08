@@ -1,0 +1,158 @@
+html, body {
+	height: 100%;
+}
+body {
+	background: none;
+}
+html {
+	background: url(../img/bg.jpg);
+	background-size: auto;
+	-webkit-background-size: auto;
+	-moz-background-size: auto;
+	-o-background-size: auto;
+	background-attachment: fixed;
+    background-position: center center;
+
+    @media (max-width: @iphone-screen) {
+        background-attachment: scroll;
+    }
+}
+.app-info {
+	color: #fff;
+	text-shadow: 1px 1px rgba(0,0,0,.5);
+}
+.app-info h1,
+.app-info h2,
+.app-info p {
+	margin: 0 0 15px;
+}
+#container {
+	overflow: hidden;
+}
+.login-box,
+.sign-up-box {
+	margin: 0 auto;
+	padding: 10px;
+	max-width: 1280px;
+}
+/* login form css (s) */
+.login-box,
+.sign-up-box {
+	margin-top: 100px;
+}
+.login-wrap,
+.signup-wrap {
+	left: 100%;
+	padding: 0;
+	background: #fff;
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	border-radius: 10px;
+}
+.login-wrap form,
+.signup-wrap form {
+	padding: 25px;
+}
+
+.form-group input[type=text],
+.form-group input[type=password],
+.find-student button,
+.find-school-btn,
+#month {
+	padding: 20px;
+	height: 60px;
+	border-radius: 60px;
+	border: 1px solid #ccc;
+}
+.input-group-btn button:focus,
+.input-group-btn button:focus:active {
+	outline: none;
+}
+.form-group label {
+	font-size: 20px;
+	font-weight: bold;
+	color: #7d7d7d;
+}
+.login-help p {
+	margin: 0;
+}
+.login-btn,
+.signup-btn {
+	margin-top: 20px;
+}
+.login-btn button,
+.signup-btn button {
+	height: 80px;
+	border-radius: 80px;
+}
+.login-btn button:focus,
+.login-btn button:active:focus {
+	outline: 0;
+}
+/* login form css (e) */
+
+/* sign up css (s) */
+.signup-wrap .title {
+	margin: 0 0 20px;
+}
+.gender-select .radio-inline {
+	margin-top: 0;
+}
+
+.find-student-content .table > tbody > tr > td {
+	vertical-align: middle;
+}
+.find-student-content .table > tbody > tr:last-child > td {
+	border-bottom: 1px solid #ddd;
+}
+#findStudentModal .table {
+	margin: 10px 0;
+}
+.birthday-wrap input,
+.birthday-wrap select {
+	margin-bottom: 5px;
+}
+
+.school-wrap {
+	position: relative;
+}
+.school-name-wrap {
+	display: block;
+	position: absolute;
+	width: 100%;
+	background: #fff;
+	border: 1px solid #ccc;
+}
+.school-name-wrap .table {
+	overflow: hidden;
+	margin-bottom: 0;
+}
+.school-name-wrap .table td.active {
+	background: #F5F5DC
+}
+.school-name-wrap .table td {
+	border-top: 0;
+	border-bottom: 1px solid #ddd;
+}
+.school-name-wrap .table tr:last-child td {
+	border-bottom: 0;
+	
+}
+
+/* profile zone */
+.photo-zone,
+.photo-input {
+	float: left;
+}
+.photo-zone {
+	margin: 0 10px 10px 0;
+	width: 130px;
+	height: 130px;
+	
+    border: 1px solid #ccc;
+    color: #ccc;
+	text-align: center;
+	font-size: 40px;
+}
+.photo-zone i {
+	line-height: 130px;
+}

@@ -1,0 +1,293 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.myClass.Common.MyclassCommon"%>
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:set value="${pageContext.request.contextPath }" var="ctx"/>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<%@include file="/WEB-INF/views/include/meta.jsp" %>
+<%
+	long date = new Date().getTime();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+%>
+
+<link rel="stylesheet" type="text/css" href="${ctx }/css/fullcalendar-setting.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/main.css">
+<link rel="stylesheet" type="text/css" href="${ctx }/css/timeline.css">
+
+<c:set value="<%= date %>" var="date" />
+<c:set value="${member.mainColor }" var="mainColor"/>
+<style type="text/css">
+	#header {
+		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
+	}
+	.drop-item {
+		background-color : <%= MyclassCommon.mainColor[(Integer)pageContext.getAttribute("mainColor")] %>
+	}
+</style>
+
+
+</head>
+<body>
+	<div id="wrap">
+		<%@include file="/WEB-INF/views/include/header.jsp" %>
+		<div id="container">
+			<div class="row">
+			
+<!-- 				<div class="timeline-wrap"> -->
+<!-- 					<div class="timeline-title row"> -->
+<!-- 						<div class="timeline-bg"> -->
+<!-- 							<div class="timeline-main-title"> -->
+<!-- 								<h4><b>수업 / 시험지 시간표</b></h4> -->
+<!-- 							</div> -->
+<%-- 						<% --%>
+							
+<%-- 						%> --%>
+<!-- 							<div class="timeline-view"> -->
+<!-- 							<ul> -->
+<%-- 								<% for ( int i = startTime; i <= 24; i++ ) { %> --%>
+<%-- 									<% if ( i == 24 ) i = 0; %> --%>
+									
+<%-- 									<% if ( i < 10 ) { %> --%>
+<%-- 										<li><em></em>0<%= i %></li> --%>
+<%-- 									<% } else { %> --%>
+<%-- 										<li><em></em><%= i %></li> --%>
+<%-- 									<% } %> --%>
+									
+<%-- 									<% if ( startTime > 0 ) { %> --%>
+<%-- 										<% if ( i == ( startTime - 1 ) ) break; %> --%>
+<%-- 									<% } %> --%>
+									
+<%-- 								<% } %> --%>
+<!-- 							</ul> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					
+<!-- 					<div class="timeline-content"> -->
+<%-- 						<c:forEach items="${list }" var="list"> --%>
+<!-- 							<div class="timeline row"> -->
+<!-- 								<div class="timeline-main-title"> -->
+<%-- 									<b>${list.title }</b> --%>
+<!-- 								</div> -->
+<!-- 								<div class="timeline-view"> -->
+<%-- 									<c:set value="${list.start_date }" var="startDate"/> --%>
+<%-- 									<c:set value="${list.end_date }" var="endDate"/> --%>
+									
+<%-- 									<%= listStart %> --%>
+<%-- 									<%= listEnd %> --%>
+									
+<!-- 								</div> -->
+<!-- 							</div> -->
+<%-- 						</c:forEach> --%>
+<!-- 					</div> -->
+<!-- 				</div> -->
+				<div class="calendar-wrap">
+					<div class="calendar-btn calendar-show mouse-pointer"><i class="fa fa-chevron-down"></i></div>
+					
+					<div class="calendar">
+					<!-- calendar -->
+					</div>
+				</div>
+				
+				<div class="content row">
+					<div class="col-md-8 col-sm-7">
+						<h4>우리반</h4>
+						
+						<div class="classes-wrap row">
+						
+							<c:forEach items="${classes }" var="classes">
+							
+								<fmt:formatDate value="${classes.start_date }" pattern='yyyy-MM-dd HH:mm:ss' var="format_date" />
+								<c:set value="${format_date }" var="start_date" />
+								<%
+									Date dateParse = sdf.parse((String) pageContext.getAttribute("start_date"));
+									long parseDate = dateParse.getTime();
+								%>
+								<c:set value="<%= parseDate %>" var="parseDate"/>
+								<c:if test="${classes.finished == 0 and parseDate < date  }">
+										
+										<div class="classes-thumbnail-wrap item mouse-pointer" data-item="${classes.id }">
+											<div class="classes-thumbnail box-layout">
+											
+											<c:choose>
+												<c:when test="${not empty classes.picture and classes.classes_view_type == 2 }">
+													<div class="lazy classes-back-img" data-original="${ctx }/img/data/${classes.picture }" style="background-image:url('${ctx }/img/no_class_img.jpg')">
+													</div>
+												</c:when>
+												<c:when test="${classes.classes_view_type == 1 }">
+													<c:set value="${classes.color }" var="color"/>
+													<div class="classes-back-color" style="background:<%= MyclassCommon.classColor[(Integer) pageContext.getAttribute("color")] %>">
+													</div>
+												</c:when>
+											</c:choose>
+											
+												<div class="classes-info">
+													<h5>${classes.name }</h5>
+													<ul>
+														<li>기간 : <fmt:formatDate value="${classes.start_date }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="yyyy-MM-dd"/></li>
+														<li>시간 : <fmt:formatDate value="${classes.start_date }" pattern="HH:mm"/> ~ <fmt:formatDate value="${classes.end_date }" pattern="HH:mm"/></li>
+														<li class="divider top-margin"></li>
+														<li> ${classes.teacher_name }</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									
+									</c:if>
+									
+							</c:forEach>
+							
+							<c:if test="${fn:length(classes) == 0 }">
+								<p>현재 진행중인 수업이 없습니다.</p>
+							</c:if>
+							
+							
+						</div>
+					</div>
+					
+					<div class="col-md-4 col-sm-5">
+						<h4>숙제 / 시험</h4>
+						
+						<!-- dummy model (s) -->
+						<c:forEach items="${testPaper }" var="testPaper">
+						
+						<c:set value="${testPaper.start_date }" var="startDate"/>
+						<c:set value="${testPaper.end_date }" var="endDate"/>
+						
+						<%
+							SimpleDateFormat parseDate = new SimpleDateFormat("yyyy-MM-dd");
+							Date dateStart = null;
+							Date dateEnd = null;
+							String startStr = "";
+							String endStr = "";
+							
+							long startLong = 0;
+							long endLong = 0;
+							long nowLong = 0;
+							
+							Date nowDate = null;
+							String nowStr = parseDate.format( new Date() );
+							nowDate = parseDate.parse( nowStr );
+							nowLong = nowDate.getTime();
+							
+							if ( pageContext.getAttribute("startDate") != null && pageContext.getAttribute("endDate") != null ) {
+								startStr = parseDate.format( (Date) pageContext.getAttribute("startDate") );
+								endStr = parseDate.format( (Date) pageContext.getAttribute("endDate") );
+								
+								dateStart = parseDate.parse(startStr);
+								dateEnd = parseDate.parse(endStr);
+								
+								startLong = dateStart.getTime();
+								endLong = dateEnd.getTime();
+							}
+						%>
+						<c:set value="<%= startLong %>" var="startLong"/>
+						<c:set value="<%= endLong %>" var="endLong"/>
+						<c:set value="<%= nowLong %>" var="nowLong"/>
+						
+						<c:if test="${startLong <= nowLong and endLong >= nowLong }">
+						
+							<div class="box-layout" data-item="${testPaper.id }">
+								<div class="box-wrap">
+									<h4>${testPaper.title }</h4>
+									<ul>
+										<li>기간 : 
+											<c:choose>
+												<c:when test="${!empty testPaper.start_date }">
+													<fmt:formatDate value="${testPaper.start_date }" pattern="yyyy.MM.dd"/> ~
+													<fmt:formatDate value="${testPaper.end_date }" pattern="yyyy.MM.dd"/>
+												</c:when>
+												<c:otherwise>
+													무제한
+												</c:otherwise>
+											</c:choose>
+										</li>
+										<li>제한시간 : 
+											<c:choose>
+												<c:when test="${!empty testPaper.limit_time  }">
+													<fmt:formatDate value="${testPaper.limit_time }" pattern="HH:mm"/>
+												</c:when>
+												<c:otherwise>
+													무제한
+												</c:otherwise>
+											</c:choose>
+										</li>
+										<li>과목 : 수학</li>
+										<li>교재 : 수학</li>
+									</ul>
+								</div>
+								<p class="bg-primary">
+									출제 선생님 : 송석우
+								</p>
+							</div>
+						</c:if>
+						</c:forEach>
+						<!-- dummy model (e) -->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="footer">
+		</div>
+	</div>
+
+<script type="text/javascript">
+var ctx = "${ctx }";
+</script>
+
+<%@include file="/WEB-INF/views/include/common-lib.jsp" %>
+<script type="text/javascript" src="${ctx }/js/fullcalendar-setting.js" ></script>	
+<script type="text/javascript" src="${ctx }/js/library/freewall.js" ></script>	
+<script type="text/javascript">
+	$(".calendar-btn").on("click", function(event){
+		var state = $(this).attr("class");
+		
+		if (state.indexOf("calendar-show") > -1) {
+			$(".calendar").slideDown();
+			$(this).removeClass("calendar-show")
+				   .addClass("calendar-hide")
+				   .find("i")
+				   .removeClass("fa-chevron-down")
+				   .addClass("fa-chevron-up");
+		} else {
+			$(".calendar").slideUp();
+			$(this).removeClass("calendar-hide")
+				   .addClass("calendar-show")
+				   .find("i")
+				   .removeClass("fa-chevron-up")
+				   .addClass("fa-chevron-down");
+		}
+		
+	});
+	
+	var wall = new Freewall(".classes-wrap");
+	wall.reset({
+		selector : '.item',
+		animate : true,
+		cellW : 170,
+		cellH : 220,
+		onResize : function() {
+			wall.refresh();
+		}
+	});
+	wall.fitWidth();
+	
+	$(".classes-thumbnail-wrap").on("click", function ( event ) {
+		var userType = "${member.userType }",
+		id = $(this).attr("data-item");
+		location.href="${ctx }/common/classes/classRoom?id=" + id;
+	});
+	
+</script>
+</body>
+</html>

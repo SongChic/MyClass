@@ -8,9 +8,24 @@
 /*mCustomer reset css (e)*/
 .sticky-header {
 	position: fixed;
-	top: 0;
+	top: 0 !important;
 	z-index: 1000;
 	width: 100%;
+	transition: top 0.8s ease-in-out;
+}
+.sticky-header-down {
+	position: fixed;
+	top: 0 !important;
+	z-index: 1000;
+	width: 100%;
+	transition: top 0.8s ease-in-out;
+}
+.sticky-header-up {
+	position: fixed;
+	top: -78px !important;
+	z-index: 1000;
+	width: 100%;
+	transition: top 0.8s ease-in-out;
 }
 .section-img {
 	height: 750px;
@@ -181,17 +196,56 @@
 }
 
 .testpaper-info-wrap {
-	display: table;
+	position: relative;
+	overflow: hidden;
+	height: 100%;
 }
 
-.text-section,
-.type-section {
-	display: table-cell;
-	color: #fff;
+.testpaper-info-wrap > .item {
+	position: absolute;
 }
-.type-section {
-	padding: 100px;
+.testpaper-info-wrap > .signpen {
+	top: -185px;
+	left: 28px;
+	z-index: 500;
+	width: 583px;
+	height: 570px;
+	z-index: 800;
+	background: url("../img/signpen.png") no-repeat;
 }
-.text-section {
-	vertical-align: middle;
+.testpaper-info-wrap > .eraser {
+	top: -100px;
+	left: -100px;
+	z-index: 500;
+	width: 344px;
+	height: 308px;
+	transition: all 0.1s ease;
+	background: url("../img/eraser.png") no-repeat;
+}
+.testpaper-info-wrap > .testpaper {
+	bottom: -200px;
+	left: 0;
+	right:0;
+	margin: 0 auto;
+	width: 648px;
+	height: 917px;
+	transition: all 0.1s ease;
+	background: url("../img/testpaper.png") no-repeat;
+}
+.testpaper-info-wrap > .hand {
+	width: 690px;
+	height: 634px;
+	top: -200px;
+	right: -490px;
+	transition: all 0.1s ease;
+	background: url("../img/hand.png") no-repeat;
+}
+.location {
+	position: relative;
+	z-index: 900;
+	margin-top: -209px;
+	padding-top: 209px;
+	height: 900px;
+	background-image: url(../img/location_bg.png);
+	background-repeat: repeat-x;
 }

@@ -1,0 +1,23 @@
+.ui-widget-header {
+	background: none;
+	color: #000;
+}
+.ui-widget-content {
+	background: none;
+}
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+	background: #eee;
+	border-color: #ddd;
+}
+.fc-sun {
+	color: red;
+}
+.fc-sat {
+	color: blue;
+}
+.ui-state-hover {
+	background: #f6f6f6 url("../../img/ui-bg_glass_100_f6f6f6_1x400.png") 50% 50% repeat-x;
+	border: 1px solid #cccccc;
+}

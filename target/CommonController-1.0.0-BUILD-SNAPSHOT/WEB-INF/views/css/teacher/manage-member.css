@@ -1,0 +1,39 @@
+.tab-content {
+    margin-top: 10px;
+}
+.students_img {
+	margin-right: 10px;	
+}
+.img-zone img {
+	width: 75px;
+	height: 75px;
+	border: 1px solid #ddd;
+}
+
+.students-item {
+	position: relative;
+	padding: 10px 0;
+	border-bottom: 1px solid #eee;
+}
+.students-item:last-child {
+	border-bottom: 0;
+}
+.students-info {
+    word-break: break-all;
+}
+.students-info h4 {
+	margin-top: 0;
+}
+.students-info p {
+	margin: 0 0 5px;
+	font-family: dotum, "돋움";
+	font-size: 12px;
+	color: #aaa;
+}
+.students-btn {
+	margin-top: 25px;
+}
+.students-btn .dropdown-menu {
+	right: 0;
+	left: auto;
+}

@@ -195,6 +195,24 @@
 
 	</dependencies>
     <build>
+    	<resources>
+		<resource>
+		<!-- src/main/java 폴더의 xml파일들을 빌드에 포함 -->
+		<directory>src/main/java</directory>
+		<includes>
+		<include>**/*.xml</include>
+		</includes>
+		</resource>
+		<resource>
+		<!-- src/main/resources 폴더의 xml, properties, setting파일들을 빌드에 포함 -->
+		<directory>src/main/resources</directory>
+		<includes>
+		<include>**/*.xml</include>
+		<include>**/*.properties</include>
+		<include>**/*.setting</include>
+		</includes>
+		</resource>
+		</resources>
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>

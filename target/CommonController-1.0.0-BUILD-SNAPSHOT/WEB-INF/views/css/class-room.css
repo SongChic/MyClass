@@ -1,0 +1,75 @@
+.teacher-profile {
+	padding: 10px;
+	text-align: center;
+}
+.teacher-profile img {
+	height: 130px;
+}
+.subtitle-wrap {
+	margin-bottom: 10px;
+}
+.subtitle-wrap .btn-group button {
+}
+.subtitle-wrap h4 {
+	margin: 0;
+	line-height: 30px;
+}
+.classes-student  select{
+	padding: 0 5px;
+	height: 22px;
+	font-size: 12px;
+}
+.select-menu {
+	padding: 0;
+}
+.select-menu button,
+.select-menu select {
+	display: inline-block;
+    width: auto;
+    vertical-align: middle;
+} 
+.book-info-wrap {
+	padding: 10px 0;
+}
+.book-info {
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+}
+.book-info:first-child {
+	margin-top: 0;
+}
+.book-info:last-child {
+	padding-bottom: 0;
+	border-bottom: 0;
+}
+
+.book-cover img {
+	width: 100%;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+}
+.book-info-wrap dl {
+	margin-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.book-info-wrap dl:last-child {
+	border-bottom: 0;
+}
+.book-title {
+	margin: 0 15px 5px;
+}
+.student-info-wrap {
+	min-height: 105px;
+}
+.student-item {
+	float: left;
+	width: 80px;
+	text-align: center;
+}
+.student-item img{
+	width: 70px;
+	height: 70px;
+}
+.student-item p {
+	margin: 5px 0 0;
+}
